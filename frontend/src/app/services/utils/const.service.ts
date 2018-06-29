@@ -35,7 +35,7 @@ export class ConstService {
       home: 'home',
       homeTitle: 'Inicio',
       tutorial: 'Tutorial',
-      menu: 'Tutorial',
+      menu: 'Menú',
       // Button options
       changePassword: 'Cambiar contraseña',
       logOut: 'Cerrar sesión',
@@ -88,7 +88,8 @@ export class ConstService {
       // Error messages
       loginError: 'El usuario y la contraseña no son válidos',
       userError1: 'Nombre de usuario requerido',
-      userError2: 'Nombre de usuario no válido<br>Ej: E12345 o P12345',
+      userError2: 'Nombre de usuario no válido',
+      userError3: 'Ej: E12345 o P12345',
       passError: 'Contraseña requerida',
       // SnackBar Color
       snackbarColor: 'purple-bg',
