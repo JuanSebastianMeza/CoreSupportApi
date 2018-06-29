@@ -1,0 +1,61 @@
+version: "2"
+
+services:
+
+  app_backend:
+    extends:
+      file: base.yml
+      service: app_backend_test
+    # Set container name
+    container_name: identidad_backend_devel
+    # Change workdir
+    working_dir: /backend/api
+    # Entablish ports
+    ports:
+      - "8056:8056"
+    # Connect container and host ports
+    stdin_open: true
+    tty: true
+    # Run the following command
+    command: python manage.py runserver 0.0.0.0:8056
+
+
+  app_jupyter:
+    extends:
+      file: base.yml
+      service: app_backend_test
+    # Set container name
+    container_name: identidad_jupyter
+    # Entablish ports
+    ports: 
+      - "8058:8888"
+    depends_on:
+      - app_backend
+    # Add additional volumes
+    volumes:
+      - ./jupyter_notebook_config.py:/root/.jupyter/jupyter_notebook_config.py
+    # Change workdir
+    working_dir: /backend/notebooks
+    # Run the following command
+    command: python ../api/manage.py shell_plus --notebook
+
+
+  # Angular frontend app
+  app_frontend:
+    image: nginx
+    # Name the container
+    container_name: identidad_frontend
+    # Entablish ports
+    ports: 
+      - "8057:80"
+    depends_on:
+      - app_backend
+    # Add volumes
+    volumes:
+      # Copy the app to html folder
+      - ../dist/:/usr/share/nginx/html
+      # Works only with SPA
+      - ./nginx-custom.conf:/etc/nginx/conf.d/default.conf
+    # Connect container and host ports
+    stdin_open: true
+    tty: true

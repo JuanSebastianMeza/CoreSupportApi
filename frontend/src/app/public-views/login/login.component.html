@@ -1,0 +1,49 @@
+<div class="container">
+	<div class="row">
+		<!-- Logo column -->
+		<div class="col-md-6 center-text">
+			<!-- Big logo -->
+            <img class="images-padding center-fit login-logo" src="../assets/images/LogoSAv1.png">
+		</div>
+		<div class="col-md-6" style="height: 350px; margin-top: 7.5%">
+			<mat-card>
+				<div class="row">
+					<!-- Log In title -->
+					<div class="col-12 center-text">
+						<h3>{{ constant.title }}</h3>
+					</div>
+					<br><br>
+					<!-- Log in form -->
+					<form [formGroup]="loginForm" (ngSubmit)="logIn()" novalidate class="col-12 center-text">
+						<!-- Username -->
+						<div class="col-12 center-text form-group">
+							<mat-form-field>
+								<input matInput type="text" placeholder={{constant.phUsername}} formControlName={{constant.username}}>
+	    						<mat-error *ngIf="loginForm.get(constant.username).errors?.required">
+	      							{{ constant.userError1 }}
+	    						</mat-error>
+	    						<mat-error *ngIf="loginForm.get('username').errors?.pattern">
+	      							{{ constant.userError2 }}
+	    						</mat-error>
+							</mat-form-field>
+						</div>
+						<!-- Password -->
+						<div class="col-12 center-text">
+							<mat-form-field>
+								<input matInput type="password" placeholder={{constant.phPassword}} formControlName={{constant.password}}>
+	    						<mat-error *ngIf="loginForm.get(constant.password).errors?.required">
+	      							{{ constant.passError }}
+	    						</mat-error>
+							</mat-form-field>
+						</div>
+						<br>
+						<!-- Log in button -->
+						<div class="col-12 center-text">
+							<button mat-stroked-button class="medium-blue-bg" type="submit" [disabled]="!loginForm.valid">{{ constant.login }}</button>
+						</div>
+					</form>
+				</div>
+			</mat-card>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,95 @@
+<!-- Create SideNav -->
+<mat-sidenav-container>
+  <div class="grey-bg">
+    <!-- Panel de actualización -->
+    <!-- <p class="text-center purple-bg maintenance_alert custom_special_body">Se agregará una nueva funcionalidad entre 10/04/2018 11:45 y 10/04/2018 13:00. Durante este tiempo, no se podrá acceder a la herramienta</p> -->
+
+    <!-- Panel de mantenimiento -->
+    <!-- <p class="text-center purple-bg maintenance_alert custom_special_body">Habrá un mantenimiento programado el día 10/04/2018 11:45 hasta el 10/04/2018 13:00. Durante este tiempo, no se podrá acceder a la herramienta</p> -->
+
+    <!-- NavBar -->
+    <div class="medium-blue-bg">
+      <div class="container">
+        <div class="menu-bar">
+          <!-- Open sidenav if clicked -->
+          <a (click)='sidenav.open()' *ngIf="globals.isAuthenticated">
+          <!-- <a *ngIf="globals.isAuthenticated" (click)='sidenav.open()'> -->
+            <fa-icon [icon]="faBars" class="icon-color"></fa-icon>
+          </a>
+          <div class="home-option" *ngIf="!globals.isAuthenticated">{{ constant.welcome }}</div>
+          <div class="user-option" *ngIf="globals.isAuthenticated">
+            {{ globals.userName }} &ensp;
+            <a [matMenuTriggerFor]="menu">
+              <fa-icon [icon]="faCaretDown" class="icon-color"></fa-icon>
+            </a>
+            <mat-menu #menu="matMenu" xPosition="before" [overlapTrigger]="false">
+              <button mat-menu-item (click)="changePassword()">
+                <fa-icon [icon]="faLock"></fa-icon>
+                {{ constant.changePassword }}
+              </button>
+              <button mat-menu-item (click)="logOut()">
+                <fa-icon [icon]="faSignOutAlt"></fa-icon>
+                {{ constant.logOut }}
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+
+    <!-- Header -->
+    <div class="dark-blue-bg">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-2">
+            <div class="telefonica-margin">
+              <a routerLink={{constant.home}}>
+                <img class="images-padding center-fit" src="../assets/images/LogoTelefonica.png">
+              </a>
+            </div>
+          </div>
+          <h1 class="text-center col-sm-8 col-sm-offset-1 app-title-margin">{{ constant.appTitle }}</h1>
+          <div class="col-sm-2 col-sm-offset-1">
+            <div class="sa-margin">
+              <a href={{constant.saUrl}}>
+                <img class="images-padding center-fit" src="../assets/images/LogoSAv2.png" *ngIf="globals.isAuthenticated">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      
+    <!-- Component for routing -->
+    <router-outlet></router-outlet>
+    
+
+    <!-- Footer -->
+    <footer class="dark-blue-bg">
+      <div class="container">
+        <div class="footer-margin">
+          <h2 class="center-text">{{ constant.saName }}</h2>
+          <p class="center-text zero-margin">{{ constant.saManager }}</p>
+          <p class="center-text zero-margin">{{ constant.web }}<a class="white-link" href={{constant.saUrl}}><u>{{ constant.saBaseUrl }}</u></a></p>
+          <p class="center-text zero-margin">{{ constant.saMail }}</p>
+        </div>        
+      </div>
+    </footer>
+  </div>
+
+  <!-- Sidebar content -->
+  <!-- sidenav.toggle closes the sidenav when something is clicked -->
+  <mat-sidenav #sidenav class="sidenav-body" (click)="sidenav.toggle()">
+    <h2>{{ constant.menu }}</h2>
+    <!-- <div *ngFor="let link of sideNavLinks"> -->
+    <div>
+      <a class="remove-outline black-link" routerLink={{constant.home}}><p>{{ constant.homeTitle }}</p></a>
+      <p>{{ constant.tutorial }}</p>
+      <a class="remove-outline black-link" routerLink={{constant.password}}><p>{{ constant.changePassword }}</p></a>
+      <a (click)="utils.logOut()"><p class="black-link">{{ constant.logOut }}</p></a>
+    </div>
+  </mat-sidenav>
+
+</mat-sidenav-container>
