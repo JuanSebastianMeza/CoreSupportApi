@@ -85,7 +85,7 @@ export class LoginComponent implements OnInit {
     // Build group
     this.loginForm = this.fb.group({
       // username must have the form "E12345"
-      username: ['', Validators.compose([Validators.required, Validators.pattern(/^[EP]{1}[0-9]{5}$/)])],
+      username: ['', Validators.compose([Validators.required, Validators.pattern(/^[eEpP]{1}[0-9]{5}$/)])],
       password: ['', Validators.compose([Validators.required])],
     });
   };
