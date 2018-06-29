@@ -36,9 +36,9 @@ export class AppComponent {
     	// Inject router
   		public router: Router,
 		// Inject utils
-		private utils: UtilsService,
+		public utils: UtilsService,
 		// Inject globals
-		private globals: Globals,
+		public globals: Globals,
 		// Inject constants
     	private constants: ConstService) {}
 

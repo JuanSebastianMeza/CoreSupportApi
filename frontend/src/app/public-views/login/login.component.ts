@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
   // Constants
   loginForm: FormGroup;
   token: string;
-  isLoading: boolean;
   constant: any;
 
   constructor(
@@ -54,9 +53,7 @@ export class LoginComponent implements OnInit {
   }
 
   // Method for log in
-  logIn(credentials): void {
-    // Start loading process
-    this.isLoading = true;
+  logIn(): void {
     // Get token from server
     this.http.getJWTToken({
       username: this.loginForm.get(this.constant.username).value,
@@ -67,8 +64,6 @@ export class LoginComponent implements OnInit {
         this.token = data[this.constant.token];
         // Save token in localStorage
         this.localStorage.setItem(this.constant.token, this.token);
-        // Cancel loading
-        this.isLoading = false;
         // Change Auth state
         this.globals.isAuthenticated = true;
         // Set user name
