@@ -1,3 +1,7 @@
+# Python imports
+import datetime as dt
+
+# Django imports
 from django.contrib.auth.models import User
 
 # Rest Framework imports
@@ -79,12 +83,19 @@ class CustomJSONWebTokenAPIView(JSONWebTokenAPIView):
 		return error
 
 	# Update failed attemps
-	def update_failed_attempts(self):
-		pass
+	def update_failed_attempts(self, user):
+		# Get user profile
+		user_profile = Profile.objects.get(user=user)
+		# Save previous failed attemps
+		user_profile.previous_failed_attempts = user_profile.failed_attempts
+		# Reset failed attemps
+		user_profile.failed_attempts = 0
+		user_profile.save(update_fields=['failed_attempts', 'previous_failed_attempts'])
 
 	# Save last login date
-	def save_last_login(self):
-		pass
+	def save_last_login(self, user):
+		user.last_login = dt.datetime.now()
+		user.save(update_fields=['last_login'])
 
 	# Override post method to include
 	def post(self, request, *args, **kwargs):
@@ -96,6 +107,12 @@ class CustomJSONWebTokenAPIView(JSONWebTokenAPIView):
 			user = serializer.object.get('user') or request.user
 			token = serializer.object.get('token')
 			response_data = jwt_response_payload_handler(token, user, request)
+
+			# Save last login
+			self.save_last_login(user)
+
+			# Update failed attempts
+			self.update_failed_attempts(user)
 
 			return Response(response_data)
 
