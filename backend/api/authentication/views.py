@@ -128,4 +128,5 @@ class CustomObtainJSONWebToken(CustomJSONWebTokenAPIView):
     serializer_class = JSONWebTokenSerializer
 
 
+# Create custom get token api view
 obtain_jwt_token = CustomObtainJSONWebToken.as_view()

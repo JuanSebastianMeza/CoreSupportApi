@@ -19,7 +19,7 @@ urlpatterns = [
 	# Admin panel
     path('admin/', admin.site.urls),
     # JWT auth
-    path('api-token-auth/', obtain_jwt_token),
+    path('get-auth-token/', obtain_jwt_token),
     path('api-token-refresh/', refresh_jwt_token),
     # Router for views
     path('api/', include(router.urls)),

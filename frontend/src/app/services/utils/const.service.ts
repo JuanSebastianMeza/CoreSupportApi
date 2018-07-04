@@ -14,7 +14,7 @@ export class ConstService {
   // Get API urls
   getApiUrls() {
     return {
-      obtainJwtToken: this.apiUrl + 'api-token-auth/',
+      obtainJwtToken: this.apiUrl + 'get-auth-token/',
       userUrl: this.apiUrl + 'api/users/',
     }
   }
