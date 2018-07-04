@@ -6,8 +6,8 @@ import { Injectable } from '@angular/core';
 export class ConstService {
 
   // Properties
-  apiUrl: string = 'http://dev1.tmve.local/';
-  // apiUrl: string = 'http://localhost:8000/';
+  // apiUrl: string = 'http://dev1.tmve.local/';
+  apiUrl: string = 'http://localhost:8000/';
   
   constructor() { }
   

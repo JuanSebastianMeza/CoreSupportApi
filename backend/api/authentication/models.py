@@ -8,6 +8,7 @@ class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	position = models.ForeignKey('Position', on_delete=models.DO_NOTHING)
 	department = models.ForeignKey('Department', on_delete=models.DO_NOTHING)
+	failed_attempts = models.IntegerField(default=0)
 
 
 # Department Position

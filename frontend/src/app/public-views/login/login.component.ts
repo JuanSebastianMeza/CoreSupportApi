@@ -72,8 +72,9 @@ export class LoginComponent implements OnInit {
         this.router.navigate([this.constant.home]);
       },
       error => {
+        console.log(error.error);
         // Open snackbar
-        this.openSnackBar(this.constant.loginError, null);
+        this.openSnackBar(error.error.failed_attempts_msg, null);
         // Delete password value
         this.loginForm.get(this.constant.password).setValue(null);
       },
