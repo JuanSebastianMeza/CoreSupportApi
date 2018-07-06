@@ -69,12 +69,32 @@
     <!-- Footer -->
     <footer class="dark-blue-bg">
       <div class="container">
-        <div class="footer-margin">
-          <h2 class="center-text">{{ constant.saName }}</h2>
-          <p class="center-text zero-margin">{{ constant.saManager }}</p>
-          <p class="center-text zero-margin">{{ constant.web }}<a class="white-link" href={{constant.saUrl}}><u>{{ constant.saBaseUrl }}</u></a></p>
-          <p class="center-text zero-margin">{{ constant.saMail }}</p>
-        </div>        
+        <div class="row">
+          <div class="col-8">
+            <div class="footer-margin">
+              <span>
+                <strong>{{ constant.saName }}</strong> 
+                {{ constant.saManager }}
+              </span>
+              <br>
+              <span>
+                <fa-icon [icon]="faGlobe"></fa-icon>&nbsp;
+                <a class="white-link" href={{constant.saUrl}}>
+                  <u>{{ constant.saBaseUrl }}</u>
+                </a>
+                &nbsp;|&nbsp;
+                <fa-icon [icon]="faEnvelope"></fa-icon>&nbsp;{{ constant.saMail }}
+              </span>
+            </div>
+          </div>
+          <div class="col-4" *ngIf="globals.isAuthenticated">
+            <div class="footer-margin right-align">
+              <span>{{ constant.lastLogin }}</span>
+              <br>
+              <span>{{ lastLoginDate | date: 'dd-MM-yyyy hh:mm a' }}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
   </div>

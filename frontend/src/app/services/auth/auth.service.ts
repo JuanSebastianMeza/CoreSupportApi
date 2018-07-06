@@ -75,6 +75,14 @@ export class AuthService {
     return payload.user.is_staff;
   }
 
+  // Get last login date
+  public getLastLoginDate(): Date {
+    // Get payload
+    let payload = this.getPayload();
+    // Return last login date
+    return new Date(payload.user.last_login);
+  }
+
   // Get staff permissions
   public getSuperUserPermission(): boolean {
     // Get payload

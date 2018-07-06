@@ -90,6 +90,10 @@ body, p, span, th, td, li, strong {
 .center-text {
   text-align: center;
 }
+/*Right align*/
+.right-align {
+  text-align: right;
+}
 /*Zero margin*/
 .zero-margin {
   margin: 0px;

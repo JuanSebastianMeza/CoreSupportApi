@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 // Add font-awesome to project
 import { faBars,
 		 faCaretDown,
+		 faEnvelope,
+		 faGlobe,
 		 faSignOutAlt,
 		 faLock, } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,7 +15,6 @@ import { Globals } from './globals';
 // Import own services
 import { UtilsService } from './services/utils/utils.service';
 import { ConstService } from './services/utils/const.service';
-
 
 
 @Component({
@@ -28,9 +29,12 @@ export class AppComponent {
 	faBars = faBars;
 	faSignOutAlt = faSignOutAlt;
 	faLock = faLock;
+	faGlobe = faGlobe;
+	faEnvelope = faEnvelope;
 
 	// Constants
 	constant: any = this.constants.getAppComponentViewConstants();
+	lastLoginDate: Date = this.globals.lastLoginDate;
 
 	constructor(
     	// Inject router

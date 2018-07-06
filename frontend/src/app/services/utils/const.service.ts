@@ -26,11 +26,12 @@ export class ConstService {
       appTitle: 'Título de la aplicación',
       saUrl: 'http://solucionesagiles.tmve.local/',
       // SA footer
-      saName: 'Soluciones ágiles',
+      saName: 'Soluciones Ágiles. ',
       saManager: 'Gerencia de Soporte de Servicios a la Red',
-      saMail: 'soluciones.agiles.ve@telefonica.com',
-      web: 'Web: ',
+      saMail: ' soluciones.agiles.ve@telefonica.com',
+      web: ' Web: ',
       saBaseUrl: 'solucionesagiles.tmve.local',
+      lastLogin: 'Último ingreso a la página',
       // SideBar
       home: 'home',
       homeTitle: 'Inicio',

@@ -94,7 +94,7 @@ class CustomJSONWebTokenAPIView(JSONWebTokenAPIView):
 
 	# Save last login date
 	def save_last_login(self, user):
-		user.last_login = dt.datetime.now()
+		user.last_login = dt.datetime.utcnow()
 		user.save(update_fields=['last_login'])
 
 	# Override post method to include

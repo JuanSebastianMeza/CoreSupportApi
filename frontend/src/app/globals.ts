@@ -10,6 +10,7 @@ export class Globals {
   // Variables
   isAuthenticated: boolean = this.auth.isAuthenticated();
   userName: string = this.isAuthenticated ? this.auth.getUserName() : null;
+  lastLoginDate: Date = this.auth.getLastLoginDate();
 
   constructor(
 	// Inject auth service
