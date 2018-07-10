@@ -1,0 +1,12 @@
+[Unit]
+Description=Plantilla Web
+After=docker.service  
+Requires=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/local/bin/docker-compose -f /opt/plantillaweb/docker/prod.yml up
+ExecStop=/usr/local/bin/docker-compose -f /opt/plantillaweb/docker/prod.yml stop
+
+[Install]
+WantedBy=multi-user.target  
