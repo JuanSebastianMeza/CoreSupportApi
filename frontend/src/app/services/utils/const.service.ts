@@ -7,16 +7,16 @@ export class ConstService {
 
   // Properties
   // apiUrl: string = 'http://dev1.tmve.local/';
-  apiUrl: string = 'http://localhost:8000/';
-  
+  apiUrl = 'http://localhost:8000/';
+
   constructor() { }
-  
+
   // Get API urls
   getApiUrls() {
     return {
       obtainJwtToken: this.apiUrl + 'get-auth-token/',
       userUrl: this.apiUrl + 'api/users/',
-    }
+    };
   }
 
   // Change password view constants
@@ -44,7 +44,7 @@ export class ConstService {
       password: 'password',
       // Success msg
       successMsg: 'Sesión cerrada exitosamente',
-    }
+    };
   }
 
   // Change password view constants
@@ -70,7 +70,7 @@ export class ConstService {
       passNewError: 'Nueva contraseña requerida',
       passRepError1: 'Repetir nueva contraseña',
       passRepError2: 'No coincide con el valor anterior',
-    }
+    };
   }
 
   // Login view constants
@@ -95,14 +95,14 @@ export class ConstService {
       // SnackBar Color
       snackbarColor: 'purple-bg',
       duration: 3000,
-    }
+    };
   }
 
   // Http requests service constants
   getHttpRequestServiceConstants() {
     return {
       changePasswordUrl: '/change-password/',
-    }
+    };
   }
 
   // Utils service constants
@@ -110,10 +110,14 @@ export class ConstService {
     return {
       // Routing
       loginUrl: 'login',
+      // Advisor snackbar
+      hideSnackBar: 'Aceptar',
+      advisorMessage: 'Ha accedido a un sistema propiedad de Telefónica Venezolana, C.A. Necesita tener autorización antes de usarlo, estando usted estrictamente limitado al uso indicado en dicha autorización. El acceso no autorizado a este sistema o el uso indebido del mismo está prohibido y es contrario a la Política Corporativa de Seguridad y a la legislación vigente. El uso que realice de este sistema puede ser monitorizado.',
       // SnackBar Color
       snackbarColor: 'purple-bg',
+      advisorSnackbarColor: 'dark-blue-bg',
       duration: 3000,
-    }
+    };
   }
-  
+
 }

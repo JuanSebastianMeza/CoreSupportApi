@@ -39,6 +39,15 @@ export class UtilsService {
     });
   }
 
+  // SnackBar action
+  openAdvisorSnackBar() {
+    this.snackBar.open(
+      this.constant.advisorMessage,
+      this.constant.hideSnackBar,
+      { panelClass: [this.constant.advisorSnackbarColor] }
+    );
+  }
+
   // Log out method
   logOut(message: string): void {
       // Clear Storage

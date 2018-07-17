@@ -1,5 +1,4 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -68,11 +67,12 @@ export class LoginComponent implements OnInit {
         this.globals.isAuthenticated = true;
         // Set user name
         this.globals.userName = this.auth.getUserName();
+        // Show advisor snackbar
+        this.utils.openAdvisorSnackBar();
         // Get to the cms main view
         this.router.navigate([this.constant.home]);
       },
       error => {
-        console.log(error.error);
         // Open snackbar
         this.utils.openSnackBar(error.error.failed_attempts_msg, null);
         // Delete password value
@@ -90,13 +90,4 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.compose([Validators.required])],
     });
   }
-
-  // SnackBar action
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: this.constant.duration, // in mili seconds
-      panelClass: [this.constant.snackbarColor],
-    });
-  }
-
 }
