@@ -112,7 +112,13 @@ export class ConstService {
       loginUrl: 'login',
       // Advisor snackbar
       hideSnackBar: 'Aceptar',
-      advisorMessage: 'Ha accedido a un sistema propiedad de Telefónica Venezolana, C.A. Necesita tener autorización antes de usarlo, estando usted estrictamente limitado al uso indicado en dicha autorización. El acceso no autorizado a este sistema o el uso indebido del mismo está prohibido y es contrario a la Política Corporativa de Seguridad y a la legislación vigente. El uso que realice de este sistema puede ser monitorizado.',
+      advisorMessage: 'Ha accedido a un sistema propiedad \
+        de Telefónica Venezolana, C.A. Necesita tener autorización \
+        antes de usarlo, estando usted estrictamente limitado al uso \
+        indicado en dicha autorización. El acceso no autorizado a este \
+        sistema o el uso indebido del mismo está prohibido y es contrario \
+        a la Política Corporativa de Seguridad y a la legislación vigente. \
+        El uso que realice de este sistema puede ser monitorizado.',
       // SnackBar Color
       snackbarColor: 'purple-bg',
       advisorSnackbarColor: 'dark-blue-bg',
