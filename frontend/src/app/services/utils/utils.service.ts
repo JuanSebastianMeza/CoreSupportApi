@@ -20,13 +20,13 @@ export class UtilsService {
   constant: any = this.constService.getUtilsServiceConstants();
 
   constructor(
-  	// Inject localStorage factory
+    // Inject localStorage factory
     @Inject('LocalStorage') public localStorage: any,
     // Inject router
-  	public router: Router,
-	  // Inject global variables
-	  private globals: Globals,
-  	// Inject SnackBar
+    public router: Router,
+    // Inject global variables
+    private globals: Globals,
+    // Inject SnackBar
     private snackBar: MatSnackBar,
     // Inject constants
     private constService: ConstService) { }
@@ -42,7 +42,7 @@ export class UtilsService {
   // Log out method
   logOut(message: string): void {
       // Clear Storage
-	    this.localStorage.clear();
+      this.localStorage.clear();
       // Go to login view
       this.router.navigate([this.constant.loginUrl]);
       // Reset auth false

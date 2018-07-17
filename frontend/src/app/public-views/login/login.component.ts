@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
 import { HttpRequestsService } from '../../services/utils/http-requests.service';
 import { ConstService } from '../../services/utils/const.service';
+import { UtilsService } from '../../services/utils/utils.service';
 
 // Import global class
 import { Globals } from '../../globals';
@@ -28,25 +29,24 @@ export class LoginComponent implements OnInit {
   constant: any;
 
   constructor(
-  	// Inject localStorage factory
+    // Inject localStorage factory
     @Inject('LocalStorage') public localStorage: any,
-  	// Inject HttpClient
-  	private http: HttpRequestsService,
-  	// Import auth service
-    private auth: AuthService,
-	  // Inject router
-  	public router: Router,
+    // Inject router
+    public router: Router,
     // Inject global class
     private globals: Globals,
     // Inject FormBuilder
     private fb: FormBuilder,
     // Inject SnackBar
     private snackBar: MatSnackBar,
-    // Inject constants
-    private constants: ConstService) { }
+    // Inject services
+    private http: HttpRequestsService,
+    private auth: AuthService,
+    private constants: ConstService,
+    private utils: UtilsService) { }
 
   ngOnInit() {
-  	// Build Form
+    // Build Form
     this.buildForm();
     // Get login constants
     this.constant = this.constants.getLoginViewConstants();
@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit {
       error => {
         console.log(error.error);
         // Open snackbar
-        this.openSnackBar(error.error.failed_attempts_msg, null);
+        this.utils.openSnackBar(error.error.failed_attempts_msg, null);
         // Delete password value
         this.loginForm.get(this.constant.password).setValue(null);
       },
@@ -89,12 +89,12 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.compose([Validators.required, Validators.pattern(/^[eEpP]{1}[0-9]{5}$/)])],
       password: ['', Validators.compose([Validators.required])],
     });
-  };
+  }
 
   // SnackBar action
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
-      duration: this.constant.duration, //in mili seconds
+      duration: this.constant.duration, // in mili seconds
       panelClass: [this.constant.snackbarColor],
     });
   }
