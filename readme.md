@@ -36,15 +36,15 @@
     * Ingresar a la ruta ``docker/jupyter_notebook_config.py`` 
     * Copiar el token SHA obtenido en pasos previos y asignarlo en la variable ``c.NotebookApp.password``
     * Guardar el archivo ``jupyter_notebook_config.py`` en la ruta ``C:\Users\<su_numero_carnet>\.jupyter``. De no existir la carpeta ``.jupyter``, crearla.
-3. Configurar el archivo ```base.yml``:
+3. Configurar el archivo ``base.yml``:
     * Cambiar "app" por el nombre del proyecto (ej: fallas_criticas)
     * Configurar proxy en build/args/http_proxy y https_proxy
-4. Configurar el archivo ```test.yml``:
+4. Configurar el archivo ``test.yml``:
     * Cambiar "app" e "identidad" por el nombre del proyecto (ej: fallas_criticas)
-    * Configurar los puertos. NOTA: en app_backend el segundo puerto establecido en ``ports`` debe coincidir con el colocado en ```command``
-5. Configurar el archivo ```.env``:
+    * Configurar los puertos. NOTA: en app_backend el segundo puerto establecido en ``ports`` debe coincidir con el colocado en ``command``
+5. Configurar el archivo ``.env``:
     * Configurar las direcciones de ``APP_HOSTNAME``, ``http_proxy``, ``https_proxy`` y las bases de datos.
-6. Entrar en el archivo ```frontend/src/index.html`` y cambiar el título al nombre de su proyecto.
+6. Entrar en el archivo ``frontend/src/index.html`` y cambiar el título al nombre de su proyecto.
 
 ### 5. Cómo probar las configuraciones
 
