@@ -58,14 +58,14 @@
     * Aplicación de Angular en ``localhost:4200``
     * Aplicación Django en ``localhost:8000``
     * Cuaderno Jupyter en ``localhost:8888``
-3. Para montaje en el servidor, configurar los siguientes campos:
+3. Para montaje en el servidor, configurar en el archivo ``sftp-config.json`` (Sublime) o ``sftp.json`` (Visual Studio Code) los siguientes campos:
 
- | Sublime | VS Code
------------- | ------------ | -------------
-Archivo | sftp-config.json | sftp.json
+Campo | Sublime | VS Code
+----- | ----- | -----
 Host | host | host
 Usuario | user | username
 Contraseña | password | password
 Ruta destino | remote_path | remotePath
 
 ### 6. Cómo usar
+
