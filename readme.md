@@ -1,6 +1,7 @@
 # Plantilla Web Soluciones Ágiles
 
-### **TABLA DE CONTENIDOS**
+## **TABLA DE CONTENIDOS**
+
 1. Funcionalidades incluidas
 2. Estado del código
 3. Cómo instalar las dependencias necesarias
@@ -9,26 +10,30 @@
 6. Cómo usar
 
 ### 1. Funcionalidades incluidas
+
 * Paleta de colores de SA
-* Sistema de autenticación: 
-    * Solicitud de credenciales
-    * Inicio y cierre de sesión
+* Sistema de autenticación:
+  * Solicitud de credenciales
+  * Inicio y cierre de sesión
 * Servicio de verificación de permisología del usuario
 * Cambio de contraseña del usuario
 * Barra lateral desplegable de opciones
 * Validaciones mínimas requeridas por Seguridad Telemática (ver documentación correspondiente)
 
 ### 2. Estado del código
+
 * Version: 1.0
 * Cubre requerimientos mínimos de autenticación
 * En implementación de validaciones mínimas de Seguridad Telemática
 
 ### 3. Cómo instalar las dependencias necesarias
+
 1. Ubicarse en la carpeta donde se guardará el código.
 2. Usando la herramienta de control de versiones de su preferencia, descargar el código de bitbucket ``git clone https://bitbucket.org/solucionesagiles/plantilla-web.git``
 3. Entrar en la carpeta frontend y correr el comando ``yarn install`` para instalar las dependencias de Angular 6+
 
 ### 4. Cómo configurar el proyecto
+
 1. Entrar en la carpeta ``bat-files`` y modificar la ruta del proyecto en los archivos ``angular.bat``, ``django.bat`` y ``jupyter.bat`` a la usada en su caso particular.
 2. Modificar la clave de usuario de Jupyter:
     * Ejecutar el archivo ``jupyter.bat``
@@ -48,6 +53,19 @@
 
 ### 5. Cómo probar las configuraciones
 
+1. Ejecutar el archivo ``bat-files/all.bat``
+2. Verificar que se despliegue en el navegador lo siguiente:
+    * Aplicación de Angular en ``localhost:4200``
+    * Aplicación Django en ``localhost:8000``
+    * Cuaderno Jupyter en ``localhost:8888``
+3. Para montaje en el servidor, configurar los siguientes campos:
+
+ | Sublime | VS Code
+------------ | ------------ | -------------
+Archivo | sftp-config.json | sftp.json
+Host | host | host
+Usuario | user | username
+Contraseña | password | password
+Ruta destino | remote_path | remotePath
 
 ### 6. Cómo usar
-
