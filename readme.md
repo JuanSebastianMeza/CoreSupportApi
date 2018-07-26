@@ -82,7 +82,7 @@ Ruta destino | remote_path | remotePath
 
 3. **dist:** es una carpeta creada únicamente para copiar el resultado de ejecutar el comando ``ng build --prod`` a la aplicación de Angular
 
-4. **docker:** c
+4. **docker:** archivos de configuración de Docker para despliegue en ambientes de prueba, calidad y producción
 
 5. **FrontEnd:** En la ruta ```frontend/src/app`` se encuentran todos los componentes, servicios e interfaces de la aplicación Angular. Las funciones de cada carpeta son las siguientes:
     * ``interfaces``: interfaces del proyecto.
