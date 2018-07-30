@@ -6,6 +6,7 @@ import { Router,
 
 // Auth imports
 import { AuthService } from './auth.service';
+import { UtilsService } from '../utils/utils.service';
 
 
 @Injectable({
@@ -14,18 +15,19 @@ import { AuthService } from './auth.service';
 export class FirstTimeGuardService implements CanActivate {
 
   constructor(
-    // Inject auth service
+    // Inject services
     public auth: AuthService,
+    public utils: UtilsService,
     // Inject router
     public router: Router) { }
 
   canActivate(): boolean {
     // Get if it is user first time for login
     const isFirstTime = this.auth.isUserFirstTime();
-    console.log(isFirstTime);
     // Validate access
     if (isFirstTime) {
       this.router.navigate(['password']);
+      this.utils.openFirstTimeLoginSnackBar();
       return false;
     } else {
       return true;

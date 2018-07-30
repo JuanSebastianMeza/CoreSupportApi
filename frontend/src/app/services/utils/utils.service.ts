@@ -48,6 +48,18 @@ export class UtilsService {
     );
   }
 
+  // SnackBar action
+  openFirstTimeLoginSnackBar() {
+    this.snackBar.open(
+      this.constant.firstTimeLoginMessage,
+      null,
+      {
+        panelClass: [this.constant.firstTimeLoginSnackbarColor],
+        duration: this.constant.duration
+      }
+    );
+  }
+
   // Log out method
   logOut(message: string): void {
       // Clear Storage
