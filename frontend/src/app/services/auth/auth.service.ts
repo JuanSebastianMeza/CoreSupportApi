@@ -123,4 +123,12 @@ export class AuthService {
     return false;
   }
 
+  // Returns if it is user first time for login
+  public isUserFirstTime(): boolean {
+    // Get payload
+    const payload = this.getPayload();
+    // Return permissions
+    return payload.user.profile.is_first_time;
+  }
+
 }

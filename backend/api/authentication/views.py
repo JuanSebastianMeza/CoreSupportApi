@@ -46,7 +46,7 @@ class UserViewSet(ModelViewSet):
 			return Response({'status': False})
 
 
-# 
+# Customize Token Auth View
 class CustomJSONWebTokenAPIView(JSONWebTokenAPIView):
 
 	# Validate user failed attempts
@@ -110,9 +110,6 @@ class CustomJSONWebTokenAPIView(JSONWebTokenAPIView):
 
 			# Save last login
 			self.save_last_login(user)
-
-			# Update failed attempts
-			self.update_failed_attempts(user)
 
 			return Response(response_data)
 

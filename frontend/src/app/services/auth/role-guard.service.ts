@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 // Router imports
 import { Router,
-  		   CanActivate,
+         CanActivate,
          ActivatedRouteSnapshot } from '@angular/router';
 
 // Auth imports
@@ -11,14 +11,14 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class RoleGuardService {
+export class RoleGuardService implements CanActivate {
 
   constructor(
-  	// Inject auth service
-  	public auth: AuthService, 
-  	// Inject router
-  	public router: Router) { }
-  
+    // Inject auth service
+    public auth: AuthService,
+    // Inject router
+    public router: Router) { }
+
   canActivate(route: ActivatedRouteSnapshot): boolean {
     // This will be passed from the route config
     // on the data property
