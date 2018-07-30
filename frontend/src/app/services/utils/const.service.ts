@@ -70,6 +70,10 @@ export class ConstService {
       passNewError: 'Nueva contraseña requerida',
       passRepError1: 'Repetir nueva contraseña',
       passRepError2: 'No coincide con el valor anterior',
+      minLength: 'Debe contener mínimo 8 caracteres',
+      specialCharacter: 'Debe contener un carácter especial (@/./+/-/_)',
+      number: 'Debe contener un número',
+      letter: 'Debe contener una letra',
     };
   }
 
