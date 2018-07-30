@@ -9,7 +9,7 @@ class Profile(models.Model):
 	position = models.ForeignKey('Position', on_delete=models.DO_NOTHING)
 	department = models.ForeignKey('Department', on_delete=models.DO_NOTHING)
 	failed_attempts = models.IntegerField(default=0)
-	previous_failed_attempts = models.IntegerField(default=0)
+	is_first_time = models.BooleanField(default=True)
 
 
 # Department Position
