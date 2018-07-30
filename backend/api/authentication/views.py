@@ -41,6 +41,10 @@ class UserViewSet(ModelViewSet):
 			# Change password
 			user.set_password(new_password)
 			user.save()
+			# Edit first time profile
+			user_profile = Profile.objects.get(user=user)
+			user_profile.is_first_time = False
+			user_profile.save()
 			return Response({'status': True})
 		else:
 			return Response({'status': False})
@@ -81,16 +85,6 @@ class CustomJSONWebTokenAPIView(JSONWebTokenAPIView):
 			# If username is not valid
 			error['failed_attempts_msg'] = 'El usuario indicado no posee una cuenta registrada'
 		return error
-
-	# Update failed attemps
-	def update_failed_attempts(self, user):
-		# Get user profile
-		user_profile = Profile.objects.get(user=user)
-		# Save previous failed attemps
-		user_profile.previous_failed_attempts = user_profile.failed_attempts
-		# Reset failed attemps
-		user_profile.failed_attempts = 0
-		user_profile.save(update_fields=['failed_attempts', 'previous_failed_attempts'])
 
 	# Save last login date
 	def save_last_login(self, user):
