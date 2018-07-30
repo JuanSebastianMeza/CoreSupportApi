@@ -57,9 +57,13 @@ export class AuthService {
     if (payload) {
       permissions = payload.user.permissions;
       // Add staff permission
-      payload.user.is_staff ? permissions.push('is_staff') : null;
+      if (payload.user.is_staff) {
+        permissions.push('is_staff');
+      }
       // Add superuser permission
-      payload.user.is_superuser ? permissions.push('is_superuser') : null;
+      if (payload.user.is_superuser) {
+        permissions.push('is_superuser');
+      }
       // Return permissions
     } else {
       permissions = [];
@@ -80,7 +84,7 @@ export class AuthService {
     // Get payload
     const payload = this.getPayload();
     // Return last login date
-    return new Date(payload.user.last_login);
+    return payload ? new Date(payload.user.last_login) : null;
   }
 
   // Get staff permissions
