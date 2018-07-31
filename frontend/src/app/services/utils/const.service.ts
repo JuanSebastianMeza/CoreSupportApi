@@ -53,6 +53,7 @@ export class ConstService {
       title: 'Ingrese su nueva contraseña',
       status: 'status',
       controls: 'controls',
+      validPassword: 'valid_password',
       // Input place holders
       phPassOld: 'Contraseña actual',
       phPassNew: 'Nueva contraseña',
@@ -64,6 +65,7 @@ export class ConstService {
       // Submit messages
       passSuccess: 'La contraseña fue cambiada exitosamente. Ingrese nuevamente',
       passError: 'La contraseña actual es incorrecta',
+      passLast: 'No se puede repertir algunas de las últimas 10 contraseñas usadas',
       passSubmit: 'Cambiar contraseña',
       // Error messages
       passOldError: 'Contraseña actual requerida',

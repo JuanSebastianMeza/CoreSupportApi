@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-short_text = 100
+short_text = 128
 
 # Profiles
 class Profile(models.Model):
@@ -20,3 +20,10 @@ class Position(models.Model):
 # Telefónica Department
 class Department(models.Model):
 	name = models.CharField(max_length=short_text)
+
+
+# Password history
+class PasswordHistory(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	password = models.CharField(max_length=short_text)
+	passwd_date = models.DateField(auto_now_add=True)

@@ -60,7 +60,11 @@ export class ChangePasswordComponent implements OnInit {
         this.utils.logOut(this.constant.passSuccess);
       } else {
         // Show password error
-        this.utils.openSnackBar(this.constant.passError, null);
+        if (data[this.constant.validPassword]) {
+          this.utils.openSnackBar(this.constant.passError, null);
+        } else {
+          this.utils.openSnackBar(this.constant.passLast, null);
+        }
         // Reset form fields
         this.changePasswordForm.get(this.constant.passOld).setValue(null);
         this.changePasswordForm.get(this.constant.passNew).setValue(null);

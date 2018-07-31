@@ -3,6 +3,7 @@ import datetime as dt
 
 # Django imports
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 
 # Rest Framework imports
 from rest_framework import status
@@ -17,7 +18,8 @@ from rest_framework_jwt.settings import api_settings
 
 # Own imports
 from authentication.serializers import UserSerializer
-from authentication.models import Profile
+from authentication.models import Profile, PasswordHistory
+from authentication.utils import is_valid_new_password
 
 jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
 
@@ -36,8 +38,9 @@ class UserViewSet(ModelViewSet):
 		repeat_new_password = request.data["repeatNewPassword"]
 		# Get User Data
 		user = User.objects.get(pk=pk)
+		is_valid_password = is_valid_new_password(user, new_password)
 		# If password is ok
-		if (user.check_password(old_password)) and (new_password == repeat_new_password):
+		if (user.check_password(old_password)) and (new_password == repeat_new_password) and is_valid_password:
 			# Change password
 			user.set_password(new_password)
 			user.save()
@@ -45,9 +48,15 @@ class UserViewSet(ModelViewSet):
 			user_profile = Profile.objects.get(user=user)
 			user_profile.is_first_time = False
 			user_profile.save()
+			# Add new password to history
+			user_history = PasswordHistory(user=user, password=make_password(new_password))
+			user_history.save()
 			return Response({'status': True})
 		else:
-			return Response({'status': False})
+			return Response({
+				'status': False,
+				'valid_password': is_valid_password
+			})
 
 
 # Customize Token Auth View
