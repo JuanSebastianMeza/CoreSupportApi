@@ -12,12 +12,12 @@ services:
     working_dir: /backend/api
     # Entablish ports
     ports:
-      - "8001:8001"
+      - "8001:8000"
     # Connect container and host ports
     stdin_open: true
     tty: true
     # Run the following command
-    command: python manage.py runserver 0.0.0.0:8001
+    command: python manage.py runserver 0.0.0.0:8000
 
 
   app_jupyter:
