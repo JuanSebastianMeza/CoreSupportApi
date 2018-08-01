@@ -25,99 +25,99 @@ jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
 
 # User view set
 class UserViewSet(ModelViewSet):
-	# Get all users
-	queryset = User.objects.all()
-	# User serializer
-	serializer_class = UserSerializer
+    # Get all users
+    queryset = User.objects.all()
+    # User serializer
+    serializer_class = UserSerializer
 
-	@action(methods=['post'], detail=True, url_path='change-password', url_name='change_password')
-	def set_password(self, request, pk=None):
-		# Get password info
-		old_password = request.data["oldPassword"]
-		new_password = request.data["newPassword"]
-		repeat_new_password = request.data["repeatNewPassword"]
-		# Get User Data
-		user = User.objects.get(pk=pk)
-		is_valid_password = is_valid_new_password(user, new_password)
-		# If password is ok
-		if (user.check_password(old_password)) and (new_password == repeat_new_password) and is_valid_password:
-			# Change password
-			user.set_password(new_password)
-			user.save()
-			# Edit first time profile
-			user_profile = Profile.objects.get(user=user)
-			user_profile.is_first_time = False
-			user_profile.save()
-			# Add new password to history
-			user_history = PasswordHistory(user=user, password=make_password(new_password))
-			user_history.save()
-			return Response({'status': True})
-		else:
-			return Response({
-				'status': False,
-				'valid_password': is_valid_password
-			})
+    @action(methods=['post'], detail=True, url_path='change-password', url_name='change_password')
+    def set_password(self, request, pk=None):
+        # Get password info
+        old_password = request.data["oldPassword"]
+        new_password = request.data["newPassword"]
+        repeat_new_password = request.data["repeatNewPassword"]
+        # Get User Data
+        user = User.objects.get(pk=pk)
+        is_valid_password = is_valid_new_password(user, new_password)
+        # If password is ok
+        if (user.check_password(old_password)) and (new_password == repeat_new_password) and is_valid_password:
+            # Change password
+            user.set_password(new_password)
+            user.save()
+            # Edit first time profile
+            user_profile = Profile.objects.get(user=user)
+            user_profile.is_first_time = False
+            user_profile.save()
+            # Add new password to history
+            user_history = PasswordHistory(user=user, password=make_password(new_password))
+            user_history.save()
+            return Response({'status': True})
+        else:
+            return Response({
+                'status': False,
+                'valid_password': is_valid_password
+            })
 
 
 # Customize Token Auth View
 class CustomJSONWebTokenAPIView(JSONWebTokenAPIView):
 
-	# Validate user failed attempts
-	def check_valid_username(self, request, error):
-		# Get username
-		username = request.data['username']
-		# If username exists, add one failed attempts
-		try:
-			# Get user
-			user = User.objects.get(username=username)
-			# Get user profile
-			user_profile = Profile.objects.get(user=user)
-			# Get login failed attempts
-			failed_attempts = user_profile.failed_attempts
-			# If it es less than 2 (4 because it is duplicated)
-			if failed_attempts < 2:
-				# Add one failed atempts
-				failed_attempts += 1
-				user_profile.failed_attempts = failed_attempts
-				# Save value
-				user_profile.save()
-				# Add error message
-				error['failed_attempts_msg'] = 'Usuario y clave no válidos. Número de intentos fallidos: ' + str(int(user_profile.failed_attempts)) + ' (máximo 3)'
-			# Block user
-			else:
-				# Add error message
-				error['failed_attempts_msg'] = 'Su usuario se encuentra bloqueado. Por favor, contactar al equipo de Soluciones Ágiles para su desbloqueo'
-				# Set active to false
-				user.is_active = False
-				user.save()
-		except:
-			# If username is not valid
-			error['failed_attempts_msg'] = 'El usuario indicado no posee una cuenta registrada'
-		return error
+    # Validate user failed attempts
+    def check_valid_username(self, request, error):
+        # Get username
+        username = request.data['username']
+        # If username exists, add one failed attempts
+        try:
+            # Get user
+            user = User.objects.get(username=username)
+            # Get user profile
+            user_profile = Profile.objects.get(user=user)
+            # Get login failed attempts
+            failed_attempts = user_profile.failed_attempts
+            # If it es less than 2 (4 because it is duplicated)
+            if failed_attempts < 2:
+                # Add one failed atempts
+                failed_attempts += 1
+                user_profile.failed_attempts = failed_attempts
+                # Save value
+                user_profile.save()
+                # Add error message
+                error['failed_attempts_msg'] = 'Usuario y clave no válidos. Número de intentos fallidos: ' + str(int(user_profile.failed_attempts)) + ' (máximo 3)'
+            # Block user
+            else:
+                # Add error message
+                error['failed_attempts_msg'] = 'Su usuario se encuentra bloqueado. Por favor, contactar al equipo de Soluciones Ágiles para su desbloqueo'
+                # Set active to false
+                user.is_active = False
+                user.save()
+        except:
+            # If username is not valid
+            error['failed_attempts_msg'] = 'El usuario indicado no posee una cuenta registrada'
+        return error
 
-	# Save last login date
-	def save_last_login(self, user):
-		user.last_login = dt.datetime.utcnow()
-		user.save(update_fields=['last_login'])
+    # Save last login date
+    def save_last_login(self, user):
+        user.last_login = dt.datetime.utcnow()
+        user.save(update_fields=['last_login'])
 
-	# Override post method to include
-	def post(self, request, *args, **kwargs):
-		serializer = self.get_serializer(
-			data=request.data
-		)
+    # Override post method to include
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(
+            data=request.data
+        )
 
-		if serializer.is_valid():
-			user = serializer.object.get('user') or request.user
-			token = serializer.object.get('token')
-			response_data = jwt_response_payload_handler(token, user, request)
+        if serializer.is_valid():
+            user = serializer.object.get('user') or request.user
+            token = serializer.object.get('token')
+            response_data = jwt_response_payload_handler(token, user, request)
 
-			# Save last login
-			self.save_last_login(user)
+            # Save last login
+            self.save_last_login(user)
 
-			return Response(response_data)
+            return Response(response_data)
 
-		# Return custom response if not valid
-		return Response(self.check_valid_username(request, serializer.errors), status=status.HTTP_400_BAD_REQUEST)
+        # Return custom response if not valid
+        return Response(self.check_valid_username(request, serializer.errors), status=status.HTTP_400_BAD_REQUEST)
 
 
 # This view overrides

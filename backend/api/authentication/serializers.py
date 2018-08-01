@@ -13,10 +13,11 @@ from authentication.models import Profile
 
 # Profiles
 class ProfileSerializer(serializers.ModelSerializer):
-	
-	class Meta:
-		model = Profile
-		fields = "__all__"
+    last_passwrd_change = serializers.DateField()
+
+    class Meta:
+        model = Profile
+        fields = ('user', 'position', 'department', 'failed_attempts', 'is_first_time', 'last_passwrd_change')
 
 
 # User
