@@ -1,2 +1,2 @@
-cd C:\Users\e10206\Proyectos\plantilla-web\frontend
+cd ..\frontend
 ng serve
