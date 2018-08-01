@@ -127,10 +127,12 @@ export class ConstService {
         El uso que realice de este sistema puede ser monitorizado.',
       firstTimeLoginMessage: 'Para poder acceder al contenido de esta \
         aplicación, en necesario que cambie su contraseña.',
+      passwordExpirationMessage: 'Su contraseña está vencida. Por favor, \
+        ingrese una nueva.',
       // SnackBar Color
       snackbarColor: 'purple-bg',
       advisorSnackbarColor: 'dark-blue-bg',
-      firstTimeLoginSnackbarColor: 'purple-bg',
+      guardSnackbarColor: 'purple-bg',
       duration: 3000,
     };
   }

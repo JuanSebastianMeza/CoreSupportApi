@@ -131,4 +131,13 @@ export class AuthService {
     return payload.user.profile.is_first_time;
   }
 
+  // Returns if it is user first time for login
+  public getLastPassChangeDiff(): number {
+    // Get payload
+    const payload = this.getPayload();
+    console.log(payload.user.profile.last_password_change);
+    // Return permissions
+    return payload.user.profile.last_password_change;
+  }
+
 }

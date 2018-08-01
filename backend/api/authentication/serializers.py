@@ -13,7 +13,7 @@ from authentication.models import Profile
 
 # Profiles
 class ProfileSerializer(serializers.ModelSerializer):
-    last_password_change = serializers.DateField()
+    last_password_change = serializers.IntegerField()
 
     class Meta:
         model = Profile
@@ -30,4 +30,5 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'full_name', 'first_name', 'last_name', 'email', 'last_login', 'profile', 'permissions', 'is_staff', 'is_superuser')
+        fields = ('username', 'full_name', 'first_name', 'last_name', 'email', \
+                        'last_login', 'profile', 'permissions', 'is_staff', 'is_superuser')

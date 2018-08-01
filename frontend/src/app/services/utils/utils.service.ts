@@ -32,7 +32,7 @@ export class UtilsService {
     private constService: ConstService) { }
 
   // SnackBar action
-  openSnackBar(message: string, action: string) {
+  openSnackBar(message: string, action: string = null) {
     this.snackBar.open(message, action, {
       duration: this.constant.duration,
       panelClass: [this.constant.snackbarColor],
@@ -45,18 +45,6 @@ export class UtilsService {
       this.constant.advisorMessage,
       this.constant.hideSnackBar,
       { panelClass: [this.constant.advisorSnackbarColor] }
-    );
-  }
-
-  // SnackBar action
-  openFirstTimeLoginSnackBar() {
-    this.snackBar.open(
-      this.constant.firstTimeLoginMessage,
-      null,
-      {
-        panelClass: [this.constant.firstTimeLoginSnackbarColor],
-        duration: this.constant.duration
-      }
     );
   }
 

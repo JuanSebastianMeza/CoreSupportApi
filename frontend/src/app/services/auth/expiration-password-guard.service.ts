@@ -13,7 +13,7 @@ import { ConstService } from '../utils/const.service';
 @Injectable({
   providedIn: 'root'
 })
-export class FirstTimeGuardService implements CanActivate {
+export class ExpirationPasswordGuardService implements CanActivate {
 
   // Constants
   constant: any = this.constService.getUtilsServiceConstants();
@@ -27,13 +27,18 @@ export class FirstTimeGuardService implements CanActivate {
     public router: Router) { }
 
   canActivate(): boolean {
-    // Get if it is user first time for login
-    const isFirstTime = this.auth.isUserFirstTime();
+    // Get when was the last password change
+    const lastPassChangeDiff = this.auth.getLastPassChangeDiff();
     // Validate access
-    if (isFirstTime) {
+    if (lastPassChangeDiff > 30) {
       this.router.navigate(['password']);
-      this.utils.openSnackBar(this.constant.firstTimeLoginMessage);
+      this.utils.openSnackBar(this.constant.passwordExpirationMessage);
       return false;
+    } else if (lastPassChangeDiff > 24) {
+      // TODO: Save variable in globals to show a banner
+      // TODO: in last_password_change return a integer
+      // TODO: limits to const.service
+      return true;
     } else {
       return true;
     }
