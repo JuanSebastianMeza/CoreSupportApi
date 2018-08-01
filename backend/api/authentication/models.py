@@ -18,7 +18,7 @@ class Profile(models.Model):
     is_first_time = models.BooleanField(default=True)
 
     @property
-    def last_passwrd_change(self):
+    def last_password_change(self):
         """
         Gets the latest password change date
         """
@@ -50,4 +50,3 @@ class PasswordHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     password = models.CharField(max_length=SHORT_TEXT)
     passwd_date = models.DateField(auto_now_add=True)
-	
