@@ -7,13 +7,21 @@
     <!-- Panel de mantenimiento -->
     <!-- <p class="text-center purple-bg maintenance_alert custom_special_body">Habrá un mantenimiento programado el día 10/04/2018 11:45 hasta el 10/04/2018 13:00. Durante este tiempo, no se podrá acceder a la herramienta</p> -->
 
+    <!-- Panel de mantenimiento -->
+    <p class="text-center purple-bg maintenance_alert custom_special_body" *ngIf="globals.showPasswordNotification">
+      {{ constants.getUtilsServiceConstants().passwordExpirationBanner1 }} 
+      {{ globals.passChangeMessage }}
+      {{ constants.getUtilsServiceConstants().passwordExpirationBanner2 }}
+      <a class="yellow-link" routerLink={{constant.password}}>{{ constants.getUtilsServiceConstants().passwordExpirationBanner3 }}</a>
+      {{ constants.getUtilsServiceConstants().passwordExpirationBanner4 }} 
+    </p>
+
     <!-- NavBar -->
     <div class="medium-blue-bg">
       <div class="container">
         <div class="menu-bar">
           <!-- Open sidenav if clicked -->
           <a (click)='sidenav.open()' *ngIf="globals.isAuthenticated">
-          <!-- <a *ngIf="globals.isAuthenticated" (click)='sidenav.open()'> -->
             <fa-icon [icon]="faBars" class="icon-color"></fa-icon>
           </a>
           <div class="home-option" *ngIf="!globals.isAuthenticated">{{ constant.welcome }}</div>

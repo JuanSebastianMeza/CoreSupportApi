@@ -35,7 +35,6 @@ export class AppComponent {
     // Constants
     constant: any = this.constants.getAppComponentViewConstants();
     lastLoginDate: Date = new Date(this.globals.lastLoginDate);
-    // lastLoginDate = true ? console.log(this.globals.lastLoginDate) : console.log(this.globals.lastLoginDate);
 
     constructor(
         // Inject router

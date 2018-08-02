@@ -54,8 +54,12 @@ export class UtilsService {
       this.localStorage.clear();
       // Go to login view
       this.router.navigate([this.constant.loginUrl]);
-      // Reset auth false
+      // Reset globals
       this.globals.isAuthenticated = false;
+      this.globals.showPasswordNotification = false;
+      this.globals.userName = null;
+      this.globals.lastLoginDate = null;
+      this.globals.remainingDaysToPasswordChange = null;
       // Reset user name
       this.globals.userName = null;
       // Show success password change

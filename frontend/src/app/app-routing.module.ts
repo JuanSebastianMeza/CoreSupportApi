@@ -12,7 +12,7 @@ import { ChangePasswordComponent } from './private-views/change-password/change-
 // Import own services
 import { AuthGuardService as AuthGuard } from './services/auth/auth-guard.service';
 import { RoleGuardService as RoleGuard } from './services/auth/role-guard.service';
-import { FirstTimeGuardService as FirstTimeGuard } from './services/auth/first-time-guard.service';
+import { PasswordGuardService as PasswordGuard } from './services/auth/password-guard.service';
 import { LoginGuardService as LoginGuard } from './services/auth/login-guard.service';
 
 const routes: Routes = [
@@ -27,7 +27,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: '',
-        canActivate: [FirstTimeGuard],
+        canActivate: [PasswordGuard],
         children: [
           { path: 'home',
             component: HomeComponent},

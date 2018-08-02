@@ -34,9 +34,8 @@ export class ExpirationPasswordGuardService implements CanActivate {
       this.router.navigate(['password']);
       this.utils.openSnackBar(this.constant.passwordExpirationMessage);
       return false;
-    } else if (lastPassChangeDiff > 24) {
+    } else if (lastPassChangeDiff > 25) {
       // TODO: Save variable in globals to show a banner
-      // TODO: in last_password_change return a integer
       // TODO: limits to const.service
       return true;
     } else {

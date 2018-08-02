@@ -1,27 +1,30 @@
+"""
+Imports
+"""
 # Django imports
 from django.contrib.auth.models import User
-
 # Rest Framework imports
 from rest_framework import serializers
-
-# JWT rest framework imports
-from rest_framework_jwt.compat import *
-
-# Own model imports
+# Own imports
 from authentication.models import Profile
 
 
-# Profiles
 class ProfileSerializer(serializers.ModelSerializer):
+    """
+    Profiles serializer
+    """
     last_password_change = serializers.IntegerField()
 
     class Meta:
         model = Profile
-        fields = ('user', 'position', 'department', 'failed_attempts', 'is_first_time', 'last_password_change')
+        fields = ('user', 'position', 'department', 'failed_attempts', \
+                    'is_first_time', 'last_password_change')
 
 
-# User
 class UserSerializer(serializers.ModelSerializer):
+    """
+    User serializer
+    """
     profile = ProfileSerializer(read_only=True)
     # Get full name
     full_name = serializers.CharField(source='get_full_name', read_only=True)

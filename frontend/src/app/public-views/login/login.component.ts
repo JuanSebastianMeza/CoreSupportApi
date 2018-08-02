@@ -36,8 +36,6 @@ export class LoginComponent implements OnInit {
     private globals: Globals,
     // Inject FormBuilder
     private fb: FormBuilder,
-    // Inject SnackBar
-    private snackBar: MatSnackBar,
     // Inject services
     private http: HttpRequestsService,
     private auth: AuthService,
@@ -63,9 +61,13 @@ export class LoginComponent implements OnInit {
         this.token = data[this.constant.token];
         // Save token in localStorage
         this.localStorage.setItem(this.constant.token, this.token);
-        // Change Auth state
+        // Change globals state
+        if (this.auth.getLastPassChangeDiff() > this.constants.getUtilsServiceConstants().blockNotification) {
+          this.globals.showPasswordNotification = true;
+        }
+        // Set globals
+        this.globals.remainingDaysToPasswordChange = this.auth.getLastPassChangeDiff();
         this.globals.isAuthenticated = true;
-        // Set user name
         this.globals.userName = this.auth.getUserName();
         // Show advisor snackbar
         this.utils.openAdvisorSnackBar();

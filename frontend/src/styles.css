@@ -101,6 +101,14 @@ body, p, span, th, td, li, strong {
 .white-link {
   color: white;
 }
+.yellow-link {
+  color: yellow;
+  text-decoration: underline;
+}
+.yellow-link:hover {
+  color: yellow;
+  cursor: pointer;
+}
 .black-link {
   color: black;
 }

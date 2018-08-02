@@ -129,11 +129,18 @@ export class ConstService {
         aplicación, en necesario que cambie su contraseña.',
       passwordExpirationMessage: 'Su contraseña está vencida. Por favor, \
         ingrese una nueva.',
+      passwordExpirationBanner1: 'Su contraseña se vencerá en ',
+      passwordExpirationBanner2: '. Pulse ',
+      passwordExpirationBanner3: 'aquí',
+      passwordExpirationBanner4: ' para renovarla.',
       // SnackBar Color
       snackbarColor: 'purple-bg',
       advisorSnackbarColor: 'dark-blue-bg',
       guardSnackbarColor: 'purple-bg',
       duration: 3000,
+      // Password change limits
+      blockAccess: 30,
+      blockNotification: 25,
     };
   }
 
