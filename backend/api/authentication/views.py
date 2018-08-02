@@ -75,7 +75,7 @@ class CustomJSONWebTokenAPIView(JSONWebTokenAPIView):
             # Get login failed attempts
             failed_attempts = user_profile.failed_attempts
             # If it es less than 2 (4 because it is duplicated)
-            if failed_attempts < 2:
+            if failed_attempts < 2 and user.is_active:
                 # Add one failed atempts
                 failed_attempts += 1
                 user_profile.failed_attempts = failed_attempts
