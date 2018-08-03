@@ -1,14 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { FormBuilder, 
-         FormGroup, 
-         Validators, 
-         FormControl, 
+import { FormBuilder,
+         FormGroup,
+         Validators,
+         FormControl,
          ValidatorFn } from '@angular/forms';
 
 // Own services imports
-import { AuthService } from '../../services/auth/auth.service';
 import { HttpRequestsService } from '../../services/utils/http-requests.service';
 import { UtilsService } from '../../services/utils/utils.service';
 import { ConstService } from '../../services/utils/const.service';
@@ -32,18 +30,14 @@ export class ChangePasswordComponent implements OnInit {
   constructor(
     // Inject localStorage factory
     @Inject('LocalStorage') public localStorage: any,
-  	// Inject HttpClient
-  	private http: HttpRequestsService,
-  	// Import auth service
-    private auth: AuthService,
-	  // Inject router
-  	public router: Router,
-    // Inject FormBuilder
-    private fb: FormBuilder,
-    // Inject Utils
+    // Inject services
+    private http: HttpRequestsService,
     private utils: UtilsService,
-    // Inject constants
-    private constants: ConstService) { }
+    private constants: ConstService,
+    // Inject router
+    public router: Router,
+    // Inject FormBuilder
+    private fb: FormBuilder) { }
 
   ngOnInit() {
     // Build Form
@@ -56,9 +50,9 @@ export class ChangePasswordComponent implements OnInit {
   changePassword(): void {
     // Change password
     this.http.changePassword({
-      oldPassword: this.changePasswordForm.get(this.constant.passOld).value, 
-      newPassword: this.changePasswordForm.get(this.constant.passNew).value, 
-      repeatNewPassword: this.changePasswordForm.get(this.constant.passRep).value, 
+      oldPassword: this.changePasswordForm.get(this.constant.passOld).value,
+      newPassword: this.changePasswordForm.get(this.constant.passNew).value,
+      repeatNewPassword: this.changePasswordForm.get(this.constant.passRep).value,
     }).subscribe(data => {
       // Evaluate if status is True
       if (data[this.constant.status]) {
@@ -66,13 +60,17 @@ export class ChangePasswordComponent implements OnInit {
         this.utils.logOut(this.constant.passSuccess);
       } else {
         // Show password error
-        this.utils.openSnackBar(this.constant.passError, null);
+        if (data[this.constant.validPassword]) {
+          this.utils.openSnackBar(this.constant.passError, null);
+        } else {
+          this.utils.openSnackBar(this.constant.passLast, null);
+        }
         // Reset form fields
         this.changePasswordForm.get(this.constant.passOld).setValue(null);
         this.changePasswordForm.get(this.constant.passNew).setValue(null);
         this.changePasswordForm.get(this.constant.passRep).setValue(null);
       }
-    })
+    });
   }
 
   // This method builds the form
@@ -81,20 +79,56 @@ export class ChangePasswordComponent implements OnInit {
     this.changePasswordForm = this.fb.group({
       // checks password validation
       oldPassword: [null, Validators.compose([Validators.required])],
-      newPassword: [null, Validators.compose([Validators.required])],
-      repeatNewPassword: [null, Validators.compose([Validators.required, this.repeatNewPasswordValidator()])],
+      newPassword: [null, Validators.compose([
+        Validators.required,
+        Validators.minLength(8),
+        this.specialCharacterValidator(),
+        this.digitValidator(),
+        this.letterValidator(),
+      ])],
+      repeatNewPassword: [null, Validators.compose([
+        Validators.required,
+        this.repeatNewPasswordValidator()
+      ])],
     });
-  };
+  }
 
   // This validator function checks if the new password is repeated correctly
   repeatNewPasswordValidator(): ValidatorFn {
     return (control: FormControl): {[key: string]: any} => {
       // If controls is null, return null
-      if (!control.root['controls']){
+      if (!control.root['controls']) {
         return null;
       }
       // Check if passwords match
       return (control.root['controls'].newPassword.value !== control.value) ? {'repeatNewPassword': {value: control.value}} : null;
+    };
+  }
+
+  // This validator function checks if expression has at least one special character
+  specialCharacterValidator(): ValidatorFn {
+    return (control: FormControl): {[key: string]: any} => {
+      const regex = /[\@\.\+\-\_]/;
+      const special = regex.test(control.value);
+      return !special ? {'specialCharacter': {value: control.value}} : null;
+    };
+  }
+
+  // This validator function checks if expression has at least one digit
+  digitValidator(): ValidatorFn {
+    return (control: FormControl): {[key: string]: any} => {
+      const regex = /\d/;
+      const special = regex.test(control.value);
+      return !special ? {'digit': {value: control.value}} : null;
+    };
+  }
+
+  // This validator function checks if expression has at least one letter
+  letterValidator(): ValidatorFn {
+    return (control: FormControl): {[key: string]: any} => {
+      const regex = /[a-zA-Z]/;
+      const special = regex.test(control.value);
+      return !special ? {'letter': {value: control.value}} : null;
     };
   }
 

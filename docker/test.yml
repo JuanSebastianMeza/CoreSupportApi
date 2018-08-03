@@ -12,12 +12,12 @@ services:
     working_dir: /backend/api
     # Entablish ports
     ports:
-      - "8056:8056"
+      - "8001:8000"
     # Connect container and host ports
     stdin_open: true
     tty: true
     # Run the following command
-    command: python manage.py runserver 0.0.0.0:8056
+    command: python manage.py runserver 0.0.0.0:8000
 
 
   app_jupyter:
@@ -28,7 +28,7 @@ services:
     container_name: identidad_jupyter
     # Entablish ports
     ports: 
-      - "8058:8888"
+      - "8002:8888"
     depends_on:
       - app_backend
     # Add additional volumes
@@ -47,7 +47,7 @@ services:
     container_name: identidad_frontend
     # Entablish ports
     ports: 
-      - "8057:80"
+      - "8000:80"
     depends_on:
       - app_backend
     # Add volumes

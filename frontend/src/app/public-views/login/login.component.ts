@@ -1,5 +1,4 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -7,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
 import { HttpRequestsService } from '../../services/utils/http-requests.service';
 import { ConstService } from '../../services/utils/const.service';
+import { UtilsService } from '../../services/utils/utils.service';
 
 // Import global class
 import { Globals } from '../../globals';
@@ -28,25 +28,22 @@ export class LoginComponent implements OnInit {
   constant: any;
 
   constructor(
-  	// Inject localStorage factory
+    // Inject localStorage factory
     @Inject('LocalStorage') public localStorage: any,
-  	// Inject HttpClient
-  	private http: HttpRequestsService,
-  	// Import auth service
-    private auth: AuthService,
-	  // Inject router
-  	public router: Router,
+    // Inject router
+    public router: Router,
     // Inject global class
     private globals: Globals,
     // Inject FormBuilder
     private fb: FormBuilder,
-    // Inject SnackBar
-    private snackBar: MatSnackBar,
-    // Inject constants
-    private constants: ConstService) { }
+    // Inject services
+    private http: HttpRequestsService,
+    private auth: AuthService,
+    private constants: ConstService,
+    private utils: UtilsService) { }
 
   ngOnInit() {
-  	// Build Form
+    // Build Form
     this.buildForm();
     // Get login constants
     this.constant = this.constants.getLoginViewConstants();
@@ -64,16 +61,22 @@ export class LoginComponent implements OnInit {
         this.token = data[this.constant.token];
         // Save token in localStorage
         this.localStorage.setItem(this.constant.token, this.token);
-        // Change Auth state
+        // Change globals state
+        if (this.auth.getLastPassChangeDiff() > this.constants.getUtilsServiceConstants().blockNotification) {
+          this.globals.showPasswordNotification = true;
+        }
+        // Set globals
+        this.globals.remainingDaysToPasswordChange = this.auth.getLastPassChangeDiff();
         this.globals.isAuthenticated = true;
-        // Set user name
         this.globals.userName = this.auth.getUserName();
+        // Show advisor snackbar
+        this.utils.openAdvisorSnackBar();
         // Get to the cms main view
         this.router.navigate([this.constant.home]);
       },
       error => {
         // Open snackbar
-        this.openSnackBar(this.constant.loginError, null);
+        this.utils.openSnackBar(error.error.failed_attempts_msg, null);
         // Delete password value
         this.loginForm.get(this.constant.password).setValue(null);
       },
@@ -85,17 +88,11 @@ export class LoginComponent implements OnInit {
     // Build group
     this.loginForm = this.fb.group({
       // username must have the form "E12345"
-      username: ['', Validators.compose([Validators.required, Validators.pattern(/^[eEpP]{1}[0-9]{5}$/)])],
+      username: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern(/^[cCdDeEpP]{1}[0-9]{5}$/)
+      ])],
       password: ['', Validators.compose([Validators.required])],
     });
-  };
-
-  // SnackBar action
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: this.constant.duration, //in mili seconds
-      panelClass: [this.constant.snackbarColor],
-    });
   }
-
 }

@@ -90,12 +90,24 @@ body, p, span, th, td, li, strong {
 .center-text {
   text-align: center;
 }
+/*Right align*/
+.right-align {
+  text-align: right;
+}
 /*Zero margin*/
 .zero-margin {
   margin: 0px;
 }
 .white-link {
   color: white;
+}
+.yellow-link {
+  color: yellow;
+  text-decoration: underline;
+}
+.yellow-link:hover {
+  color: yellow;
+  cursor: pointer;
 }
 .black-link {
   color: black;

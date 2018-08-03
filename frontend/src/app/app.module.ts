@@ -7,8 +7,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // JWT imports
-import { JwtModule , 
-         JwtHelperService } from '@auth0/angular-jwt';
+import { JwtModule } from '@auth0/angular-jwt';
 
 // Routing module
 import { AppRoutingModule } from './/app-routing.module';
@@ -88,13 +87,13 @@ import { AuthInterceptor } from './services/auth/auth.interceptor';
     Globals,
     // Provide local storage as factory
     { provide: 'LocalStorage', useFactory: getLocalStorage },
-    { 
+    {
       // To what injection token do we want to associate our class
-      provide: HTTP_INTERCEPTORS, 
+      provide: HTTP_INTERCEPTORS,
       // Class to use for interceptors
-      useClass: AuthInterceptor, 
+      useClass: AuthInterceptor,
       // This says that there can be multiple HTTP interceptors
-      multi: true 
+      multi: true
     },
   ],
   bootstrap: [AppComponent]
@@ -103,11 +102,11 @@ export class AppModule { }
 
 // Return localStorage
 export function getLocalStorage() {
-    return (typeof window !== "undefined") ? window.localStorage : null;
+    return (typeof window !== 'undefined') ? window.localStorage : null;
 }
 
 // Get token
 export function getAuthToken() {
-    let token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
     return token ? token : null;
 }

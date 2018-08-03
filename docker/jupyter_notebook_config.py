@@ -6,4 +6,4 @@ c.NotebookApp.open_browser = False
 c.NotebookApp.allow_root=True
 c.NotebookApp.port = 8888
 c.NotebookApp.token = u''
-c.NotebookApp.password = 'sha1:f1c3e8cf265c:f4820b40076883556f9a8edc63bc9c9832903709'
+c.NotebookApp.password = 'sha1:29a62bd8ccb0:c575f955f7892be90b5e05514525c60f5dc5135a'

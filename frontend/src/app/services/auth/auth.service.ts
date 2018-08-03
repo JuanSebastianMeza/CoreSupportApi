@@ -22,9 +22,9 @@ export class AuthService {
   // Gets token from local storage
   public getTokenFromLocalStorage(): string {
     // Get credentials
-    let token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
     // Return null if there is no token
-  	return token ? token : null;
+    return token ? token : null;
   }
 
   // Check if token is not expired
@@ -43,7 +43,7 @@ export class AuthService {
   // Get payload
   public getPayload() {
     // Get token
-    let token = this.getTokenFromLocalStorage();
+    const token = this.getTokenFromLocalStorage();
     // Decode token
     return this.decodeToken(token);
   }
@@ -51,15 +51,19 @@ export class AuthService {
   // Get user permissions
   public getUserPermissions(): string[] {
     // Get payload
-    let payload = this.getPayload();
+    const payload = this.getPayload();
     // Save permissions
     let permissions: string[];
     if (payload) {
       permissions = payload.user.permissions;
       // Add staff permission
-      payload.user.is_staff ? permissions.push('is_staff') : null;
+      if (payload.user.is_staff) {
+        permissions.push('is_staff');
+      }
       // Add superuser permission
-      payload.user.is_superuser ? permissions.push('is_superuser') : null;
+      if (payload.user.is_superuser) {
+        permissions.push('is_superuser');
+      }
       // Return permissions
     } else {
       permissions = [];
@@ -70,15 +74,23 @@ export class AuthService {
   // Get staff permissions
   public getStaffPermission(): boolean {
     // Get payload
-    let payload = this.getPayload();
+    const payload = this.getPayload();
     // Return permissions
     return payload.user.is_staff;
+  }
+
+  // Get last login date
+  public getLastLoginDate(): Date {
+    // Get payload
+    const payload = this.getPayload();
+    // Return last login date
+    return payload ? new Date(payload.user.last_login) : null;
   }
 
   // Get staff permissions
   public getSuperUserPermission(): boolean {
     // Get payload
-    let payload = this.getPayload();
+    const payload = this.getPayload();
     // Return permissions
     return payload.user.is_superuser;
   }
@@ -86,7 +98,7 @@ export class AuthService {
   // Gets user's full name
   public getUserName(): string {
     // Get payload
-    let payload = this.getPayload();
+    const payload = this.getPayload();
     // Return permissions
     return payload.user.full_name;
   }
@@ -94,7 +106,7 @@ export class AuthService {
   // Returns user's id
   public getUserId(): string {
     // Get payload
-    let payload = this.getPayload();
+    const payload = this.getPayload();
     // Return permissions
     return payload.user_id;
   }
@@ -102,13 +114,29 @@ export class AuthService {
   // Check if user can access command
   public checkValidAccess(permissions, permissionToValidate): boolean {
     // Loop over each permission
-    for (var perm of permissions){
-      // If there is matching, 
-      if (perm == permissionToValidate){
+    for (const perm of permissions) {
+      // If there is matching,
+      if (perm === permissionToValidate) {
         return true;
       }
     }
     return false;
-  };
-  
+  }
+
+  // Returns if it is user first time for login
+  public isUserFirstTime(): boolean {
+    // Get payload
+    const payload = this.getPayload();
+    // Return permissions
+    return payload.user.profile.is_first_time;
+  }
+
+  // Returns how many days left to change user's password
+  public getLastPassChangeDiff(): number {
+    // Get payload
+    const payload = this.getPayload();
+    // Return number of days if authenticated
+    return payload ? payload.user.profile.last_password_change : null;
+  }
+
 }

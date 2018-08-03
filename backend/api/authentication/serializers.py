@@ -1,24 +1,31 @@
+"""
+Imports
+"""
 # Django imports
 from django.contrib.auth.models import User
-
 # Rest Framework imports
 from rest_framework import serializers
-
-# Own model imports
+# Own imports
 from authentication.models import Profile
 
 
-# Profiles
 class ProfileSerializer(serializers.ModelSerializer):
-	
-	class Meta:
-		model = Profile
-		fields = "__all__"
+    """
+    Profiles serializer
+    """
+    last_password_change = serializers.IntegerField()
+
+    class Meta:
+        model = Profile
+        fields = ('user', 'position', 'department', 'failed_attempts', \
+                    'is_first_time', 'last_password_change')
 
 
-# User
 class UserSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer()
+    """
+    User serializer
+    """
+    profile = ProfileSerializer(read_only=True)
     # Get full name
     full_name = serializers.CharField(source='get_full_name', read_only=True)
     # Get all permissions
@@ -26,4 +33,5 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'full_name', 'first_name', 'last_name', 'email', 'profile', 'permissions', 'is_staff', 'is_superuser')
+        fields = ('username', 'full_name', 'first_name', 'last_name', 'email', \
+                        'last_login', 'profile', 'permissions', 'is_staff', 'is_superuser')

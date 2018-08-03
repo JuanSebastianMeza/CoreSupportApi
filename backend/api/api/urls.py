@@ -3,7 +3,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 # JWT rest framework imports
-from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
+from rest_framework_jwt.views import refresh_jwt_token
+from authentication.views import obtain_jwt_token
 
 # Rest framework imports
 from rest_framework.routers import DefaultRouter
@@ -18,7 +19,7 @@ urlpatterns = [
 	# Admin panel
     path('admin/', admin.site.urls),
     # JWT auth
-    path('api-token-auth/', obtain_jwt_token),
+    path('get-auth-token/', obtain_jwt_token),
     path('api-token-refresh/', refresh_jwt_token),
     # Router for views
     path('api/', include(router.urls)),

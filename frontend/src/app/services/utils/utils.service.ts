@@ -20,33 +20,46 @@ export class UtilsService {
   constant: any = this.constService.getUtilsServiceConstants();
 
   constructor(
-  	// Inject localStorage factory
+    // Inject localStorage factory
     @Inject('LocalStorage') public localStorage: any,
     // Inject router
-  	public router: Router,
-	  // Inject global variables
-	  private globals: Globals,
-  	// Inject SnackBar
+    public router: Router,
+    // Inject global variables
+    private globals: Globals,
+    // Inject SnackBar
     private snackBar: MatSnackBar,
     // Inject constants
     private constService: ConstService) { }
 
   // SnackBar action
-  openSnackBar(message: string, action: string) {
+  openSnackBar(message: string, action: string = null) {
     this.snackBar.open(message, action, {
       duration: this.constant.duration,
       panelClass: [this.constant.snackbarColor],
     });
   }
 
+  // SnackBar action
+  openAdvisorSnackBar() {
+    this.snackBar.open(
+      this.constant.advisorMessage,
+      this.constant.hideSnackBar,
+      { panelClass: [this.constant.advisorSnackbarColor] }
+    );
+  }
+
   // Log out method
   logOut(message: string): void {
       // Clear Storage
-	    this.localStorage.clear();
+      this.localStorage.clear();
       // Go to login view
       this.router.navigate([this.constant.loginUrl]);
-      // Reset auth false
+      // Reset globals
       this.globals.isAuthenticated = false;
+      this.globals.showPasswordNotification = false;
+      this.globals.userName = null;
+      this.globals.lastLoginDate = null;
+      this.globals.remainingDaysToPasswordChange = null;
       // Reset user name
       this.globals.userName = null;
       // Show success password change
