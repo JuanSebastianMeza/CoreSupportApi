@@ -25,13 +25,19 @@ jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
 
 # User view set
 class UserViewSet(ModelViewSet):
+    """
+    View to handle users data
+    """
     # Get all users
     queryset = User.objects.all()
     # User serializer
     serializer_class = UserSerializer
 
     @action(methods=['post'], detail=True, url_path='change-password', url_name='change_password')
-    def set_password(self, request, pk=None):
+    def set_password(self, request, pk=None): # pylint: disable=invalid-name
+        """
+        View for password changing
+        """
         # Get password info
         old_password = request.data["oldPassword"]
         new_password = request.data["newPassword"]
@@ -40,7 +46,8 @@ class UserViewSet(ModelViewSet):
         user = User.objects.get(pk=pk)
         is_valid_password = is_valid_new_password(user, new_password)
         # If password is ok
-        if (user.check_password(old_password)) and (new_password == repeat_new_password) and is_valid_password:
+        if (user.check_password(old_password)) and \
+                                (new_password == repeat_new_password) and is_valid_password:
             # Change password
             user.set_password(new_password)
             user.save()
@@ -52,20 +59,26 @@ class UserViewSet(ModelViewSet):
             user_history = PasswordHistory(user=user, password=make_password(new_password))
             user_history.save()
             return Response({'status': True})
-        else:
-            return Response({
-                'status': False,
-                'valid_password': is_valid_password
-            })
+        return Response({
+            'status': False,
+            'valid_password': is_valid_password
+        })
 
 
 # Customize Token Auth View
 class CustomJSONWebTokenAPIView(JSONWebTokenAPIView):
-
-    # Validate user failed attempts
+    """
+    Overide JWT Auth view
+    """
+    
     def check_valid_username(self, request, error):
+        """
+        Check if username is valid
+        Validate user failed attempts
+        """
         # Get username
         username = request.data['username']
+        print(request.META)
         # If username exists, add one failed attempts
         try:
             # Get user

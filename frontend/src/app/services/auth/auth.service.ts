@@ -84,7 +84,7 @@ export class AuthService {
     // Get payload
     const payload = this.getPayload();
     // Return last login date
-    return payload ? new Date(payload.user.last_login) : null;
+    return payload ? new Date(payload.user.last_login) : new Date();
   }
 
   // Get staff permissions
