@@ -1,24 +1,28 @@
+"""
+Authentication views
+"""
 # Python imports
 import datetime as dt
-
 # Django imports
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
-
 # Rest Framework imports
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
-
+from rest_framework.generics import CreateAPIView
 # JWT rest framework imports
 from rest_framework_jwt.views import JSONWebTokenAPIView
 from rest_framework_jwt.serializers import JSONWebTokenSerializer
 from rest_framework_jwt.settings import api_settings
-
 # Own imports
-from authentication.serializers import UserSerializer
-from authentication.models import Profile, PasswordHistory
+from authentication.serializers import (UserSerializer, WebAppsSerializer,
+                                        WebAppModulesSerializer, AccessAuditSerializer,
+                                        AppAuditSerializer)
+from authentication.models import (Profile, PasswordHistory,
+                                   WebApps, WebAppModules,
+                                   AccessAudit, AppAudit)
 from authentication.utils import is_valid_new_password
 
 jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
@@ -65,12 +69,45 @@ class UserViewSet(ModelViewSet):
         })
 
 
-# Customize Token Auth View
+class WebAppsViewSet(ModelViewSet):
+    """
+    Web apps viewset
+    """
+    queryset = WebApps.objects.all()
+    serializer_class = WebAppsSerializer
+
+
+class WebAppModulesViewSet(ModelViewSet):
+    """
+    Web app modules viewset
+    """
+    queryset = WebAppModules.objects.all()
+    serializer_class = WebAppModulesSerializer
+
+
+class AccessAuditViewSet(CreateAPIView):
+    """
+    Access Audit viewset
+    """
+    queryset = AccessAudit.objects.all()
+    serializer_class = AccessAuditSerializer
+    permission_classes = []
+
+
+class AppAuditViewSet(CreateAPIView):
+    """
+    App Audit viewset
+    """
+    queryset = AppAudit.objects.all()
+    serializer_class = AppAuditSerializer
+    permission_classes = []
+
+
 class CustomJSONWebTokenAPIView(JSONWebTokenAPIView):
     """
     Overide JWT Auth view
     """
-    
+
     def check_valid_username(self, request, error):
         """
         Check if username is valid

@@ -27,7 +27,6 @@ class Profile(models.Model):
                         .order_by('-passwd_date').values_list('passwd_date')[0][0]).days
 
 
-# Department Position
 class Position(models.Model):
     """
 	Position info
@@ -35,7 +34,6 @@ class Position(models.Model):
     name = models.CharField(max_length=SHORT_TEXT)
 
 
-# Telefónica Department
 class Department(models.Model):
     """
 	Department info
@@ -43,7 +41,6 @@ class Department(models.Model):
     name = models.CharField(max_length=SHORT_TEXT)
 
 
-# Password history
 class PasswordHistory(models.Model):
     """
 	Password history info
@@ -51,3 +48,39 @@ class PasswordHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     password = models.CharField(max_length=SHORT_TEXT)
     passwd_date = models.DateField(auto_now_add=True)
+
+
+class WebApps(models.Model):
+    """
+	List of all SA web apps
+    """
+    name = models.CharField(max_length=SHORT_TEXT)
+
+
+class WebAppModules(models.Model):
+    """
+	List all Apps modules
+    """
+    name = models.CharField(max_length=SHORT_TEXT)
+    app = models.ForeignKey('WebApps', on_delete=models.DO_NOTHING)
+
+
+class AccessAudit(models.Model):
+    """
+	Log of all accesses to SA apps
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    app = models.ForeignKey('WebApps', on_delete=models.DO_NOTHING)
+    access_date = models.DateTimeField(auto_now_add=True)
+    login_or_logout = models.BooleanField(default=True)
+    success_access = models.BooleanField(default=True)
+    # system = models.CharField(max_length=SHORT_TEXT, blank=True, default='')
+
+
+class AppAudit(models.Model):
+    """
+	Apps analitics
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    app_module = models.ForeignKey('WebAppModules', on_delete=models.DO_NOTHING)
+    access_date = models.DateTimeField(auto_now_add=True)

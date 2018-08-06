@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 # Rest Framework imports
 from rest_framework import serializers
 # Own imports
-from authentication.models import Profile
+from authentication.models import Profile, WebApps, WebAppModules, AccessAudit, AppAudit
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -35,3 +35,43 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('username', 'full_name', 'first_name', 'last_name', 'email', \
                         'last_login', 'profile', 'permissions', 'is_staff', 'is_superuser')
+
+
+class WebAppsSerializer(serializers.ModelSerializer):
+    """
+	Web Apps Serializer
+    """
+
+    class Meta:
+        model = WebApps
+        fields = "__all__"
+
+
+class WebAppModulesSerializer(serializers.ModelSerializer):
+    """
+	Web app modules Serializer
+    """
+
+    class Meta:
+        model = WebAppModules
+        fields = "__all__"
+
+
+class AccessAuditSerializer(serializers.ModelSerializer):
+    """
+	Access Audit Serializer
+    """
+
+    class Meta:
+        model = AccessAudit
+        fields = "__all__"
+
+
+class AppAuditSerializer(serializers.ModelSerializer):
+    """
+	App Audit Serializer
+    """
+
+    class Meta:
+        model = AppAudit
+        fields = "__all__"
