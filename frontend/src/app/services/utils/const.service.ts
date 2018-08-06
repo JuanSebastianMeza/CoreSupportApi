@@ -65,7 +65,7 @@ export class ConstService {
       // Submit messages
       passSuccess: 'La contraseña fue cambiada exitosamente. Ingrese nuevamente',
       passError: 'La contraseña actual es incorrecta',
-      passLast: 'No se puede repertir algunas de las últimas 10 contraseñas usadas',
+      passLast: 'No se puede repertir ninguna de las últimas 10 contraseñas usadas',
       passSubmit: 'Cambiar contraseña',
       // Error messages
       passOldError: 'Contraseña actual requerida',
