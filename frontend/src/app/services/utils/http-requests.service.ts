@@ -37,4 +37,38 @@ export class HttpRequestsService {
     return this.http.post(changePasswordUrl, password);
   }
 
+  /*
+   * Post data into Access Audit table
+   * @param loginOrLogout: if it was a login (true) or logout (false)
+   * @param successAccess: if access was successful (true for success)
+   * @param appId: app id
+   * @param userId: user id
+  */
+  postAccessAuditInfo(loginOrLogout: boolean, successAccess: boolean, appId: number, userId: number): void {
+    this.http.post(
+      this.apiUrl.accessAuditUrl,
+      {
+        login_or_logout: loginOrLogout,
+        success_access: successAccess,
+        app: appId,
+        user: userId,
+      }
+    ).subscribe(() => null);
+  }
+
+  /*
+   * Post data into App Audit table
+   * @param appModuleId: app id
+   * @param userId: user id
+  */
+  postAppAuditInfo(appModuleId: number, userId: number) {
+    this.http.post(
+      this.apiUrl.appAuditUrl,
+      {
+        app_module: appModuleId,
+        user: userId,
+      }
+    ).subscribe(() => null);
+  }
+
 }

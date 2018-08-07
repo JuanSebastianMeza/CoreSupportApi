@@ -17,6 +17,11 @@ export class Globals {
   remainingDaysToPasswordChange: number = this.auth.getLastPassChangeDiff();
   passChangeMessage: string = (1 + this.constants.getUtilsServiceConstants().blockAccess - this.remainingDaysToPasswordChange).toString()
     + (((this.constants.getUtilsServiceConstants().blockAccess - this.remainingDaysToPasswordChange) === 0) ? ' día' : ' días');
+  // App info
+  appId = 1;
+  appLoginId = 1;
+  appHomeId = 2;
+  appPasswordId = 3;
 
   constructor(
     // Inject auth service

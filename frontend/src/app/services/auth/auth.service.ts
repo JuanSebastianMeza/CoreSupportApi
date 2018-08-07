@@ -104,11 +104,11 @@ export class AuthService {
   }
 
   // Returns user's id
-  public getUserId(): string {
+  public getUserId(): number {
     // Get payload
     const payload = this.getPayload();
     // Return permissions
-    return payload.user_id;
+    return Number(payload.user_id);
   }
 
   // Check if user can access command

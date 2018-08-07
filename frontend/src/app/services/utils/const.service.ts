@@ -8,6 +8,7 @@ export class ConstService {
   // Properties
   // apiUrl: string = 'http://dev1.tmve.local/';
   apiUrl = 'http://localhost:8000/';
+  dummyUserId = 6;
 
   constructor() { }
 
@@ -16,6 +17,8 @@ export class ConstService {
     return {
       obtainJwtToken: this.apiUrl + 'get-auth-token/',
       userUrl: this.apiUrl + 'api/users/',
+      accessAuditUrl: this.apiUrl + 'api/access-audit/',
+      appAuditUrl: this.apiUrl + 'api/app-audit/',
     };
   }
 
