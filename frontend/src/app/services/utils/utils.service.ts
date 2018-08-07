@@ -9,6 +9,8 @@ import { MatSnackBar } from '@angular/material';
 
 // Own services imports
 import { ConstService } from './const.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { HttpRequestsService } from '../../services/utils/http-requests.service';
 
 
 @Injectable({
@@ -28,7 +30,9 @@ export class UtilsService {
     private globals: Globals,
     // Inject SnackBar
     private snackBar: MatSnackBar,
-    // Inject constants
+    // Inject services
+    private http: HttpRequestsService,
+    private auth: AuthService,
     private constService: ConstService) { }
 
   // SnackBar action
@@ -50,6 +54,18 @@ export class UtilsService {
 
   // Log out method
   logOut(message: string): void {
+      // Initiate access audit constant
+      const accessAudit = {
+        logoutAccess: false,
+        accessGranted: true,
+      };
+      // Notify successful access
+      this.http.postAccessAuditInfo(
+        accessAudit.logoutAccess,
+        this.globals.appId,
+        this.auth.getUserId(),
+        accessAudit.accessGranted
+      );
       // Clear Storage
       this.localStorage.clear();
       // Go to login view

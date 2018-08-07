@@ -53,7 +53,6 @@ export class LoginComponent implements OnInit {
     // Initiate access audit constant
     this.accessAudit = {
       loginAccess: true,
-      logoutAccess: false,
       accessGranted: true,
       accessDenied: false,
     };
