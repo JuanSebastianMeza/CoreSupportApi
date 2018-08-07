@@ -130,7 +130,6 @@ body, p, span, th, td, li, strong {
   text-align: center;
 }
 .user-option {
-  display: inline-block;
   float: right;
 }
 .menu-bar {

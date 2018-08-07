@@ -1,8 +1,6 @@
 """
 Authentication views
 """
-# Python imports
-import datetime as dt
 # Django imports
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
@@ -23,12 +21,12 @@ from authentication.serializers import (UserSerializer, WebAppsSerializer,
 from authentication.models import (Profile, PasswordHistory,
                                    WebApps, WebAppModules,
                                    AccessAudit, AppAudit)
-from authentication.utils import is_valid_new_password
+from authentication.utils import is_valid_new_password, save_last_login
 
-jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
+jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER # pylint: disable=invalid-name
 
 # User view set
-class UserViewSet(ModelViewSet):
+class UserViewSet(ModelViewSet): # pylint: too-many-ancestors
     """
     View to handle users data
     """
@@ -132,23 +130,24 @@ class CustomJSONWebTokenAPIView(JSONWebTokenAPIView):
                 # Save value
                 user_profile.save()
                 # Add error message
-                error['failed_attempts_msg'] = 'Usuario y clave no válidos. Número de intentos fallidos: ' + str(int(user_profile.failed_attempts)) + ' (máximo 3)'
+                error['failed_attempts_msg'] = \
+                    'Usuario y clave no válidos. Número de intentos fallidos: '\
+                        + str(int(user_profile.failed_attempts)) + ' (máximo 3)'
             # Block user
             else:
                 # Add error message
-                error['failed_attempts_msg'] = 'Su usuario se encuentra bloqueado. Por favor, contactar al equipo de Soluciones Ágiles para su desbloqueo'
+                error['failed_attempts_msg'] = """Su usuario se encuentra
+                                                  bloqueado. Por favor,
+                                                  contactar al equipo de
+                                                  Soluciones Ágiles para
+                                                  su desbloqueo"""
                 # Set active to false
                 user.is_active = False
                 user.save()
-        except:
+        except User.DoesNotExist:
             # If username is not valid
             error['failed_attempts_msg'] = 'El usuario indicado no posee una cuenta registrada'
         return error
-
-    # Save last login date
-    def save_last_login(self, user):
-        user.last_login = dt.datetime.utcnow()
-        user.save(update_fields=['last_login'])
 
     # Override post method to include
     def post(self, request, *args, **kwargs):
@@ -162,12 +161,13 @@ class CustomJSONWebTokenAPIView(JSONWebTokenAPIView):
             response_data = jwt_response_payload_handler(token, user, request)
 
             # Save last login
-            self.save_last_login(user)
+            save_last_login(user)
 
             return Response(response_data)
 
         # Return custom response if not valid
-        return Response(self.check_valid_username(request, serializer.errors), status=status.HTTP_400_BAD_REQUEST)
+        return Response(self.check_valid_username(request, serializer.errors),
+                        status=status.HTTP_400_BAD_REQUEST)
 
 
 # This view overrides
@@ -179,4 +179,4 @@ class CustomObtainJSONWebToken(CustomJSONWebTokenAPIView):
 
 
 # Create custom get token api view
-obtain_jwt_token = CustomObtainJSONWebToken.as_view()
+obtain_jwt_token = CustomObtainJSONWebToken.as_view()  # pylint: disable=invalid-name
