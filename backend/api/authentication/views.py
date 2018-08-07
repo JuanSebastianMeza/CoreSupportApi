@@ -16,11 +16,12 @@ from rest_framework_jwt.serializers import JSONWebTokenSerializer
 from rest_framework_jwt.settings import api_settings
 # Own imports
 from authentication.serializers import (UserSerializer, WebAppsSerializer,
-                                        WebAppModulesSerializer, AccessAuditSerializer,
-                                        AppAuditSerializer)
+                                        WebAppModulesSerializer, GrantedAccessAuditSerializer,
+                                        DeniedAccessAuditSerializer, AppAuditSerializer)
 from authentication.models import (Profile, PasswordHistory,
                                    WebApps, WebAppModules,
-                                   AccessAudit, AppAudit)
+                                   GrantedAccessAudit, DeniedAccessAudit,
+                                   AppAudit)
 from authentication.utils import is_valid_new_password, save_last_login
 
 jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER # pylint: disable=invalid-name
@@ -83,12 +84,21 @@ class WebAppModulesViewSet(ModelViewSet):
     serializer_class = WebAppModulesSerializer
 
 
-class AccessAuditViewSet(CreateAPIView):
+class GrantedAccessAuditViewSet(CreateAPIView):
     """
     Access Audit viewset
     """
-    queryset = AccessAudit.objects.all()
-    serializer_class = AccessAuditSerializer
+    queryset = GrantedAccessAudit.objects.all()
+    serializer_class = GrantedAccessAuditSerializer
+    permission_classes = []
+
+
+class DeniedAccessAuditViewSet(CreateAPIView):
+    """
+    Access Audit viewset
+    """
+    queryset = DeniedAccessAudit.objects.all()
+    serializer_class = DeniedAccessAuditSerializer
     permission_classes = []
 
 

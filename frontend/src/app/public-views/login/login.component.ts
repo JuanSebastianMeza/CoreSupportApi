@@ -51,11 +51,12 @@ export class LoginComponent implements OnInit {
       this.globals.isAuthenticated ? this.auth.getUserId() : this.constants.dummyUserId
     );
     // Initiate access audit constant
-    // this.accessAudit = {
-    //   loginAccess: true,
-    //   accessGranted: true,
-    //   accessDenied: false,
-    // };
+    this.accessAudit = {
+      loginAccess: true,
+      logoutAccess: false,
+      accessGranted: true,
+      accessDenied: false,
+    };
   }
 
   // Method for log in
@@ -79,12 +80,12 @@ export class LoginComponent implements OnInit {
         this.globals.isAuthenticated = true;
         this.globals.userName = this.auth.getUserName();
         // Notify successful access
-        // this.http.postAccessAuditInfo(
-        //   this.accessAudit.loginAccess,
-        //   this.accessAudit.accessGranted,
-        //   this.globals.appId,
-        //   this.auth.getUserId(),
-        // );
+        this.http.postAccessAuditInfo(
+          this.accessAudit.loginAccess,
+          this.globals.appId,
+          this.auth.getUserId(),
+          this.accessAudit.accessGranted
+        );
         // Show advisor snackbar
         this.utils.openAdvisorSnackBar();
         // Get to the cms main view
@@ -96,12 +97,12 @@ export class LoginComponent implements OnInit {
         // Delete password value
         this.loginForm.get(this.constant.password).setValue(null);
         // Notify access denied
-        // this.http.postAccessAuditInfo(
-        //   this.accessAudit.loginAccess,
-        //   this.accessAudit.accessDenied,
-        //   this.globals.appId,
-        //   this.auth.getUserId(),
-        // );
+        this.http.postAccessAuditInfo(
+          this.accessAudit.loginAccess,
+          this.globals.appId,
+          this.loginForm.get(this.constant.username).value,
+          this.accessAudit.accessDenied
+        );
       },
     );
   }

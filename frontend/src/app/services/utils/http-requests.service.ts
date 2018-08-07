@@ -43,17 +43,27 @@ export class HttpRequestsService {
    * @param successAccess: if access was successful (true for success)
    * @param appId: app id
    * @param userId: user id
+   * @param accessType: access type, true for granted, false for denied
   */
-  postAccessAuditInfo(loginOrLogout: boolean, successAccess: boolean, appId: number, userId: number): void {
-    this.http.post(
-      this.apiUrl.accessAuditUrl,
-      {
-        login_or_logout: loginOrLogout,
-        success_access: successAccess,
-        app: appId,
-        user: userId,
-      }
-    ).subscribe(() => null);
+  postAccessAuditInfo(loginOrLogout: boolean, appId: number, userId: number|string, accessType: boolean): void {
+    if (accessType) {
+      this.http.post(
+        this.apiUrl.grantedAccessAuditUrl,
+        {
+          login_or_logout: loginOrLogout,
+          app: appId,
+          user: userId,
+        }
+      ).subscribe(() => null);
+    } else {
+      this.http.post(
+        this.apiUrl.deniedAccessAuditUrl,
+        {
+          app: appId,
+          user: userId,
+        }
+      ).subscribe(() => null);
+    }
   }
 
   /*

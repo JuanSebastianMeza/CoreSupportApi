@@ -1,12 +1,14 @@
 """
-Imports
+Authentication Serializers
 """
 # Django imports
 from django.contrib.auth.models import User
 # Rest Framework imports
 from rest_framework import serializers
 # Own imports
-from authentication.models import Profile, WebApps, WebAppModules, AccessAudit, AppAudit
+from authentication.models import (Profile, WebApps, WebAppModules,
+                                   GrantedAccessAudit, DeniedAccessAudit,
+                                   AppAudit)
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -57,13 +59,23 @@ class WebAppModulesSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class AccessAuditSerializer(serializers.ModelSerializer):
+class GrantedAccessAuditSerializer(serializers.ModelSerializer):
     """
 	Access Audit Serializer
     """
 
     class Meta:
-        model = AccessAudit
+        model = GrantedAccessAudit
+        fields = "__all__"
+
+
+class DeniedAccessAuditSerializer(serializers.ModelSerializer):
+    """
+	Access Audit Serializer
+    """
+
+    class Meta:
+        model = DeniedAccessAudit
         fields = "__all__"
 
 

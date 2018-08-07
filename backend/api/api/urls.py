@@ -10,7 +10,8 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_jwt.views import refresh_jwt_token
 from authentication.views import (obtain_jwt_token, UserViewSet,
                                   WebAppsViewSet, WebAppModulesViewSet,
-                                  AccessAuditViewSet, AppAuditViewSet)
+                                  GrantedAccessAuditViewSet, DeniedAccessAuditViewSet,
+                                  AppAuditViewSet)
 
 
 # Create reouter
@@ -28,6 +29,7 @@ urlpatterns = [
     path('api-token-refresh/', refresh_jwt_token),
     # Router for views
     path('api/', include(ROUTER.urls)),
-    path('api/access-audit/', AccessAuditViewSet.as_view()),
+    path('api/granted-access-audit/', GrantedAccessAuditViewSet.as_view()),
+    path('api/denied-access-audit/', DeniedAccessAuditViewSet.as_view()),
     path('api/app-audit/', AppAuditViewSet.as_view()),
 ]

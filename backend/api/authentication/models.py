@@ -65,15 +65,24 @@ class WebAppModules(models.Model):
     app = models.ForeignKey('WebApps', on_delete=models.DO_NOTHING)
 
 
-class AccessAudit(models.Model):
+class GrantedAccessAudit(models.Model):
     """
-	Log of all accesses to SA apps
+	Log of all granted accesses to SA apps
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     app = models.ForeignKey('WebApps', on_delete=models.DO_NOTHING)
     access_date = models.DateTimeField(auto_now_add=True)
     login_or_logout = models.BooleanField(default=True)
-    success_access = models.BooleanField(default=True)
+    # system = models.CharField(max_length=SHORT_TEXT, blank=True, default='')
+
+
+class DeniedAccessAudit(models.Model):
+    """
+	Log of all denied accesses to SA apps
+    """
+    user = models.CharField(max_length=SHORT_TEXT)
+    app = models.ForeignKey('WebApps', on_delete=models.DO_NOTHING)
+    access_date = models.DateTimeField(auto_now_add=True)
     # system = models.CharField(max_length=SHORT_TEXT, blank=True, default='')
 
 

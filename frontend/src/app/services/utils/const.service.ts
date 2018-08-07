@@ -17,7 +17,8 @@ export class ConstService {
     return {
       obtainJwtToken: this.apiUrl + 'get-auth-token/',
       userUrl: this.apiUrl + 'api/users/',
-      accessAuditUrl: this.apiUrl + 'api/access-audit/',
+      grantedAccessAuditUrl: this.apiUrl + 'api/granted-access-audit/',
+      deniedAccessAuditUrl: this.apiUrl + 'api/denied-access-audit/',
       appAuditUrl: this.apiUrl + 'api/app-audit/',
     };
   }
