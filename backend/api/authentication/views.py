@@ -173,6 +173,13 @@ class CustomJSONWebTokenAPIView(JSONWebTokenAPIView):
             # Save last login
             save_last_login(user)
 
+            # Reset failed attempts
+            user_profile = Profile.objects.get(user=user)
+            # Set attempts to zero
+            user_profile.failed_attempts = 0
+            # Save value
+            user_profile.save()
+
             return Response(response_data)
 
         # Return custom response if not valid
