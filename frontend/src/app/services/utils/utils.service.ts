@@ -59,7 +59,7 @@ export class UtilsService {
         logoutAccess: false,
         accessGranted: true,
       };
-      // Notify successful access
+      // Notify successful logout
       this.http.postAccessAuditInfo(
         accessAudit.logoutAccess,
         this.globals.appId,
