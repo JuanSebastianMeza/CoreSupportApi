@@ -8,6 +8,7 @@ export class ConstService {
   // Properties
   // apiUrl: string = 'http://dev1.tmve.local/';
   apiUrl = 'http://localhost:8000/';
+  dummyUserId = 6;
 
   constructor() { }
 
@@ -16,6 +17,9 @@ export class ConstService {
     return {
       obtainJwtToken: this.apiUrl + 'get-auth-token/',
       userUrl: this.apiUrl + 'api/users/',
+      grantedAccessAuditUrl: this.apiUrl + 'api/granted-access-audit/',
+      deniedAccessAuditUrl: this.apiUrl + 'api/denied-access-audit/',
+      appAuditUrl: this.apiUrl + 'api/app-audit/',
     };
   }
 
@@ -65,7 +69,7 @@ export class ConstService {
       // Submit messages
       passSuccess: 'La contraseña fue cambiada exitosamente. Ingrese nuevamente',
       passError: 'La contraseña actual es incorrecta',
-      passLast: 'No se puede repertir algunas de las últimas 10 contraseñas usadas',
+      passLast: 'No se puede repertir ninguna de las últimas 10 contraseñas usadas',
       passSubmit: 'Cambiar contraseña',
       // Error messages
       passOldError: 'Contraseña actual requerida',

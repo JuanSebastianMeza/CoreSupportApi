@@ -1,19 +1,20 @@
+"""
+Override jwt auth methods
+"""
 import uuid
 from calendar import timegm
 from datetime import datetime
-
 # Rest Framework imports
-from rest_framework_jwt.compat import get_username, get_username_field
 from rest_framework_jwt.settings import api_settings
-
 # Own models imports
-# from authentication.models import Profile
 from authentication.serializers import UserSerializer
 
 
 # Include aditional data inside token payload
 def jwt_payload_handler(user):
-
+    """
+    Includes user profile into the payload handler
+    """
 	# Set payload data
     payload = {
         'user_id': user.pk,
@@ -40,5 +41,8 @@ def jwt_payload_handler(user):
 
 
 # Return username from payload
-def jwt_get_username_from_payload_handler(payload):
+def jwt_get_username_from_payload_handler(payload): # pylint: disable=invalid-name
+    """
+    Returns the username from payload
+    """
     return payload['user'].get('username')

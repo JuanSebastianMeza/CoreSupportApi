@@ -82,6 +82,34 @@
 
 9. Desde el navegador de su preferencia, colocar en la url ``<ip del servidor>:<puerto>`` para verificar que la aplicación está operativa
 
+10. Registrar la nueva aplicación en el [Sistema Centralizado de información](http://sci.tmve.local/aplicaciones/).
+
+11. En el achivo ``frontend/src/app/globals.ts``, colocar la información correspondiente a la aplicación en las variables ``appId``, ``appLoginId``, ``appHomeId`` y ``appPassword`` según muestra el registro del punto previo. **NOTA**: Es importante registrar en el SCI cada nuevo componente que se programe para que pueda ser tomado por el proceso de auditoría.
+
+12. En el método ngOnInit de cada componente agregar las líneas de código mostradas abajo haciendo las sustituciones correspondientes.
+
+#### Para componentes públicos
+
+```javascript
+// Post login view was rendered
+this.http.postAppAuditInfo(
+  this.globals.<id_componente>, // Ej: this.globals.appLoginId,
+  this.globals.isAuthenticated ? this.auth.getUserId() : this.constants.dummyUserId
+);
+```
+
+#### Para componentes privados
+
+```javascript
+// Post login view was rendered
+this.http.postAppAuditInfo(
+  this.globals.<id_componente>, // Ej: this.globals.appPasswordId
+  this.auth.getUserId()
+);
+```
+
+#### Tabla configuración SFTP
+
 Campo | Sublime | VS Code
 ----- | ----- | -----
 Host | host | host

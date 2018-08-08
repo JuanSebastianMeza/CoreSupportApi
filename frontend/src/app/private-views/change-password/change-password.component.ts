@@ -10,6 +10,10 @@ import { FormBuilder,
 import { HttpRequestsService } from '../../services/utils/http-requests.service';
 import { UtilsService } from '../../services/utils/utils.service';
 import { ConstService } from '../../services/utils/const.service';
+import { AuthService } from '../../services/auth/auth.service';
+
+// Import global class
+import { Globals } from '../../globals';
 
 // Own interfaces imports
 import { Password } from '../../interfaces/auth.interfaces';
@@ -34,16 +38,25 @@ export class ChangePasswordComponent implements OnInit {
     private http: HttpRequestsService,
     private utils: UtilsService,
     private constants: ConstService,
+    private auth: AuthService,
     // Inject router
     public router: Router,
     // Inject FormBuilder
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    // Inject global class
+    private globals: Globals,
+  ) { }
 
   ngOnInit() {
     // Build Form
     this.buildForm();
     // Get constants
     this.constant = this.constants.getChangePasswordViewConstants();
+    // Post login view was rendered
+    this.http.postAppAuditInfo(
+      this.globals.appPasswordId,
+      this.auth.getUserId()
+    );
   }
 
   // Change password on submit

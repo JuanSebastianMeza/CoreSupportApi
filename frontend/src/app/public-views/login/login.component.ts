@@ -11,9 +11,6 @@ import { UtilsService } from '../../services/utils/utils.service';
 // Import global class
 import { Globals } from '../../globals';
 
-// Angular Material imports
-import { MatSnackBar } from '@angular/material';
-
 
 @Component({
   selector: 'app-login',
@@ -26,6 +23,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   token: string;
   constant: any;
+  accessAudit: any;
 
   constructor(
     // Inject localStorage factory
@@ -47,6 +45,17 @@ export class LoginComponent implements OnInit {
     this.buildForm();
     // Get login constants
     this.constant = this.constants.getLoginViewConstants();
+    // Post login view was rendered
+    this.http.postAppAuditInfo(
+      this.globals.appLoginId,
+      this.globals.isAuthenticated ? this.auth.getUserId() : this.constants.dummyUserId
+    );
+    // Initiate access audit constant
+    this.accessAudit = {
+      loginAccess: true,
+      accessGranted: true,
+      accessDenied: false,
+    };
   }
 
   // Method for log in
@@ -69,6 +78,13 @@ export class LoginComponent implements OnInit {
         this.globals.remainingDaysToPasswordChange = this.auth.getLastPassChangeDiff();
         this.globals.isAuthenticated = true;
         this.globals.userName = this.auth.getUserName();
+        // Notify successful access
+        this.http.postAccessAuditInfo(
+          this.accessAudit.loginAccess,
+          this.globals.appId,
+          this.auth.getUserId(),
+          this.accessAudit.accessGranted
+        );
         // Show advisor snackbar
         this.utils.openAdvisorSnackBar();
         // Get to the cms main view
@@ -79,6 +95,13 @@ export class LoginComponent implements OnInit {
         this.utils.openSnackBar(error.error.failed_attempts_msg, null);
         // Delete password value
         this.loginForm.get(this.constant.password).setValue(null);
+        // Notify access denied
+        this.http.postAccessAuditInfo(
+          this.accessAudit.loginAccess,
+          this.globals.appId,
+          this.loginForm.get(this.constant.username).value,
+          this.accessAudit.accessDenied
+        );
       },
     );
   }

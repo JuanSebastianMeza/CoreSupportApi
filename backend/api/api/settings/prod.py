@@ -1,4 +1,7 @@
-from .base import *
+"""
+Django prod settings
+"""
+from .base import * # pylint: disable=wildcard-import, unused-wildcard-import
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False

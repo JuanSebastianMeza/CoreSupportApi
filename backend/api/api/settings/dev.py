@@ -1,4 +1,7 @@
-from .base import *
+"""
+Django dev settings
+"""
+from .base import * # pylint: disable=wildcard-import, unused-wildcard-import
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -6,7 +9,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS += [
-	'django_extensions',
+    'django_extensions',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
