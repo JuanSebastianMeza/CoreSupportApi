@@ -9,6 +9,8 @@ import jwt
 from rest_framework_jwt.settings import api_settings
 # Own models imports
 from authentication.serializers import UserSerializer
+# Import settings
+from api.settings.base import PUBLIC_KEY, PRIVATE_KEY
 
 
 def jwt_payload_handler(user):
@@ -42,30 +44,26 @@ def jwt_payload_handler(user):
 
 def jwt_encode_handler(payload):
     """
-    Overrides encode handler
+    Overrides encode handler to implement RS256 algorithm
     """
-    key = get_private_key()
-
     return jwt.encode(
         payload,
-        key,
+        PRIVATE_KEY,
         algorithm='RS256'
     ).decode('utf-8')
 
 
 def jwt_decode_handler(token):
     """
-    Overrides decode handler
+    Overrides decode handler to implement RS256 algorithm
     """
     options = {
         'verify_exp': api_settings.JWT_VERIFY_EXPIRATION,
     }
 
-    key = get_public_key()
-
     return jwt.decode(
         token,
-        key,
+        PUBLIC_KEY,
         api_settings.JWT_VERIFY,
         options=options,
         leeway=api_settings.JWT_LEEWAY,
@@ -80,19 +78,3 @@ def jwt_get_username_from_payload_handler(payload): # pylint: disable=invalid-na
     Returns the username from payload
     """
     return payload['user'].get('username')
-
-
-def get_public_key():
-    """
-    Gets public key and convert to string
-    """
-    public_key = '-----BEGIN PUBLIC KEY-----\nMIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgFYQGeSzijOtbpdDQGYoP7k57hOx\ngNQeYj4CGYO/al/QdYAf38oGaRXhdkacmSxI2iBlUkQixdq35xtZsBDeScnJ0brK\nnJL1Ts4BbeaZDA7AjTmpZ3klvk4y0hErai4lM8+ydsrztHhcu1qY1+SNz4nCIaKX\na/MV4KFpWO/i3izHAgMBAAE=\n-----END PUBLIC KEY-----'
-    return public_key
-
-
-def get_private_key():
-    """
-    Gets private key and convert to string
-    """
-    private_key = '-----BEGIN RSA PRIVATE KEY-----\nMIICWwIBAAKBgFYQGeSzijOtbpdDQGYoP7k57hOxgNQeYj4CGYO/al/QdYAf38oG\naRXhdkacmSxI2iBlUkQixdq35xtZsBDeScnJ0brKnJL1Ts4BbeaZDA7AjTmpZ3kl\nvk4y0hErai4lM8+ydsrztHhcu1qY1+SNz4nCIaKXa/MV4KFpWO/i3izHAgMBAAEC\ngYBKhsbldVRIS/dopaQu0svb6n5wL1YQWf9ZExhlLm0/a5VUzkVM/SAjAosZuqIp\n5yx8wUDsH/CV5osK9C+za8sZIcQZY2PI+PasXPJ4Q1MlxnxjqDAUeOEMu0RLVE/6\n+5bm1e+zYR/GQBumkOAvQqYloQNGgKZfl1Y/2gqJtlFrgQJBAJYsSly8yhsy8r8h\nlV4A11nJ8gD0vY7n9k0E8S/40apiZPhsy+9KlmSDhrMSf6SXKXw1ba58HNkwDRIb\naLQ8AzsCQQCStiIWRKCqec11HRecI1qBrH/cUv3N4YFFEN3Cl1PpPDkV4vr4x4fl\nu6iuYiefbzDSnwTljw0G91lyHT/e50vlAkEAi01weZAixpI/PW8wuG99VGwREjP0\n9vBTuGRCOybLjwsQ8KUzk7iTw4+CTvB0+T/DmtWQ9c9pj0qUhVxphu84awJAOG9r\naVl43FsCV7ybKmrHE/7BKIWcMChAy8qTI5mGo7+QzgSEOlK2yf6IApyrVT82bq7Q\n+WUvw7A+bhEmUp5yqQJABA36tsYiUa6BR8GnhBaDGNl2q/xyJk8yjwBwcqPumP7T\n6lviopw6ndkLKpnXZr4yjgH3ZjZLfY5hbISovReydw==\n-----END RSA PRIVATE KEY-----'
-    return private_key

@@ -22,25 +22,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 SECRET_KEY = 'q4u$ueupa_5$zry3mmh6aqn@g^-4k-(1-bbfr6do(f7%e$aok!'
 
 
-JWT_AUTH = {
-    'JWT_PAYLOAD_HANDLER': 'api.utils.jwt_payload_handler',
-
-    'JWT_PAYLOAD_GET_USERNAME_HANDLER': 'api.utils.jwt_get_username_from_payload_handler',
-
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=5),
-
-    'JWT_ALLOW_REFRESH': True,
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(hours=2),
-
-    'JWT_AUTH_HEADER_PREFIX': 'JWT',
-
-    'JWT_ENCODE_HANDLER': 'api.utils.jwt_encode_handler',
-
-    'JWT_DECODE_HANDLER': 'api.utils.jwt_decode_handler',
-}
-
-
-# Database
+# # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
