@@ -6,7 +6,7 @@
 2. Cómo configurar el proyecto
 3. Cómo validar las configuraciones
 
-### 1. Cómo instalar las dependencias necesarias
+### **1. Cómo instalar las dependencias necesarias**
 
 1. Ubicarse en la carpeta donde se guardará el código.
 
@@ -14,7 +14,7 @@
 
 3. Entrar en la carpeta frontend y correr el comando ``yarn install`` para instalar las dependencias de Angular 6+
 
-### 2. Cómo configurar el proyecto
+### **2. Cómo configurar el proyecto**
 
 1. Entrar en la carpeta ``bat-files`` y modificar la ruta del proyecto en los archivos ``angular.bat``, ``django.bat`` y ``jupyter.bat`` a la usada en su caso particular.
 
@@ -39,7 +39,7 @@
 
 7. Entrar en el archivo ``frontend/src/index.html`` y cambiar el título al nombre de su proyecto.
 
-### 3. Cómo validar las configuraciones
+### **3. Cómo validar las configuraciones**
 
 1. Ejecutar el archivo ``bat-files/all.bat``
 

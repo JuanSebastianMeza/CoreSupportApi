@@ -6,20 +6,20 @@
 2. Autenticación
 3. Seguridad
 
-### 1. Interfaz de usuario
+### **1. Interfaz de usuario**
 
 * Paleta de colores de SA (bootstrap)
 * Logos SA y Telefónica
 * Barra lateral desplegable de opciones
 
-### 2. Autenticación
+### **2. Autenticación**
 
 * Solicitud de credenciales
 * Inicio y cierre de sesión
 * Servicio de verificación de permisología del usuario
 * Cambio de contraseña del usuario
 
-### 3. Seguridad
+### **3. Seguridad**
 
 * Arquitectura diseñada para cuatro (4) ambientes: desarrollo, prueba, calidad y producción.
 * Despliegue de aplicaciones (frontend, backend, bases de datos) en contenedores separados.

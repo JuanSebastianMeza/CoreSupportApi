@@ -6,19 +6,20 @@
 2. Estado del código
 3. Documentación
 
-### 1. Descripción de la aplicación
+### **1. Descripción de la aplicación**
 
-Estándar web para nuevas aplicaciones.
-**OBJETIVO:** Ahorrar tiempo de código (360HH) proveyendo una paleta de colores, un módulo de autenticación y un procedimiento de despliegue en entornos de desarrollo, prueba, calidad y producción.
+Estándar web para nuevas aplicaciones. Objetivo: Ahorrar tiempo de código (360HH) proveyendo una paleta de colores, un módulo de autenticación y un procedimiento de despliegue en entornos de desarrollo, prueba, calidad y producción.
 
-### 2. Estado del código
+### **2. Estado del código**
 
 * Version: 1.0
+* Framework usados: Angular, Django, Docker, Jupyter
+* Librerías usadas
 * Bugs conocidos:
   * Ninguno
 
-### 3. Documentación
+### **3. Documentación**
 
-<!-- * [Especificaciones funcionales]()
-* [Instalación y Configuración]()
-* [Operación y Mantenimiento]() -->
+* [Especificaciones funcionales](documentacion/especificaciones-funcionales/readme.md)
+* [Instalación y Configuración](documentacion/instalacion-configuracion/readme.md)
+* [Operación y Mantenimiento](documentacion/operacion-mantenimiento/readme.md)

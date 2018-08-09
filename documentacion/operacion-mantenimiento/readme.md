@@ -4,7 +4,7 @@
 
 1. Arquitectura
 
-### 1. Arquitectura
+### **1. Arquitectura**
 
 1. **backEnd:** En la carpeta ``backend`` se encuentran las siguientes carpetas:
     * ``api``: proyecto Django que servirá de API
