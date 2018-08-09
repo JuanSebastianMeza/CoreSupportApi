@@ -20,6 +20,6 @@ Estándar web para nuevas aplicaciones. Objetivo: Ahorrar tiempo de código (360
 
 ### **3. Documentación**
 
-* [Especificaciones funcionales](documentacion/especificaciones-funcionales/readme.md)
-* [Instalación y Configuración](documentacion/instalacion-configuracion/readme.md)
-* [Operación y Mantenimiento](documentacion/operacion-mantenimiento/readme.md)
+* [Especificaciones funcionales](documentacion/especificaciones-funcionales/)
+* [Instalación y Configuración](documentacion/instalacion-configuracion/)
+* [Operación y Mantenimiento](documentacion/operacion-mantenimiento/)

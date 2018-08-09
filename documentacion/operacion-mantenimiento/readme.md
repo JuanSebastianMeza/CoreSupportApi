@@ -21,7 +21,9 @@
 
 4. **docker:** archivos de configuración de Docker para despliegue en ambientes de prueba, calidad y producción
 
-5. **FrontEnd:** En la ruta ```frontend/src/app`` se encuentran todos los componentes, servicios e interfaces de la aplicación Angular. Las funciones de cada carpeta son las siguientes:
+5. **documentacion:** contiene la documentación sobre la aplicación: Especificaciones funcionales; Instalación y Configuración; Operación y Mantenimiento
+
+6. **frontEnd:** En la ruta ``frontend/src/app`` se encuentran todos los componentes, servicios e interfaces de la aplicación Angular. Las funciones de cada carpeta son las siguientes:
     * ``interfaces``: interfaces del proyecto.
     * ``private-views``: componentes cuyas vistas requieren autenticación para ser visualizadas.
     * ``public-views``: componentes cuyas vistas no requieren autenticación para ser visualizadas.
