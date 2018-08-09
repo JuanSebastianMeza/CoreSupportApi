@@ -72,7 +72,7 @@
 
 4. Crear en el servidor la carpeta correspondiente a la ruta especificada en el punto anterior. **NOTA:** no usar privilegios root
 
-5. Verificar en el servidor los puertos disponibles (usar los puertos entre 8050 y 8080)usando el comando ``docker ps``. 
+5. Verificar en el servidor los puertos disponibles (usar los puertos entre 8050 y 8080)usando el comando ``docker ps``.
 
 6. En el servicio ``app_backend`` del archivo ``docker/test.yml`` cambiar los puertos respectivos por los seleccionados. **NOTA:** el segundo puerto establecido en ``ports`` debe coincidir con el colocado en ``command``
 
@@ -119,7 +119,7 @@ Ruta destino | remote_path | remotePath
 
 ### 6. Cómo usar
 
-1. **backEnd:** En la carpeta ```backend`` se encuentran las siguientes carpetas:
+1. **backEnd:** En la carpeta ``backend`` se encuentran las siguientes carpetas:
     * ``api``: proyecto Django que servirá de API
     * ``notebooks``: cuadernos de Jupyter
 
