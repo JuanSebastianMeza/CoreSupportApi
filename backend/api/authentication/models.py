@@ -23,7 +23,7 @@ class Profile(models.Model):
         Gets the latest password change date
         """
         from datetime import date
-        return (date.today() - PasswordHistory.objects.filter(user=1) \
+        return (date.today() - PasswordHistory.objects.filter(user=self.user) \
                         .order_by('-passwd_date').values_list('passwd_date')[0][0]).days
 
 
