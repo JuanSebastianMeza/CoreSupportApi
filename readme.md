@@ -13,12 +13,10 @@ Estándar web para nuevas aplicaciones. Objetivo: Ahorrar tiempo de código (360
 ### **2. Estado del código**
 
 * Version: 1.0
-* Framework usados: Angular, Django, Docker, Jupyter
-* Librerías usadas:
-  * FrontEnd: Angular Material, Angular JWT
-  * BackEnd: Django Rest Framework, JWT Rest Framework
-* Bugs conocidos:
-  * Ninguno
+* Framework usados: Angular, Bootstrap, Django, Docker, Jupyter
+* Librerías FrontEnd: Angular Material, Angular JWT, Font Awesome
+* Librerías BackEnd: Django Rest Framework, JWT Rest Framework
+* Bugs conocidos: Ninguno
 
 ### **3. Documentación**
 
