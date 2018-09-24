@@ -12,7 +12,7 @@ services:
     working_dir: /backend/api
     # Entablish ports
     ports:
-      - "8001:8000"
+      - "8081:8000"
     # Connect container and host ports
     stdin_open: true
     tty: true
@@ -28,7 +28,7 @@ services:
     container_name: identidad_jupyter
     # Entablish ports
     ports: 
-      - "8002:8888"
+      - "8082:8888"
     depends_on:
       - app_backend
     # Add additional volumes
@@ -47,7 +47,7 @@ services:
     container_name: identidad_frontend
     # Entablish ports
     ports: 
-      - "8000:80"
+      - "8080:80"
     depends_on:
       - app_backend
     # Add volumes
