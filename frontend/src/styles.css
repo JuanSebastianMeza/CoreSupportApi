@@ -1,6 +1,7 @@
 /* Bootstrap imports */
 @import "~bootstrap/dist/css/bootstrap.css";
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~material-design-icons/iconfont/material-icons.css';
 
 /* SA brand css*/
 *{
