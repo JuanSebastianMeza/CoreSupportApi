@@ -1,2 +1,1 @@
-cd ..\backend\api
-python manage.py runserver
+python ..\backend\api\manage.py runserver

@@ -1,3 +1,10 @@
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
+**/dist/*
+**/__pycache__/*
+.ipynb_checkpoints/
+*.csv
+*.xls
+*.xlsx
+node_modules/
