@@ -19,13 +19,13 @@ import { HomeComponent } from './private-views/home/home.component';
 import { ChangePasswordComponent } from './private-views/change-password/change-password.component';
 
 // Material imports
-import { MatButtonModule,
-         MatCardModule,
-         MatFormFieldModule,
-         MatInputModule,
-         MatMenuModule,
-         MatSidenavModule,
-         MatSnackBarModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 // Import fortawesome
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';

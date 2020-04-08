@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { Globals } from '../../globals';
 
 // Angular Material imports
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 // Own services imports
 import { ConstService } from './const.service';
