@@ -20,7 +20,7 @@ COPY apt.conf /etc/apt/apt.conf
 # Copy requirements to root folder
 COPY requirements/base.txt /root/
 COPY requirements/$DJANGO_ENV.txt /root/
-
+COPY jupyter_notebook_config.py /root/.jupyter/jupyter_notebook_config.py
 RUN mkdir /root/.jupyter
 
 # 1. Upgrade pip

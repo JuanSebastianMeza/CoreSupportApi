@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 // Own services imports
 import { HttpRequestsService } from '../../services/utils/http-requests.service';
 import { AuthService } from '../../services/auth/auth.service';
-
+import { ConstService } from '../../services/utils/const.service';
 // Import global class
 import { Globals } from '../../globals';
 
@@ -19,16 +19,20 @@ export class HomeComponent implements OnInit {
     // Inject services
     private http: HttpRequestsService,
     private auth: AuthService,
+    private constService: ConstService,
     // Inject global class
     private globals: Globals,
+
   ) { }
 
   ngOnInit() {
     // Post login view was rendered
-    this.http.postAppAuditInfo(
-      this.globals.appHomeId,
-      this.auth.getUserId()
-    );
+    if (this.constService.ambiente) {
+      this.http.postAppAuditInfo(
+        this.globals.appHomeId,
+        this.auth.getUserId()
+      ); 
+    }
   }
 
 }

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-
+import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class ConstService {
 
   // Properties
-  // apiUrl: string = 'http://dev1.tmve.local/';
-  apiUrl = 'http://localhost:8000/';
+  apiUrl = environment.apiUrl;
+  ambiente = environment.production;
   dummyUserId = 6;
 
   constructor() { }

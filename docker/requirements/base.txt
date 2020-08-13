@@ -6,7 +6,6 @@ djangorestframework-csv==2.0.0
 djangorestframework-jwt==1.11.0
 cryptography
 openpyxl==2.5.0
-paramiko==2.4.1
 Pygments==2.2.0
 pytz==2018.4
 slackclient==1.1.0

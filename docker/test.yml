@@ -32,8 +32,8 @@ services:
     depends_on:
       - app_backend
     # Add additional volumes
-    volumes:
-      - ./jupyter_notebook_config.py:/root/.jupyter/jupyter_notebook_config.py
+    # volumes:
+    #   - ./jupyter_notebook_config.py:/root/.jupyter/jupyter_notebook_config.py
     # Change workdir
     working_dir: /backend/notebooks
     # Run the following command
