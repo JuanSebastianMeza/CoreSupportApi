@@ -2,7 +2,7 @@ version: "2"
 
 services:
 
-  app_backend_test:
+  plantilla_backend_test:
     # If there is no image, build one
     build:
       context: .
@@ -19,5 +19,5 @@ services:
     logging:
         driver: "json-file"
         options:
-            max-file: 5
-            max-size: 10m
+            max-file: "5"
+            max-size: "10m"
