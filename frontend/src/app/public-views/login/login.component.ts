@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   token: string;
   constant: any;
   accessAudit: any;
+  userCheck: Boolean =true;
 
   constructor(
     // Inject localStorage factory
