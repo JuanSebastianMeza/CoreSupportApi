@@ -149,7 +149,7 @@ class CustomJSONWebTokenAPIView(JSONWebTokenAPIView):
                 error['failed_attempts_msg'] = """Su usuario se encuentra
                                                   bloqueado. Por favor,
                                                   contactar al equipo de
-                                                  Soluciones Ágiles para
+                                                  Herramientas Operativas (cpsa.ve@telefonica.com) para
                                                   su desbloqueo"""
                 # Set active to false
                 user.is_active = False
