@@ -30,9 +30,10 @@ export class ConstService {
       appTitle: 'Título de la aplicación',
       saUrl: 'http://solucionesagiles.tmve.local/',
       // SA footer
-      saName: 'Soluciones Ágiles. ',
-      saManager: 'Gerencia de Soporte de Servicios de Red',
-      saMail: ' soluciones.agiles.ve@telefonica.com',
+      saName: 'Soluciones Ágiles ',
+      saManager: 'Gerencia de Monitoreo y Atención de Servicios | Telefónica Venezolana',
+      // saMail: ' soluciones.agiles.ve@telefonica.com',
+      saMail: ' En caso de fallas con la herramienta o solicitudes de acceso, contactar con: Herramientas Operativas | cpsa.ve@telefonica.com | +58(424)233.16.26',
       web: ' Web: ',
       saBaseUrl: 'solucionesagiles.tmve.local',
       lastLogin: 'Último ingreso a la página',

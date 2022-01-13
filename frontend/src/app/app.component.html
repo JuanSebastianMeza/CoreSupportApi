@@ -81,8 +81,8 @@
           <div class="col-8">
             <div class="footer-margin">
               <span>
-                <strong>{{ constant.saName }}</strong> 
-                {{ constant.saManager }}
+                <strong>{{ constant.saManager }}</strong> 
+                <!-- {{ constant.saManager }} -->
               </span>
               <br>
               <span>
@@ -91,6 +91,8 @@
                   <u>{{ constant.saBaseUrl }}</u>
                 </a>
                 &nbsp;|&nbsp;
+                {{ constant.saName }}
+                <br>
                 <fa-icon [icon]="faEnvelope"></fa-icon>&nbsp;{{ constant.saMail }}
               </span>
             </div>
