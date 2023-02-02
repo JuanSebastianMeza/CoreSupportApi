@@ -12,7 +12,6 @@ services:
         - http_proxy=http://E10356:Jcbb239024@10.162.64.36:8080
         - https_proxy=http://E10356:Jcbb239024@10.162.64.36:8080
     env_file: .env
-    network_mode: "bridge"
     restart: always
     volumes:
       - ../backend:/backend
