@@ -31,7 +31,7 @@ DATABASES = {
         'NAME': 'auth_db',
         'USER': 'solucionesagiles',
         'PASSWORD': 'canaima123++',
-        'HOST': '10.64.9.49',
+        'HOST': '10.64.9.48',
         'PORT': '3306',
     }
 }

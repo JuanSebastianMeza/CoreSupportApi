@@ -39,10 +39,14 @@
                         <br>
                         <!-- Log in button -->
                         <div class="col-12 center-text">
-                            <button mat-stroked-button [hidden]="userCheck" class="medium-blue-bg" type="submit" [disabled]="!loginForm.valid">{{ constant.login }}</button>
+                            <button mat-stroked-button [hidden]="userCheck" class="medium-blue-bg" type="submit" [disabled]="!loginForm.valid || loginCharging">{{ constant.login }}</button>
+                        </div>
+                        <div *ngIf="loginCharging">
+                            <br>
+                            <b>Autenticando, por favor espere</b>
                         </div>
                     </form>
-                    <div class="col-12 center-text">
+                    <div class="col-12 center-text" *ngIf="!loginCharging">
                         <button mat-stroked-button class="medium-blue-bg" (click)="userCheck=false" [disabled]="!loginForm.get('username').valid" [hidden]="!userCheck">Siguiente</button>
                         <button mat-stroked-button class="medium-blue-bg" [hidden]="userCheck" (click)="userCheck=true">Atrás</button>
                     </div>

@@ -26,8 +26,9 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // Post login view was rendered
+    
     if (this.constService.ambiente) {
+      // Si es ambiente de producción, incluir posteo de acceso a la herramienta.
       this.http.postAppAuditInfo(
         this.globals.appHomeId,
         this.auth.getUserId()

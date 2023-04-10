@@ -24,8 +24,8 @@ export class LoginComponent implements OnInit {
   token: string;
   constant: any;
   accessAudit: any;
-  userCheck: Boolean =true;
-
+  userCheck: boolean =true;
+  loginCharging: boolean;
   constructor(
     // Inject localStorage factory
     @Inject('LocalStorage') public localStorage: any,
@@ -42,15 +42,18 @@ export class LoginComponent implements OnInit {
     private utils: UtilsService) { }
 
   ngOnInit() {
+    this.loginCharging = false;
     // Build Form
     this.buildForm();
     // Get login constants
     this.constant = this.constants.getLoginViewConstants();
     // Post login view was rendered
-    this.http.postAppAuditInfo(
-      this.globals.appLoginId,
-      this.globals.isAuthenticated ? this.auth.getUserId() : this.constants.dummyUserId
-    );
+    if (this.constants.ambiente){
+      this.http.postAppAuditInfo(
+        this.globals.appLoginId,
+        this.globals.isAuthenticated ? this.auth.getUserId() : this.constants.dummyUserId
+      );
+    }
     // Initiate access audit constant
     this.accessAudit = {
       loginAccess: true,
@@ -62,11 +65,13 @@ export class LoginComponent implements OnInit {
   // Method for log in
   logIn(): void {
     // Get token from server
+    this.loginCharging = true;
     this.http.getJWTToken({
       username: this.loginForm.get(this.constant.username).value,
       password: this.loginForm.get(this.constant.password).value,
     }).subscribe(
       data => {
+        this.loginCharging = false;
         // Save token into credentials
         this.token = data[this.constant.token];
         // Save token in localStorage
@@ -92,8 +97,14 @@ export class LoginComponent implements OnInit {
         this.router.navigate([this.constant.home]);
       },
       error => {
+        this.loginCharging = false;
         // Open snackbar
-        this.utils.openSnackBar(error.error.failed_attempts_msg, null);
+        console.log(error.error)
+        let mensaje = 'Error desconocido al autenticar, contactar equipo de Herramientas Operativas(herramientasop.ve@telefonica.com)'
+        if (error.error.failed_attempts_msg){
+          mensaje = error.error.failed_attempts_msg;
+        }
+        this.utils.openSnackBar(mensaje, null);
         // Delete password value
         this.loginForm.get(this.constant.password).setValue(null);
         // Notify access denied
