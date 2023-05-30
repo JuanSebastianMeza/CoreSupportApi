@@ -2,15 +2,15 @@ version: "2"
 
 services:
 
-  app_backend_test:
+  plantilla_backend:
     # If there is no image, build one
     build:
       context: .
       dockerfile: Dockerfile
       args:
         - DJANGO_ENV=test
-        - http_proxy=http://e10206:rick.005@10.162.64.36:8080
-        - https_proxy=http://e10206:rick.005@10.162.64.36:8080
+        - http_proxy=http://E10356:Jcbb239003@10.162.64.36:8080
+        - https_proxy=http://E10356:Jcbb239003@10.162.64.36:8080
     env_file: .env
     network_mode: "bridge"
     restart: always
