@@ -43,7 +43,7 @@ services:
       - ../backend:/backend
     # Change workdir
     working_dir: /backend
-    command: gunicorn -c conf/conf.py api.wsgi
+    command: gunicorn -c conf/gunicorn_conf.py api.wsgi
   
   # Angular frontend plantilla
   # plantilla_frontend:
