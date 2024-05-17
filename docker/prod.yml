@@ -46,21 +46,21 @@ services:
     command: gunicorn -c conf/gunicorn_conf.py api.wsgi
   
   # Angular frontend plantilla
-  # plantilla_frontend:
-  #   image: nginx
-  #   # Name the container
-  #   container_name: identidad_frontend
-  #   # Ports to use
-  #   ports: 
-  #     - "8057:80"
-  #   # Folders and files to copy into the container
-  #   volumes:
-  #     # Copy the plantilla to html folder
-  #     - ../dist/:/usr/share/nginx/html
-  #     # Works only with SPA
-  #     - ./nginx-custom.conf:/etc/nginx/conf.d/default.conf
-  #   # Set environment variables
-  #   stdin_open: true
-  #   tty: true
-  #   depends_on:
-  #     - plantilla_backend
+  plantilla_frontend:
+    image: nginx
+    # Name the container
+    container_name: identidad_frontend
+    # Ports to use
+    ports: 
+      - "8057:80"
+    # Folders and files to copy into the container
+    volumes:
+      # Copy the plantilla to html folder
+      - ../dist/:/usr/share/nginx/html
+      # Works only with SPA
+      - ./nginx-custom.conf:/etc/nginx/conf.d/default.conf
+    # Set environment variables
+    stdin_open: true
+    tty: true
+    depends_on:
+      - plantilla_backend
