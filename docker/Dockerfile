@@ -12,6 +12,7 @@ ENV HTTPS_PROXY $https_proxy
 
 # Proxy set up
 COPY apt.conf /etc/apt/apt.conf
+COPY gunicorn_conf.py /backend/conf/gunicorn_conf.py
 
 # Fix missing packages, install uwsgi
 #RUN apt-get update --fix-missing && \
