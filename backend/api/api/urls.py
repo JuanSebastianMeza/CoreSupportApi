@@ -4,6 +4,7 @@ Authentication related urls
 # Django imports
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
 # Rest framework imports
 from rest_framework.routers import DefaultRouter
 # JWT rest framework imports
@@ -32,4 +33,5 @@ urlpatterns = [
     path('api/granted-access-audit/', GrantedAccessAuditViewSet.as_view()),
     path('api/denied-access-audit/', DeniedAccessAuditViewSet.as_view()),
     path('api/app-audit/', AppAuditViewSet.as_view()),
+    path('docs/', TemplateView.as_view(template_name="index.html")),
 ]
