@@ -11,20 +11,23 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import CreateAPIView
 # JWT rest framework imports
-from rest_framework_jwt.views import JSONWebTokenAPIView
-from rest_framework_jwt.serializers import JSONWebTokenSerializer
-from rest_framework_jwt.settings import api_settings
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 # Own imports
-from authentication.serializers import (UserSerializer, WebAppsSerializer,
-                                        WebAppModulesSerializer, GrantedAccessAuditSerializer,
-                                        DeniedAccessAuditSerializer, AppAuditSerializer)
-from authentication.models import (Profile, PasswordHistory,
-                                   WebApps, WebAppModules,
-                                   GrantedAccessAudit, DeniedAccessAudit,
-                                   AppAudit)
+from authentication.serializers import (UserSerializer, WebAppsSerializer, WebAppModulesSerializer, GrantedAccessAuditSerializer, DeniedAccessAuditSerializer, AppAuditSerializer)
+from authentication.models import (Profile, PasswordHistory,WebApps, WebAppModules,GrantedAccessAudit, DeniedAccessAudit,AppAudit)
 from authentication.utils import is_valid_new_password, save_last_login
 
-jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER # pylint: disable=invalid-name
+# jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER # pylint: disable=invalid-name
+
+def custom_jwt_response_payload_handler(token, user=None, request=None):
+    return {
+        'token': token,
+        'user': {
+            'username': user.username,
+            'email': user.email,
+        }
+    }
 
 # User view set
 class UserViewSet(ModelViewSet): # pylint: too-many-ancestors
@@ -111,89 +114,92 @@ class AppAuditViewSet(CreateAPIView):
     permission_classes = []
 
 
-class CustomJSONWebTokenAPIView(JSONWebTokenAPIView):
+class CustomTokenObtainPairView(TokenObtainPairView):
     """
-    Overide JWT Auth view
+    Override JWT Auth view
     """
+    serializer_class = TokenObtainPairSerializer
 
     def check_valid_username(self, request, error):
         """
         Check if username is valid
         Validate user failed attempts
         """
-        # Get username
         username = request.data['username']
         print(request.META)
-        # If username exists, add one failed attempts
         try:
-            # Get user
             user = User.objects.get(username=username)
-            # Get user profile
             user_profile = Profile.objects.get(user=user)
-            # Get login failed attempts
             failed_attempts = user_profile.failed_attempts
-            # If it es less than 2 (4 because it is duplicated)
             if failed_attempts < 2 and user.is_active:
-                # Add one failed atempts
                 failed_attempts += 1
                 user_profile.failed_attempts = failed_attempts
-                # Save value
                 user_profile.save()
-                # Add error message
-                error['failed_attempts_msg'] = \
-                    'Usuario y clave no válidos. Número de intentos fallidos: '\
-                        + str(int(user_profile.failed_attempts)) + ' (máximo 3)'
-            # Block user
+                error['failed_attempts_msg'] = 'Usuario y clave no válidos. Número de intentos fallidos: ' + str(int(user_profile.failed_attempts)) + ' (máximo 3)'
             else:
-                # Add error message
-                error['failed_attempts_msg'] = """Su usuario se encuentra
-                                                  bloqueado. Por favor,
-                                                  contactar al equipo de
-                                                  Herramientas Operativas (cpsa.ve@telefonica.com) para
-                                                  su desbloqueo"""
-                # Set active to false
+                error['failed_attempts_msg'] = """Su usuario se encuentra bloqueado. Por favor, contactar al equipo de Herramientas Operativas (cpsa.ve@telefonica.com) para su desbloqueo"""
                 user.is_active = False
                 user.save()
         except User.DoesNotExist:
-            # If username is not valid
             error['failed_attempts_msg'] = 'El usuario indicado no posee una cuenta registrada'
         return error
 
-    # Override post method to include
     def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(
-            data=request.data
-        )
-
+        serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.object.get('user') or request.user
-            token = serializer.object.get('token')
-            response_data = jwt_response_payload_handler(token, user, request)
-
-            # Save last login
+            user = serializer.user
+            token = serializer.validated_data['access']
+            response_data = custom_jwt_response_payload_handler(token, user, request)
             save_last_login(user)
-
-            # Reset failed attempts
             user_profile = Profile.objects.get(user=user)
-            # Set attempts to zero
             user_profile.failed_attempts = 0
-            # Save value
             user_profile.save()
-
             return Response(response_data)
-
-        # Return custom response if not valid
-        return Response(self.check_valid_username(request, serializer.errors),
-                        status=status.HTTP_400_BAD_REQUEST)
+        return Response(self.check_valid_username(request, serializer.errors), status=status.HTTP_400_BAD_REQUEST)
 
 
-# This view overrides
-class CustomObtainJSONWebToken(CustomJSONWebTokenAPIView):
-    """
-    Set custom serializer class to get JWT token
-    """
-    serializer_class = JSONWebTokenSerializer
+class CustomGetAuthTokenSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        # Agrega claims personalizados
+        # token['username'] = user.username
+        # token['is_staff'] = user.is_staff
+        # token['is_superuser'] = user.is_superuser
+        # token['groups'] = list(user.groups.values_list('name', flat=True))
+        # ...otros campos
+        return token
 
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        # Incluye los datos que tu frontend espera
+        user = self.user
+        profile = getattr(user, 'profile', None)
+        groups = list(user.groups.values_list('name', flat=True))
+        permissions = list(user.user_permissions.values_list('codename', flat=True))
+        # Si usas permisos por grupo:
+        for group in user.groups.all():
+            permissions += list(group.permissions.values_list('codename', flat=True))
+        permissions = list(set(permissions))  # Quita duplicados
 
-# Create custom get token api view
-obtain_jwt_token = CustomObtainJSONWebToken.as_view()  # pylint: disable=invalid-name
+        data['user'] = {
+            'user_id': user.id,
+            'username': user.username,
+            'email': user.email,
+            'full_name': user.get_full_name(),
+            'is_staff': user.is_staff,
+            'is_superuser': user.is_superuser,
+            'groups': groups,
+            'permissions': permissions,
+            # Si tienes perfil extendido:
+            'profile': {
+                'is_first_time': getattr(profile, 'is_first_time', False),
+                'last_password_change': getattr(profile, 'last_password_change', None),
+                # agrega más campos si los necesitas
+            } if profile else {},
+            'last_login': user.last_login,
+        }
+        return data
+
+class CustomGetAuthTokenView(TokenObtainPairView):
+    serializer_class = CustomGetAuthTokenSerializer

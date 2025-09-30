@@ -2,6 +2,9 @@
 Django test settings
 """
 from .base import * # pylint: disable=wildcard-import, unused-wildcard-import
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -27,11 +30,11 @@ SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ['AUTH_DB_NAME'],
-        'USER': os.environ['AUTH_DB_USER'],
-        'PASSWORD': os.environ['AUTH_DB_PASS'],
-        'HOST': os.environ['AUTH_DB_HOST'],
-        'PORT': os.environ['AUTH_DB_PORT'],
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('AUTH_DB_NAME'),
+        'USER': os.getenv('AUTH_DB_USER'),
+        'PASSWORD': os.getenv('AUTH_DB_PASS'),
+        'HOST': os.getenv('AUTH_DB_HOST'),
+        'PORT': os.getenv('AUTH_DB_PORT'),
     }
 }

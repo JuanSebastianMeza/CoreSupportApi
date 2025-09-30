@@ -88,7 +88,7 @@ class DeniedAccessAudit(models.Model):
 
 class AppAudit(models.Model):
     """
-	Apps analitics
+	Apps analytics
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     app_module = models.ForeignKey('WebAppModules', on_delete=models.DO_NOTHING)

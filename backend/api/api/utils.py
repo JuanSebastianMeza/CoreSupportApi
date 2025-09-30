@@ -6,7 +6,7 @@ from calendar import timegm
 from datetime import datetime
 import jwt
 # Rest Framework imports
-from rest_framework_jwt.settings import api_settings
+from rest_framework_simplejwt.settings import api_settings
 # Own models imports
 from authentication.serializers import UserSerializer
 # Import settings

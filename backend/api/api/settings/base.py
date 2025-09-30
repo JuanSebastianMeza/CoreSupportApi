@@ -11,8 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-import datetime # pylint: disable=unused-import
-
+from datetime import timedelta
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Add father folder
@@ -35,15 +34,34 @@ INSTALLED_APPS = [
 ]
 
 
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     ),
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+#         'rest_framework.authentication.BasicAuthentication',
+#     ),
+# }
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',    # Agregado por la versión nueva de Django
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+    # 'DEFAULT_FILTER_BACKENDS':('django_filters.rest_framework.DjangoFilterBackend',
+    # ),
+     'DEFAULT_RENDERER_CLASSES': (
+            'rest_framework.renderers.JSONRenderer',
+            'rest_framework.renderers.BrowsableAPIRenderer',
+            # 'drf_renderer_xlsx.renderers.XLSXRenderer',
+            # 'drf_excel.renderers.XLSXRenderer'                          # Agregado por la versión nueva de Django
+        ),
 }
 
 
@@ -51,23 +69,30 @@ PUBLIC_KEY = '-----BEGIN PUBLIC KEY-----\nMIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgF
 PRIVATE_KEY = '-----BEGIN RSA PRIVATE KEY-----\nMIICWwIBAAKBgFYQGeSzijOtbpdDQGYoP7k57hOxgNQeYj4CGYO/al/QdYAf38oG\naRXhdkacmSxI2iBlUkQixdq35xtZsBDeScnJ0brKnJL1Ts4BbeaZDA7AjTmpZ3kl\nvk4y0hErai4lM8+ydsrztHhcu1qY1+SNz4nCIaKXa/MV4KFpWO/i3izHAgMBAAEC\ngYBKhsbldVRIS/dopaQu0svb6n5wL1YQWf9ZExhlLm0/a5VUzkVM/SAjAosZuqIp\n5yx8wUDsH/CV5osK9C+za8sZIcQZY2PI+PasXPJ4Q1MlxnxjqDAUeOEMu0RLVE/6\n+5bm1e+zYR/GQBumkOAvQqYloQNGgKZfl1Y/2gqJtlFrgQJBAJYsSly8yhsy8r8h\nlV4A11nJ8gD0vY7n9k0E8S/40apiZPhsy+9KlmSDhrMSf6SXKXw1ba58HNkwDRIb\naLQ8AzsCQQCStiIWRKCqec11HRecI1qBrH/cUv3N4YFFEN3Cl1PpPDkV4vr4x4fl\nu6iuYiefbzDSnwTljw0G91lyHT/e50vlAkEAi01weZAixpI/PW8wuG99VGwREjP0\n9vBTuGRCOybLjwsQ8KUzk7iTw4+CTvB0+T/DmtWQ9c9pj0qUhVxphu84awJAOG9r\naVl43FsCV7ybKmrHE/7BKIWcMChAy8qTI5mGo7+QzgSEOlK2yf6IApyrVT82bq7Q\n+WUvw7A+bhEmUp5yqQJABA36tsYiUa6BR8GnhBaDGNl2q/xyJk8yjwBwcqPumP7T\n6lviopw6ndkLKpnXZr4yjgH3ZjZLfY5hbISovReydw==\n-----END RSA PRIVATE KEY-----' # pylint: disable=line-too-long
 
 
-JWT_AUTH = {
-    'JWT_PAYLOAD_HANDLER': 'api.utils.jwt_payload_handler',
+# JWT_AUTH = {
+#     'JWT_PAYLOAD_HANDLER': 'api.utils.jwt_payload_handler',
 
-    'JWT_PAYLOAD_GET_USERNAME_HANDLER': 'api.utils.jwt_get_username_from_payload_handler',
+#     'JWT_PAYLOAD_GET_USERNAME_HANDLER': 'api.utils.jwt_get_username_from_payload_handler',
 
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=5),
+#     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=5),
 
-    'JWT_ALLOW_REFRESH': True,
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(hours=2),
+#     'JWT_ALLOW_REFRESH': True,
+#     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(hours=2),
 
-    'JWT_AUTH_HEADER_PREFIX': 'JWT',
+#     'JWT_AUTH_HEADER_PREFIX': 'JWT',
 
-    'JWT_ENCODE_HANDLER': 'api.utils.jwt_encode_handler',
+#     'JWT_ENCODE_HANDLER': 'api.utils.jwt_encode_handler',
 
-    'JWT_DECODE_HANDLER': 'api.utils.jwt_decode_handler',
+#     'JWT_DECODE_HANDLER': 'api.utils.jwt_decode_handler',
+# }
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(hours=2),
+    'ALGORITHM': 'RS256',
+    'SIGNING_KEY': PRIVATE_KEY,
+    'VERIFYING_KEY': PUBLIC_KEY,
+    'AUTH_HEADER_TYPES': ('Bearer',),
 }
-
 
 MIDDLEWARE = [
     # CORS Headers
