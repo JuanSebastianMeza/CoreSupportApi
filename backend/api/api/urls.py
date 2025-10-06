@@ -11,7 +11,6 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 from authentication.views import (CustomGetAuthTokenView, CustomTokenObtainPairView, UserViewSet, WebAppsViewSet, WebAppModulesViewSet, GrantedAccessAuditViewSet, DeniedAccessAuditViewSet, AppAuditViewSet)
 
-
 # Create reouter
 ROUTER = DefaultRouter()
 ROUTER.register(r'users', UserViewSet)
@@ -25,6 +24,8 @@ urlpatterns = [
     path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('get-auth-token/', CustomGetAuthTokenView.as_view()),  # PRUEBA
+    #subscriber data collector
+    path('api/get-subscribers-data/', include('subscriber_data_collector.urls')),
     # Router for views
     path('api/', include(ROUTER.urls)),
     path('api/granted-access-audit/', GrantedAccessAuditViewSet.as_view()),
