@@ -1,8 +1,7 @@
 from django.urls import path
-
-from .views import get_subscribers_data
+from .views import GetSubscribersData
 
 
 urlpatterns = [
-    path('', get_subscribers_data, name='get_subscribers_data'),
+    path('', GetSubscribersData.as_view(), name='get_subscribers_data'),
 ]

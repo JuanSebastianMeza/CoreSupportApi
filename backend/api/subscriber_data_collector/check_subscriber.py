@@ -38,7 +38,7 @@ class CheckSubscriberData:
 
             if current_subscriber.network.technology == Networks.LTE.name:
                 s1aplnk_output = await self._remote_repo.get_s1aplnk_4g(
-                    current_subscriber.network.enodeb.id, current_subscriber.sgsn
+                    current_subscriber.network.enodeb.enodeb_id, current_subscriber.sgsn
                 )
                 current_subscriber.output_logs.s1aplnk = s1aplnk_output
                 current_subscriber.network.enodeb.name = re.findall(
@@ -112,7 +112,7 @@ class CheckSubscriberData:
             )
             logging.info("Subscriber is in 4G/LTE")
             return Network(
-                technology=Networks.LTE.name, enodeb=EnodeB(id=decimal_enodeb_id)
+                technology=Networks.LTE.name, enodeb=EnodeB(enodeb_id=decimal_enodeb_id)
             )
         if bool(re.findall(RegexPatterns.SERVICE_AREA_ID, mmctx_output)):
             decimal_service_area = int(

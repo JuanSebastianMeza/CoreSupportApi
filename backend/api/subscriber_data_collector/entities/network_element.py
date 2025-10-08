@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 @dataclass
 class NetworkElement():
     username: str = field(default='E09600')
-    password: str = field(default='Abril.1987')
+    password: str = field(default='Octubre.1987')
     hostname: str = field(default='10.178.10.101')
     vnfc_name: str = field(default='omo')
     name: str = field(default='')

@@ -77,5 +77,27 @@ class OutputMessages:
     TIMER_ERROR_MSS = "Timer expired error while getting data from nokia central:"
     ZEPO_ERROR_MSS = "Problems gathering ZEPO data. Error:"
     ZMVO_ERROR_MSS = "Problems gathering ZMVO data. Error:"
+    MSISDN_FORMAT_ERROR = """Check if the MSISDN is in the correct format.
+    The MSISDN should be max 15 digits long and contain only digits.
+    The first 3 digits are the country code (CC), the next 3 digits are the
+    subscriber number (SN), and the last 6 digits are the national destination code (NDC).
+
+    CC + NDC + SN
+
+    Country code (CC)
+    National Destination Code (NDC)
+    Subscriber number (SN)
+
+    Examples:
+
+    CC: 34 (Spain)
+    NDC: 123 (Madrid)
+    SN: 4567890 (subscriber number)
+
+    CC: 58 (Venezuela)
+    NDC: 414 (Caracas)
+    SN: 1234567 (subscriber number)
+    MSISDN: 584141963786"""
+    
 
 

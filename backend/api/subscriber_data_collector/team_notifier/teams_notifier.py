@@ -26,10 +26,10 @@ def send_teams_notification(message, channel_id=SOPORTE_CORE_CHANNEL_ID):
     print(f"Message sent successfully! {response.status_code}")
 
 def send_teams_file(log_file):
-    # PROXIES = {
-    # 'http': 'http://e10356:Jcbb-2390-2009@10.162.64.36:8080',
-    # 'https': 'http://e10356:Jcbb-2390-2009@10.162.64.36:8080'
-    # }
+    PROXIES = {
+    'http': 'http://e10356:Jcbb-2390-2009@10.162.64.36:8080',
+    'https': 'http://e10356:Jcbb-2390-2009@10.162.64.36:8080'
+    }
 
     with open(log_file,"rb") as txt:
 
@@ -45,7 +45,7 @@ def send_teams_file(log_file):
     http_data = {
     'url': FILE_FLOW_URL,
     'json': data,
-    # 'proxies': PROXIES
+    'proxies': PROXIES
     }
 
     #send post

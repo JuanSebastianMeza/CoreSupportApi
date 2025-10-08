@@ -1,7 +1,7 @@
 from django.db import models
 
     
-class Cell(models.Model):
+class CellModel(models.Model):
     """
     Model representing a NodeB in a mobile network.
     """
@@ -14,7 +14,7 @@ class Cell(models.Model):
     def __str__(self):
         return f"{self.bts_name} ({self.bts_id})"
 
-class EnodeB(models.Model):
+class EnodeBModel(models.Model):
     """
     Model representing an eNodeB (Evolved Node B) in a mobile network.
     """
@@ -28,7 +28,7 @@ class EnodeB(models.Model):
     def __str__(self):
         return f"{self.name} ({self.enodeb_id})"
     
-class NodeB(models.Model):
+class NodeBModel(models.Model):
     """
     Model representing a NodeB in a mobile network.
     """
@@ -40,45 +40,15 @@ class NodeB(models.Model):
     def __str__(self):
         return f"{self.sa_name} ({self.sa_id})"
    
-class Network(models.Model):
-    TECHNOLOGY_CHOICES = [
-        ("LTE", "LTE"),
-        ("UMTS", "UMTS"),
-        ("GSM", "GSM"),
-        ("", "Unknown"),
-    ]
-    technology = models.CharField(
-        max_length=10,
-        choices=TECHNOLOGY_CHOICES,
-        default="",
-        help_text="User current network technology (LTE, UMTS, GSM)",
-    )
-    enodeb = models.ForeignKey(
-        EnodeB,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        help_text="If user is in 4g it shows the nodeb id",
-    )
-    nodeb = models.ForeignKey(
-        'NodeB',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        help_text="If user is in 3g it shows the nodeb data",
-    )
-    cell = models.ForeignKey(
-        Cell,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        help_text="If user is in 2g it shows the cell data",
-    )
-
+class NetworkModel(models.Model):
+    technology = models.CharField(max_length=10, help_text="Network technology: LTE, UMTS, GSM")
+    enodeb = models.ForeignKey(EnodeBModel, on_delete=models.SET_NULL, null=True, blank=True, help_text="Data of the eNodeB")
+    cell = models.ForeignKey(CellModel, on_delete=models.SET_NULL, null=True, blank=True, help_text="Data of the Cell")
+    nodeb = models.ForeignKey(NodeBModel, on_delete=models.SET_NULL, null=True, blank=True, help_text="Data of the NodeB")
     def __str__(self):
-        return f"{self.technology} Network"
+        return f"{self.technology} Network, EnodeB: {self.enodeb}, cell: {self.cell}, NodeB: {self.nodeb}"
 
-class OutputLogs(models.Model):
+class OutputLogsModel(models.Model):
     """
     Model representing output logs for various commands in a mobile network.
     """
@@ -90,7 +60,7 @@ class OutputLogs(models.Model):
     def __str__(self):
         return f"OutputLogs(mmctx={bool(self.mmctx)}, zepo={bool(self.zepo)}, s1aplnk={bool(self.s1aplnk)}, zmvo={bool(self.zmvo)})"
 
-class Subscriber(models.Model):
+class SubscriberModel(models.Model):
     """
     Model representing a mobile network subscriber.
     """
@@ -143,14 +113,14 @@ class Subscriber(models.Model):
         help_text="User last time activity saw from PACO side"
     )
     network = models.ForeignKey(
-        Network,
+        NetworkModel,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         help_text="Data of user current network technologies (LTE, UMTS, GSM)"
     )
     output_logs = models.ForeignKey(
-        OutputLogs,
+        OutputLogsModel,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -158,4 +128,4 @@ class Subscriber(models.Model):
     )
 
     def __str__(self):
-        return f"Subscriber(IMSI={self.imsi}, MSISDN={self.msisdn})"
+        return f"Subscriber(IMSI={self.imsi}, MSISDN={self.msisdn}), OUTPUT_LOGS={self.output_logs}), NETWORK={self.network}"

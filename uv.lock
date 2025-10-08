@@ -8,12 +8,35 @@ resolution-markers = [
 ]
 
 [[package]]
+name = "adrf"
+version = "0.1.9"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "async-property" },
+    { name = "django" },
+    { name = "djangorestframework" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b5/95/965b424766d934c024125499856267a84896ed0882e22bcda30549627dd2/adrf-0.1.9.tar.gz", hash = "sha256:e2f59fd84960a564b0385d9201c55531a30c6118eb40c86c5356c077f279af23", size = 17251, upload-time = "2024-12-28T00:56:27.815Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f6/76/745ce39c9d0b53a08f99ad9912c2dedabc4801b05353b835267e1dd766ac/adrf-0.1.9-py3-none-any.whl", hash = "sha256:fd6c45df908e042c91571fdcff1ea54180c871ec18659b639cf3217d67ce97d5", size = 20980, upload-time = "2024-12-28T00:56:24.991Z" },
+]
+
+[[package]]
 name = "asgiref"
 version = "3.9.1"
 source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/90/61/0aa957eec22ff70b830b22ff91f825e70e1ef732c06666a805730f28b36b/asgiref-3.9.1.tar.gz", hash = "sha256:a5ab6582236218e5ef1648f242fd9f10626cfd4de8dc377db215d5d5098e3142", size = 36870, upload-time = "2025-07-08T09:07:43.344Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/7c/3c/0464dcada90d5da0e71018c04a140ad6349558afb30b3051b4264cc5b965/asgiref-3.9.1-py3-none-any.whl", hash = "sha256:f3bba7092a48005b5f5bacd747d36ee4a5a61f4a269a6df590b43144355ebd2c", size = 23790, upload-time = "2025-07-08T09:07:41.548Z" },
+]
+
+[[package]]
+name = "async-property"
+version = "0.2.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/a7/12/900eb34b3af75c11b69d6b78b74ec0fd1ba489376eceb3785f787d1a0a1d/async_property-0.2.2.tar.gz", hash = "sha256:17d9bd6ca67e27915a75d92549df64b5c7174e9dc806b30a3934dc4ff0506380", size = 16523, upload-time = "2023-07-03T17:21:55.688Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c7/80/9f608d13b4b3afcebd1dd13baf9551c95fc424d6390e4b1cfd7b1810cd06/async_property-0.2.2-py2.py3-none-any.whl", hash = "sha256:8924d792b5843994537f8ed411165700b27b2bd966cefc4daeefc1253442a9d7", size = 9546, upload-time = "2023-07-03T17:21:54.293Z" },
 ]
 
 [[package]]
@@ -193,6 +216,7 @@ name = "coresupportapi"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "adrf" },
     { name = "cryptography" },
     { name = "django" },
     { name = "django-cors-headers" },
@@ -212,6 +236,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "adrf", specifier = ">=0.1.9" },
     { name = "cryptography", specifier = ">=46.0.1" },
     { name = "django", specifier = ">=5.2.6" },
     { name = "django-cors-headers", specifier = ">=4.9.0" },

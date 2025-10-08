@@ -1,32 +1,77 @@
-from rest_framework import serializers
-from .models import Cell, EnodeB, NodeB, Network, OutputLogs, Subscriber
+from adrf.serializers import ModelSerializer
+from .models import CellModel, EnodeBModel, NodeBModel, NetworkModel, OutputLogsModel, SubscriberModel
 
-class CellSerializer(serializers.ModelSerializer):
+class CellSerializer(ModelSerializer):
     class Meta:
-        model = Cell
-        fields = '__all__'
+        model = CellModel
+        fields = [
+            'bts_id',
+            'bts_name',
+            'bsc_id',
+            'bsc_name',
+            'bts_state',
+        ]
 
-class EnodeBSerializer(serializers.ModelSerializer):
+class EnodeBSerializer(ModelSerializer):
     class Meta:
-        model = EnodeB
-        fields = '__all__'
+        model = EnodeBModel
+        fields = [
+            'name',
+            'enodeb_id',
+            'link_status',
+            'ip_address1',
+            'ip_address2',
+            'port',
+        ]
 
-class NodeBSerializer(serializers.ModelSerializer):
+class NodeBSerializer(ModelSerializer):
     class Meta:
-        model = NodeB
-        fields = '__all__'
+        model = NodeBModel
+        fields = [
+            'sa_name',
+            'sa_id',
+            'lac_id',
+            'administrative_state',
+        ]
 
-class NetworkSerializer(serializers.ModelSerializer):
+class NetworkSerializer(ModelSerializer):
+    cell = CellSerializer()
+    enodeb = EnodeBSerializer()
+    nodeb = NodeBSerializer()
     class Meta:
-        model = Network
-        fields = '__all__'
+        model = NetworkModel
+        fields = [
+            'technology',
+            'enodeb',
+            'nodeb',
+            'cell',
+        ]
 
-class OutputLogsSerializer(serializers.ModelSerializer):
+class OutputLogsSerializer(ModelSerializer):
     class Meta:
-        model = OutputLogs
-        fields = '__all__'
+        model = OutputLogsModel
+        fields = [
+            'mmctx',
+            'zepo',
+            's1aplnk',
+            'zmvo',
+        ]
 
-class SubscriberSerializer(serializers.ModelSerializer):
+class SubscriberSerializer(ModelSerializer):
+    output_logs = OutputLogsSerializer()
+    network = NetworkSerializer()
     class Meta:
-        model = Subscriber
-        fields = '__all__'
+        model = SubscriberModel
+        fields = [
+            'imsi',
+            'msisdn',
+            'sgsn',
+            'mss',
+            'last_activity_cico',
+            'last_activity_paco',
+            'services',
+            'routing_category',
+            'network',
+            'output_logs',
+        ]
+        

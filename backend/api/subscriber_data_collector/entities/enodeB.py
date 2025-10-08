@@ -8,7 +8,7 @@ class EnodeB:
     """
 
     name: str = field(default="", metadata={"description": "Cell ID"})
-    id: int = field(default=0, metadata={"description": "Enodeb ID in decimal format"})
+    enodeb_id: int = field(default=0, metadata={"description": "Enodeb ID in decimal format"})
     link_status: str = field(
         default="", metadata={"description": "Link status, normal status is connected"}
     )

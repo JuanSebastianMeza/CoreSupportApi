@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Third Party
     'rest_framework',
+    'adrf',
     'corsheaders',
     # Own modules
     'authentication.apps.AuthenticationConfig',
