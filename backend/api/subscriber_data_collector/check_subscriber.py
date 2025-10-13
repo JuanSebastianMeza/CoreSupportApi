@@ -134,7 +134,7 @@ class CheckSubscriberData:
         return Network(technology=Networks.UNREGISTER.value)
 
     async def set_zmvo_data(self, subscriber: Subscriber) -> Subscriber:
-        output = await self._remote_repo.get_zmvo_output(subscriber.msisdn)
+        output = await self._remote_repo.get_zmvo_output(subscriber)
         if output:
             subscriber.output_logs.zmvo = output[0]
             subscriber.last_activity_cico = re.findall(

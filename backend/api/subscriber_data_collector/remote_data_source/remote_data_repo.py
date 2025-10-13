@@ -102,62 +102,63 @@ class RemoteDataRepo:
     def _check_s1aplnk(self, output):
         return bool(re.search(RegexPatterns.CHECK_S1APLNK, output))
 
-    async def get_zepo_output(self, access_id, gsm: bool):
-        for central in Centrales_Nokia_List:
-            logging.info(f"Connecting to {central}")
-            try:
-                await self._ssh_connection.set_client(central)
-                if gsm:
-                    await self._ssh_connection.send(NokiaCommands.ZEPO_2G.format(access_id))
-                else:
-                    await self._ssh_connection.send(NokiaCommands.ZEPO_3G.format(access_id))
+    async def get_zepo_output(self, subscriber: Subscriber, gsm: bool):
+        central = [central for central in Centrales_Nokia_List if central.vlr == subscriber.vlr][0]
 
-                task_getting_data = asyncio.create_task(
-                self._ssh_connection.receive(100000)
-                )
-                output = await asyncio.wait_for(task_getting_data, 10)
-                if self.check_zepo_output(output) is False:
-                    return output
-            except asyncio.TimeoutError as e:
-                logging.error(
-                    OutputMessages.TIMER_ERROR_MSS + f" {e}"
-                )
-                task_getting_data.cancel()
-                return OutputMessages.TIMER_ERROR_MSS + f" {e}"
-            except Exception as e:
-                logging.error(
-                    f"Problems gathering ZEPO data. Error: {e}"
-                )
-                return OutputMessages.ZEPO_ERROR_MSS + f" {e}"
+        logging.info(f"Connecting to {central}")
+        try:
+            await self._ssh_connection.set_client(central)
+            if gsm:
+                await self._ssh_connection.send(NokiaCommands.ZEPO_2G.format(subscriber.network.cell.bts_id))
+            else:
+                await self._ssh_connection.send(NokiaCommands.ZEPO_3G.format(subscriber.network.nodeb.sa_id))
+
+            task_getting_data = asyncio.create_task(
+            self._ssh_connection.receive(100000)
+            )
+            output = await asyncio.wait_for(task_getting_data, 10)
+            if self.check_zepo_output(output) is False:
+                return output
+        except asyncio.TimeoutError as e:
+            logging.error(
+                OutputMessages.TIMER_ERROR_MSS + f" {e}"
+            )
+            task_getting_data.cancel()
+            return OutputMessages.TIMER_ERROR_MSS + f" {e}"
+        except Exception as e:
+            logging.error(
+                f"Problems gathering ZEPO data. Error: {e}"
+            )
+            return OutputMessages.ZEPO_ERROR_MSS + f" {e}"
 
 
     def check_zepo_output(self, output):
         # Check if the output contains the expected pattern
         return bool(re.search(RegexPatterns.CHECK_ZEPO, output))
 
-    async def get_zmvo_output(self, msisdn: str):
-        for central in Centrales_Nokia_List:
-            logging.info(f"Getting zmvo data. Connecting to {central}")
-            try:
-                await self._ssh_connection.set_client(central)
-                await self._ssh_connection.send(NokiaCommands.ZMVO.format(msisdn))
-                task_getting_data = asyncio.create_task(
-                self._ssh_connection.receive(100000)
+    async def get_zmvo_output(self, subscriber: Subscriber):
+        central = [central for central in Centrales_Nokia_List if central.vlr == subscriber.vlr][0]
+        logging.info(f"Getting zmvo data. Connecting to {central.name}")
+        try:
+            await self._ssh_connection.set_client(central)
+            await self._ssh_connection.send(NokiaCommands.ZMVO.format(subscriber.msisdn))
+            task_getting_data = asyncio.create_task(
+            self._ssh_connection.receive(100000)
+        )
+            output = await asyncio.wait_for(task_getting_data, 10)
+            if self._check_zmvo_output(output) is False:
+                return [output, central.name]
+        except asyncio.TimeoutError as e:
+            logging.error(
+                OutputMessages.TIMER_ERROR_MSS + f" {e}"
             )
-                output = await asyncio.wait_for(task_getting_data, 10)
-                if self._check_zmvo_output(output) is False:
-                    return [output, central.name]
-            except asyncio.TimeoutError as e:
-                logging.error(
-                    OutputMessages.TIMER_ERROR_MSS + f" {e}"
-                )
-                task_getting_data.cancel()
-                return [OutputMessages.TIMER_ERROR_MSS + f" {e}"]
-            except Exception as e:
-                logging.error(
-                    f"Problems gathering ZEPO data. Error: {e}"
-                )
-                return [OutputMessages.ZMVO_ERROR_MSS + f" {e}"]
+            task_getting_data.cancel()
+            return [OutputMessages.TIMER_ERROR_MSS + f" {e}"]
+        except Exception as e:
+            logging.error(
+                f"Problems gathering ZEPO data. Error: {e}"
+            )
+            return [OutputMessages.ZMVO_ERROR_MSS + f" {e}"]
 
 
     def _check_zmvo_output(self, output):
