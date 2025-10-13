@@ -76,6 +76,12 @@ class SubscriberModel(models.Model):
         default="",
         help_text="Mobile Station International Subscriber Directory Number"
     )
+    vlr = models.CharField(
+        max_length=32,
+        blank=True,
+        default="",
+        help_text="VLR number"
+    )
     sgsn = models.CharField(
         max_length=255,
         blank=True,

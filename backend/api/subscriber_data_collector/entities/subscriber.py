@@ -12,6 +12,10 @@ class Subscriber:
         default="",
         metadata={"description": "Mobile Station International Subscriber Directory Number"},
     )
+    vlr: str = field(
+        default="",
+        metadata={"description": "number of subscriber registered vlr"}
+    )
     sgsn: str = field(
         default="",
         metadata={"description": "Current user's sgsn"}

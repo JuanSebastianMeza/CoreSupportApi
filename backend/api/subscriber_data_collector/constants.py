@@ -34,6 +34,7 @@ class RegexPatterns:
     KEY_END_DATA = r"---.*(END)"
     # subscriber
     IMSI = r"IMSI\s+=\s+(\d+)"
+    VLR = r"VLR\sNO.\s+=\s+(\d+)"
     ACTIVITY_TIME_PACO = r"Lastest\sUE\sactivity\stime.*\s=\s\s(.*\d+)"
     ACTIVITY_DATE_CICO = r"LAST\sACTIVATE\sDATE\s.*\s(\d+-\d+\s\d+:\d+)"
     ROUTING_CATEGORY = r"ROUTING CATEGORY\s+\.+\s+(\d+)"

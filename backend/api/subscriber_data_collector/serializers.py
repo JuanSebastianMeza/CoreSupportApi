@@ -65,6 +65,7 @@ class SubscriberSerializer(ModelSerializer):
         fields = [
             'imsi',
             'msisdn',
+            'vlr',
             'sgsn',
             'mss',
             'last_activity_cico',

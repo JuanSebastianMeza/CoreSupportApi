@@ -6,6 +6,7 @@ class NetworkElement():
     username: str = field(default='E09600')
     password: str = field(default='Octubre.1987')
     hostname: str = field(default='10.178.10.101')
+    vlr: str = field(default='')
     vnfc_name: str = field(default='omo')
     name: str = field(default='')
     port: int = field(default=22)

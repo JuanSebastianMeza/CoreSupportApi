@@ -52,6 +52,7 @@ class RemoteDataRepo:
                     return Subscriber(
                         msisdn=msisdn,
                         imsi=re.findall(RegexPatterns.IMSI, output)[0],
+                        vlr=re.findall(RegexPatterns.VLR, output)[0],
                         sgsn=sgsn,
                         output_logs=OutputLogs(
                             mmctx=output

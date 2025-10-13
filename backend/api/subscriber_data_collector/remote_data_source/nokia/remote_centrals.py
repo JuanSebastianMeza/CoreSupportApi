@@ -9,21 +9,28 @@ Centrales_Nokia_List = [
     NetworkElement(
         name="MSSCAN02",
         hostname=MSSCAN02_IP,
+        vlr="584240000102",
         username="PRTGCV",
         password="NOKIA1234",
     ),
     NetworkElement(
         name="MSSVAL02",
         hostname=MSSVAL02_IP,
+        vlr="584240000602",
         username="PRTGCV",
         password="HGFDSO856ZI",
     ),
     NetworkElement(
-        name="MSSMBO02", hostname=MSSMBO02_IP, username="PRTGCV", password="HGFDSO856ZI"
+        name="MSSMBO02", 
+        hostname=MSSMBO02_IP,
+        vlr="584240000776", 
+        username="PRTGCV", 
+        password="HGFDSO856ZI"
     ),
     NetworkElement(
         name="MSSPLC02",
         hostname=MSSMPLC02_IP,
+        vlr="584240000401",
         username="PRTGCV",
         password="HGFDSO856ZI",
     ),

@@ -280,6 +280,7 @@ def convert_subscribers_entity_to_model(
         subscriber = SubscriberModel(
             imsi=subscriber.imsi,
             msisdn=subscriber.msisdn,
+            vlr=subscriber.vlr,
             sgsn=subscriber.sgsn,
             mss=subscriber.mss,
             last_activity_cico=subscriber.last_activity_cico,
