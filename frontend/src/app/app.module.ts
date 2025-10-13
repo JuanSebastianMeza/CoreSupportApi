@@ -67,7 +67,7 @@ import { AuthInterceptor } from './services/auth/auth.interceptor';
       config: {
         // Token getter function
         tokenGetter: getAuthToken,
-        whitelistedDomains: ['localhost:8000'],
+        allowedDomains: ['localhost:8000'],
         authScheme: 'JWT',
       }
     }),
