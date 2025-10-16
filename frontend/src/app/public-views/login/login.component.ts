@@ -73,7 +73,8 @@ export class LoginComponent implements OnInit {
       data => {
         this.loginCharging = false;
         // Save token into credentials
-        this.token = data[this.constant.token];
+        // this.token = data[this.constant.token];
+        this.token = JSON.stringify(data);               // En Data se encuentra "access" que es el token
         // Save token in localStorage
         this.localStorage.setItem(this.constant.token, this.token);
         // Change globals state

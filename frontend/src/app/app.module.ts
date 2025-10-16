@@ -68,7 +68,7 @@ import { AuthInterceptor } from './services/auth/auth.interceptor';
         // Token getter function
         tokenGetter: getAuthToken,
         allowedDomains: ['localhost:8000'],
-        authScheme: 'JWT',
+        authScheme: 'Bearer ',
       }
     }),
   ],
@@ -102,11 +102,19 @@ export class AppModule { }
 
 // Return localStorage
 export function getLocalStorage() {
+    console.log('getLocalStorage called');
     return (typeof window !== 'undefined') ? window.localStorage : null;
 }
 
 // Get token
 export function getAuthToken() {
     const token = localStorage.getItem('token');
-    return token ? token : null;
+    console.log('getAuthToken called, token:', token);
+
+    if (!token) {
+      return null;
+    }
+    const real_token = JSON.parse(token);
+    console.log('getAuthToken called, real_token:', real_token);
+    return real_token.access ? real_token.access : null;  // Enviado solo el token almacedado en el Objeto del LocalStorage
 }

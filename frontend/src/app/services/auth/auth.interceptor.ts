@@ -26,7 +26,7 @@ export class AuthInterceptor implements HttpInterceptor {
       const cloned = request.clone({
         // This is a configuration argument
         // With this, we take old header and add authorization to it
-        headers: request.headers.set('Authorization', 'JWT ' + token)
+        headers: request.headers.set('Authorization', 'Bearer ' + token)
       });
       // Return the cloned request to the browser
       return next.handle(cloned);

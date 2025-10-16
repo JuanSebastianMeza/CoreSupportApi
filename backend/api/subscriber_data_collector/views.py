@@ -31,7 +31,7 @@ from .entities.subscriber import Subscriber
 logging.getLogger().setLevel(level=logging.INFO)
 
 
-# to run uvicorn api.asgi:application --reload
+# python -m uvicorn api.asgi:application --reload
 # GET /your-endpoint/?msisdn=123456789
 # Create your views here.
 class GetSubscribersData(APIView):

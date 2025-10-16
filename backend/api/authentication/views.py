@@ -21,6 +21,7 @@ from authentication.utils import is_valid_new_password, save_last_login
 # jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER # pylint: disable=invalid-name
 
 def custom_jwt_response_payload_handler(token, user=None, request=None):
+    print(f"token: {token} for testing, user: {user}")
     return {
         'token': token,
         'user': {
