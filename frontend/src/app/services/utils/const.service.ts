@@ -144,7 +144,7 @@ export class ConstService {
       guardSnackbarColor: 'purple-bg',
       duration: 3000,
       // Password change limits
-      blockAccess: 30,
+      blockAccess: 300000,
       blockNotification: 25,
     };
   }
