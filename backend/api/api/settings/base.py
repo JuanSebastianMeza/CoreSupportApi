@@ -90,6 +90,8 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     # Django standard middleware
     'django.middleware.security.SecurityMiddleware',
+    # WhiteNoise serves static files (CSS/JS) via ASGI/Uvicorn with correct MIME types
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -138,6 +140,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Root where 'collectstatic' gathers files; WhiteNoise serves from here
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATICFILES_DIRS = [
     os.path.join(MAIN_DIR, "docs/site"),
 ]
+
+# WhiteNoise: serve compressed static files with long-lived cache headers
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
