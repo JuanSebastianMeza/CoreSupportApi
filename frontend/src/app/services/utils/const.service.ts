@@ -119,6 +119,7 @@ export class ConstService {
 
   // Utils service constants
   getUtilsServiceConstants() {
+    const blockAccessDays = 300000;
     return {
       // Routing
       loginUrl: 'login',
@@ -145,8 +146,8 @@ export class ConstService {
       guardSnackbarColor: 'purple-bg',
       duration: 3000,
       // Password change limits
-      blockAccess: 300000,
-      blockNotification: 25,
+      blockAccess: blockAccessDays,
+      blockNotification: blockAccessDays - 2,
     };
   }
 
