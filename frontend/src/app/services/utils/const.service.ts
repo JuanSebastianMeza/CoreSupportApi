@@ -20,6 +20,7 @@ export class ConstService {
       grantedAccessAuditUrl: this.apiUrl + 'api/granted-access-audit/',
       deniedAccessAuditUrl: this.apiUrl + 'api/denied-access-audit/',
       appAuditUrl: this.apiUrl + 'api/app-audit/',
+      getSubscribersDataUrl: this.apiUrl + 'api/get-subscribers-data/',
     };
   }
 
