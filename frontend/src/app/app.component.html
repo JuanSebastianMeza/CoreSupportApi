@@ -9,11 +9,12 @@
 
     <!-- Panel de mantenimiento -->
     <p class="text-center purple-bg maintenance_alert custom_special_body" *ngIf="globals.showPasswordNotification">
-      {{ constants.getUtilsServiceConstants().passwordExpirationBanner1 }} 
+      {{ constants.getUtilsServiceConstants().passwordExpirationBanner1 }}
       {{ globals.passChangeMessage }}
       {{ constants.getUtilsServiceConstants().passwordExpirationBanner2 }}
-      <a class="yellow-link" routerLink={{constant.password}}>{{ constants.getUtilsServiceConstants().passwordExpirationBanner3 }}</a>
-      {{ constants.getUtilsServiceConstants().passwordExpirationBanner4 }} 
+      <a class="yellow-link" routerLink={{constant.password}}>{{
+        constants.getUtilsServiceConstants().passwordExpirationBanner3 }}</a>
+      {{ constants.getUtilsServiceConstants().passwordExpirationBanner4 }}
     </p>
 
     <!-- NavBar -->
@@ -44,7 +45,7 @@
         </div>
       </div>
     </div>
-      
+
 
     <!-- Header -->
     <div class="dark-blue-bg">
@@ -57,22 +58,23 @@
               </a>
             </div>
           </div>
-          <h1 class="text-center col-sm-8 col-sm-offset-1 app-title-margin">{{ constant.appTitle }}</h1>
+          <h1 class="text-center col-sm-8 col-sm-offset-1 app-title-margin">Core Support Tools</h1>
           <div class="col-sm-2 col-sm-offset-1">
             <div class="sa-margin">
               <a href={{constant.saUrl}}>
-                <img class="images-padding center-fit" src="../assets/images/LogoSAv2.png" *ngIf="globals.isAuthenticated">
+                <img class="images-padding center-fit" src="../assets/images/LogoSAv2.png"
+                  *ngIf="globals.isAuthenticated">
               </a>
             </div>
           </div>
         </div>
       </div>
     </div>
-    
-      
+
+
     <!-- Component for routing -->
     <router-outlet></router-outlet>
-    
+
 
     <!-- Footer -->
     <footer class="dark-blue-bg">
@@ -81,7 +83,7 @@
           <div class="col-8">
             <div class="footer-margin">
               <span>
-                <strong>{{ constant.saManager }}</strong> 
+                <strong>{{ constant.saManager }}</strong>
                 <!-- {{ constant.saManager }} -->
               </span>
               <br>
@@ -115,10 +117,19 @@
     <h2>{{ constant.menu }}</h2>
     <!-- <div *ngFor="let link of sideNavLinks"> -->
     <div>
-      <a class="remove-outline black-link" routerLink={{constant.home}}><p>{{ constant.homeTitle }}</p></a>
-      <p>{{ constant.tutorial }}</p>
-      <a class="remove-outline black-link" routerLink={{constant.password}}><p>{{ constant.changePassword }}</p></a>
-      <a (click)="logOut()"><p class="black-link">{{ constant.logOut }}</p></a>
+      <a class="remove-outline black-link" routerLink={{constant.home}}>
+        <p>{{ constant.homeTitle }}</p>
+      </a>
+      <p class="sidenav-section-label">🛠️ Herramientas</p>
+      <a class="remove-outline black-link" routerLink="subscriber-data-collector">
+        <p>📡 Subscriber Data Collector</p>
+      </a>
+      <a class="remove-outline black-link" routerLink={{constant.password}}>
+        <p>{{ constant.changePassword }}</p>
+      </a>
+      <a (click)="logOut()">
+        <p class="black-link">{{ constant.logOut }}</p>
+      </a>
     </div>
   </mat-sidenav>
 

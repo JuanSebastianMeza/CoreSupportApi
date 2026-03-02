@@ -17,6 +17,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './public-views/login/login.component';
 import { HomeComponent } from './private-views/home/home.component';
 import { ChangePasswordComponent } from './private-views/change-password/change-password.component';
+import { SubscriberDataCollectorComponent } from './private-views/subscriber-data-collector/subscriber-data-collector.component';
 
 // Material imports
 import { MatButtonModule } from '@angular/material/button';
@@ -42,7 +43,8 @@ import { AuthInterceptor } from './services/auth/auth.interceptor';
     AppComponent,
     LoginComponent,
     HomeComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    SubscriberDataCollectorComponent,
   ],
   imports: [
     BrowserModule,
@@ -102,19 +104,19 @@ export class AppModule { }
 
 // Return localStorage
 export function getLocalStorage() {
-    console.log('getLocalStorage called');
-    return (typeof window !== 'undefined') ? window.localStorage : null;
+  console.log('getLocalStorage called');
+  return (typeof window !== 'undefined') ? window.localStorage : null;
 }
 
 // Get token
 export function getAuthToken() {
-    const token = localStorage.getItem('token');
-    console.log('getAuthToken called, token:', token);
+  const token = localStorage.getItem('token');
+  console.log('getAuthToken called, token:', token);
 
-    if (!token) {
-      return null;
-    }
-    const real_token = JSON.parse(token);
-    console.log('getAuthToken called, real_token:', real_token);
-    return real_token.access ? real_token.access : null;  // Enviado solo el token almacedado en el Objeto del LocalStorage
+  if (!token) {
+    return null;
+  }
+  const real_token = JSON.parse(token);
+  console.log('getAuthToken called, real_token:', real_token);
+  return real_token.access ? real_token.access : null;  // Enviado solo el token almacedado en el Objeto del LocalStorage
 }

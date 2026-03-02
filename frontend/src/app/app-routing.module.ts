@@ -8,6 +8,7 @@ import { RouterModule, Routes, CanActivate } from '@angular/router';
 import { LoginComponent } from './public-views/login/login.component';
 import { HomeComponent } from './private-views/home/home.component';
 import { ChangePasswordComponent } from './private-views/change-password/change-password.component';
+import { SubscriberDataCollectorComponent } from './private-views/subscriber-data-collector/subscriber-data-collector.component';
 
 // Import own services
 import { AuthGuardService as AuthGuard } from './services/auth/auth-guard.service';
@@ -19,26 +20,38 @@ const routes: Routes = [
   // If no route, redirect to /principal
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   // Routes with auth guards
-  { path: 'login',
+  {
+    path: 'login',
     component: LoginComponent,
-    canActivate: [LoginGuard] },
+    canActivate: [LoginGuard]
+  },
   // Login children
-  { path: '',
+  {
+    path: '',
     canActivate: [AuthGuard],
     children: [
-      { path: '',
+      {
+        path: '',
         canActivate: [PasswordGuard],
         children: [
-          { path: 'home',
-            component: HomeComponent},
+          {
+            path: 'home',
+            component: HomeComponent
+          },
+          {
+            path: 'subscriber-data-collector',
+            component: SubscriberDataCollectorComponent
+          },
         ]
       },
-      { path: 'password',
-        component: ChangePasswordComponent},
-  //     { path: 'comandancia',
-  //       component: CmsCommandComponent,
-  //       canActivate: [RoleGuard],
-  //       data: {expectedRole: 'auth.is_command_staff'}},
+      {
+        path: 'password',
+        component: ChangePasswordComponent
+      },
+      //     { path: 'comandancia',
+      //       component: CmsCommandComponent,
+      //       canActivate: [RoleGuard],
+      //       data: {expectedRole: 'auth.is_command_staff'}},
     ]
   },
   // Otherwise declaration
@@ -50,7 +63,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forRoot(routes)
   ],
-  exports: [ RouterModule, ],
+  exports: [RouterModule,],
   declarations: []
 })
 export class AppRoutingModule { }
