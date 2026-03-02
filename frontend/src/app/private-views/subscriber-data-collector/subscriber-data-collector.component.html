@@ -1,0 +1,260 @@
+<div class="sdc-wrapper">
+
+  <!-- ── Hero / Search Section ───────────────────────────────────── -->
+  <div class="sdc-hero">
+    <div class="sdc-hero-content">
+      <div class="sdc-tool-badge">
+        <span class="sdc-badge-icon">📡</span>
+        <span class="sdc-badge-label">Core Support Tools</span>
+      </div>
+      <h1 class="sdc-title">Subscriber Data Collector</h1>
+      <p class="sdc-subtitle">Ingresa uno o varios MSISDNs separados por coma para consultar los datos del suscriptor en la red.</p>
+
+      <!-- Search Bar -->
+      <div class="sdc-search-container">
+        <div class="sdc-search-box" [class.sdc-search-box--error]="hasError">
+          <span class="sdc-search-icon">🔍</span>
+          <input
+            id="msisdn-input"
+            class="sdc-search-input"
+            type="text"
+            placeholder="Ej: 584141963786, 584241234567"
+            [(ngModel)]="msisdnInput"
+            (keydown)="onKeydown($event)"
+            [disabled]="isLoading"
+            autocomplete="off"
+          />
+          <button
+            *ngIf="msisdnInput.length > 0 && !isLoading"
+            class="sdc-clear-input-btn"
+            (click)="msisdnInput = ''"
+            title="Limpiar">✕</button>
+        </div>
+
+        <div class="sdc-actions">
+          <button
+            id="search-btn"
+            class="sdc-btn sdc-btn--primary"
+            (click)="search()"
+            [disabled]="isLoading || !msisdnInput.trim()">
+            <span *ngIf="!isLoading">Consultar</span>
+            <span *ngIf="isLoading" class="sdc-spinner"></span>
+          </button>
+
+          <button
+            id="clear-btn"
+            class="sdc-btn sdc-btn--ghost"
+            (click)="clearResults()"
+            *ngIf="hasSearched || hasError">
+            Limpiar resultados
+          </button>
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      <div class="sdc-error-msg" *ngIf="hasError" [@fadeSlideIn]>
+        <span class="sdc-error-icon">⚠️</span>
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Results Section ─────────────────────────────────────────── -->
+  <div class="sdc-results" *ngIf="hasSearched">
+
+    <!-- Empty state -->
+    <div class="sdc-empty" *ngIf="!isLoading && subscribers.length === 0 && !hasError" [@fadeSlideIn]>
+      <div class="sdc-empty-icon">📭</div>
+      <p>No se encontraron datos para los MSISDNs consultados.</p>
+    </div>
+
+    <!-- Result count label -->
+    <div class="sdc-results-meta" *ngIf="subscribers.length > 0" [@fadeSlideIn]>
+      <span class="sdc-results-count">{{ subscribers.length }} suscriptor{{ subscribers.length !== 1 ? 'es' : '' }} encontrado{{ subscribers.length !== 1 ? 's' : '' }}</span>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="sdc-cards-grid" [@cardListAnimation]="subscribers.length">
+      <div
+        class="sdc-card"
+        *ngFor="let sub of subscribers; let i = index"
+        [class.sdc-card--expanded]="expandedIndex === i"
+        (click)="toggleCard(i)">
+
+        <!-- Card Header -->
+        <div class="sdc-card-header">
+          <div class="sdc-card-left">
+            <div class="sdc-avatar">
+              <span>📱</span>
+            </div>
+            <div class="sdc-card-ids">
+              <span class="sdc-msisdn">{{ sub.msisdn }}</span>
+              <span class="sdc-imsi">IMSI: {{ sub.imsi || '—' }}</span>
+            </div>
+          </div>
+          <div class="sdc-card-right">
+            <span class="sdc-tech-badge" [ngClass]="getTechClass(sub.network?.technology)">
+              {{ getTechLabel(sub.network?.technology) }}
+            </span>
+            <span class="sdc-expand-icon">{{ expandedIndex === i ? '▲' : '▼' }}</span>
+          </div>
+        </div>
+
+        <!-- Quick Summary Row -->
+        <div class="sdc-card-summary">
+          <div class="sdc-stat">
+            <span class="sdc-stat-label">VLR</span>
+            <span class="sdc-stat-value">{{ sub.vlr || '—' }}</span>
+          </div>
+          <div class="sdc-stat">
+            <span class="sdc-stat-label">SGSN</span>
+            <span class="sdc-stat-value">{{ sub.sgsn || '—' }}</span>
+          </div>
+          <div class="sdc-stat">
+            <span class="sdc-stat-label">MSS</span>
+            <span class="sdc-stat-value">{{ sub.mss || '—' }}</span>
+          </div>
+          <div class="sdc-stat">
+            <span class="sdc-stat-label">Categoría</span>
+            <span class="sdc-stat-value">{{ sub.routing_category || '—' }}</span>
+          </div>
+        </div>
+
+        <!-- Expanded Detail Panel -->
+        <div class="sdc-card-detail" *ngIf="expandedIndex === i" [@fadeSlideIn]>
+
+          <!-- Activity -->
+          <div class="sdc-section">
+            <h4 class="sdc-section-title">🕒 Actividad</h4>
+            <div class="sdc-detail-grid">
+              <div class="sdc-detail-item">
+                <span class="sdc-detail-label">Última actividad PACO</span>
+                <span class="sdc-detail-value">{{ sub.last_activity_paco || '—' }}</span>
+              </div>
+              <div class="sdc-detail-item">
+                <span class="sdc-detail-label">Última actividad CICO</span>
+                <span class="sdc-detail-value">{{ sub.last_activity_cico || '—' }}</span>
+              </div>
+              <div class="sdc-detail-item">
+                <span class="sdc-detail-label">Servicios</span>
+                <span class="sdc-detail-value">{{ sub.services || '—' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Network: LTE -->
+          <div class="sdc-section" *ngIf="sub.network?.enodeb">
+            <h4 class="sdc-section-title">🚀 Red LTE — eNodeB</h4>
+            <div class="sdc-detail-grid">
+              <div class="sdc-detail-item">
+                <span class="sdc-detail-label">Nombre</span>
+                <span class="sdc-detail-value">{{ sub.network.enodeb.name || '—' }}</span>
+              </div>
+              <div class="sdc-detail-item">
+                <span class="sdc-detail-label">ID eNodeB</span>
+                <span class="sdc-detail-value">{{ sub.network.enodeb.enodeb_id ?? '—' }}</span>
+              </div>
+              <div class="sdc-detail-item">
+                <span class="sdc-detail-label">IP Primaria</span>
+                <span class="sdc-detail-value sdc-mono">{{ sub.network.enodeb.ip_address1 || '—' }}</span>
+              </div>
+              <div class="sdc-detail-item">
+                <span class="sdc-detail-label">IP Secundaria</span>
+                <span class="sdc-detail-value sdc-mono">{{ sub.network.enodeb.ip_address2 || '—' }}</span>
+              </div>
+              <div class="sdc-detail-item">
+                <span class="sdc-detail-label">Puerto</span>
+                <span class="sdc-detail-value sdc-mono">{{ sub.network.enodeb.port ?? '—' }}</span>
+              </div>
+              <div class="sdc-detail-item">
+                <span class="sdc-detail-label">Estado del enlace</span>
+                <span class="sdc-detail-value">{{ sub.network.enodeb.link_status || '—' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Network: UMTS -->
+          <div class="sdc-section" *ngIf="sub.network?.nodeb">
+            <h4 class="sdc-section-title">📡 Red UMTS — NodeB</h4>
+            <div class="sdc-detail-grid">
+              <div class="sdc-detail-item">
+                <span class="sdc-detail-label">Nombre SA</span>
+                <span class="sdc-detail-value">{{ sub.network.nodeb.sa_name || '—' }}</span>
+              </div>
+              <div class="sdc-detail-item">
+                <span class="sdc-detail-label">SA ID</span>
+                <span class="sdc-detail-value">{{ sub.network.nodeb.sa_id ?? '—' }}</span>
+              </div>
+              <div class="sdc-detail-item">
+                <span class="sdc-detail-label">LAC ID</span>
+                <span class="sdc-detail-value">{{ sub.network.nodeb.lac_id ?? '—' }}</span>
+              </div>
+              <div class="sdc-detail-item">
+                <span class="sdc-detail-label">Estado administrativo</span>
+                <span class="sdc-detail-value">{{ sub.network.nodeb.administrative_state || '—' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Network: GSM -->
+          <div class="sdc-section" *ngIf="sub.network?.cell">
+            <h4 class="sdc-section-title">📶 Red GSM — Celda</h4>
+            <div class="sdc-detail-grid">
+              <div class="sdc-detail-item">
+                <span class="sdc-detail-label">BTS ID</span>
+                <span class="sdc-detail-value">{{ sub.network.cell.bts_id ?? '—' }}</span>
+              </div>
+              <div class="sdc-detail-item">
+                <span class="sdc-detail-label">Nombre BTS</span>
+                <span class="sdc-detail-value">{{ sub.network.cell.bts_name || '—' }}</span>
+              </div>
+              <div class="sdc-detail-item">
+                <span class="sdc-detail-label">Estado BTS</span>
+                <span class="sdc-detail-value">{{ sub.network.cell.bts_state || '—' }}</span>
+              </div>
+              <div class="sdc-detail-item">
+                <span class="sdc-detail-label">Nombre BSC</span>
+                <span class="sdc-detail-value">{{ sub.network.cell.bsc_name || '—' }}</span>
+              </div>
+              <div class="sdc-detail-item">
+                <span class="sdc-detail-label">BSC ID</span>
+                <span class="sdc-detail-value">{{ sub.network.cell.bsc_id ?? '—' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Output Logs -->
+          <div class="sdc-section" *ngIf="sub.output_logs">
+            <h4 class="sdc-section-title">📋 Logs de salida</h4>
+            <div class="sdc-logs-grid">
+              <div class="sdc-log-block" *ngIf="sub.output_logs.mmctx">
+                <span class="sdc-log-label">MMCTX</span>
+                <pre class="sdc-log-pre">{{ sub.output_logs.mmctx }}</pre>
+              </div>
+              <div class="sdc-log-block" *ngIf="sub.output_logs.s1aplnk">
+                <span class="sdc-log-label">S1APLNK</span>
+                <pre class="sdc-log-pre">{{ sub.output_logs.s1aplnk }}</pre>
+              </div>
+              <div class="sdc-log-block" *ngIf="sub.output_logs.zepo">
+                <span class="sdc-log-label">ZEPO</span>
+                <pre class="sdc-log-pre">{{ sub.output_logs.zepo }}</pre>
+              </div>
+              <div class="sdc-log-block" *ngIf="sub.output_logs.zmvo">
+                <span class="sdc-log-label">ZMVO</span>
+                <pre class="sdc-log-pre">{{ sub.output_logs.zmvo }}</pre>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /sdc-card-detail -->
+
+        <div class="sdc-card-footer">
+          <span class="sdc-expand-hint">{{ expandedIndex === i ? 'Clic para contraer' : 'Clic para ver detalle completo' }}</span>
+        </div>
+
+      </div><!-- /sdc-card -->
+    </div><!-- /sdc-cards-grid -->
+
+  </div><!-- /sdc-results -->
+
+</div><!-- /sdc-wrapper -->
