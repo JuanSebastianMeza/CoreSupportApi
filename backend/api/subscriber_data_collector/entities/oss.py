@@ -9,4 +9,4 @@ class Oss:
     port: int = field(default=31114)
     endline_char: str = field(default='\r')
     user_name: str = field(default='E09600')
-    password: str = field(default='Octubre.1987')
+    password: str = field(default='February.1987')
