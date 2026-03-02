@@ -1,6 +1,52 @@
-<!-- Este div debe ser sustituido por la vista del proyecto -->
-<div style="text-align: center; margin-top: 50px">
-  <h2>Esta es la página principal luego del login</h2>
-  <img class="images-padding center-fit" src="../assets/images/LogoSAv1.png">
-  <br><br><br>
+<div class="home-wrapper">
+
+  <!-- ── Hero Welcome ────────────────────────────────────────────── -->
+  <div class="home-hero">
+    <div class="home-hero-content">
+      <div class="home-badge">
+        <span class="home-badge-icon">👋</span>
+        <span class="home-badge-label">Bienvenido de nuevo</span>
+      </div>
+      <h1 class="home-greeting">Hola, {{ globals.userName }}</h1>
+      <p class="home-subtitle">Selecciona una de las herramientas de Core Support para comenzar.</p>
+    </div>
+  </div>
+
+  <!-- ── Dashboard Tools Grid ────────────────────────────────────── -->
+  <div class="home-dashboard">
+    <div class="tools-grid">
+
+      <!-- Interactive Tool Card -->
+      <a *ngFor="let tool of tools" [routerLink]="tool.route" class="tool-card tool-card--{{ tool.color }}">
+
+        <div class="tool-card-bg-icon">{{ tool.icon }}</div>
+
+        <div class="tool-card-content">
+          <div class="tool-icon-wrapper">
+            <span class="tool-icon">{{ tool.icon }}</span>
+          </div>
+          <h3 class="tool-title">{{ tool.name }}</h3>
+          <p class="tool-description">{{ tool.description }}</p>
+        </div>
+
+        <div class="tool-card-footer">
+          <span class="tool-action-text">Abrir herramienta</span>
+          <span class="tool-action-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- Placeholder for future tools -->
+      <div class="tool-card tool-card--placeholder">
+        <div class="tool-card-content">
+          <div class="tool-icon-wrapper placeholder-icon">
+            <span class="tool-icon">➕</span>
+          </div>
+          <h3 class="tool-title">Más herramientas</h3>
+          <p class="tool-description">Próximamente se agregarán nuevas funcionalidades a la suite de Core Support.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
