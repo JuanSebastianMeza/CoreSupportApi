@@ -1,70 +1,52 @@
 version: "2"
+name: core_api
 
 services:
-
-  plantilla_backend:
+  core_api_backend:
     extends:
       file: base.yml
-      service: plantilla_backend_test
-    # Set container name
-    container_name: plantilla_backend_devel
-    # Change workdir
+      service: core_api_test
+    container_name: core_api_backend
     working_dir: /backend/api
-    # Entablish ports
     ports:
-      - "8001:8000"
-    # Connect container and host ports
+      - "8101:8000"
     stdin_open: true
     tty: true
     networks:
-        - plantillas_net
-    # Run the following command
+      - core_api_net
     command: python manage.py runserver 0.0.0.0:8000
 
+  # plantilla_jupyter:
+  #   extends:
+  #     file: base.yml
+  #     service: plantilla_backend_test
+  #   container_name: plantilla_jupyter
+  #   ports: 
+  #     - "8102:8888"
+  #   volumes:
+  #     - ./jupyter_notebook_config.py:/root/.jupyter/jupyter_notebook_config.py
+  #   networks:
+  #     - plantilla_net
+  #   working_dir: /backend/notebooks
+  #   # Run the following command
+    # command: python ../api/manage.py shell_plus --notebook
 
-  plantilla_jupyter:
-    extends:
-      file: base.yml
-      service: plantilla_backend_test
-    # Set container name
-    container_name: plantilla_jupyter
-    # Entablish ports
-    ports: 
-      - "8002:8888"
-    # Add additional volumes
-    # volumes:
-    #   - ./jupyter_notebook_config.py:/root/.jupyter/jupyter_notebook_config.py
-    # Change workdir
-    networks:
-      - plantilla_net
-    working_dir: /backend/notebooks
-    # Run the following command
-    command: python ../api/manage.py shell_plus --notebook
-
-
-  Angular frontend plantilla
-  plantilla_frontend:
+  core_api_frontend:
     image: nginx
-    # Name the container
-    container_name: plantilla_frontend
+    container_name: core_api_frontend
     # Entablish ports
     ports: 
-      - "8003:80"
+      - "8103:80"
     depends_on:
       - plantilla_backend
-    # Add volumes
     volumes:
-      # Copy the plantilla to html folder
       - ../dist/:/usr/share/nginx/html
-      # Works only with SPA
       - ./nginx-custom.conf:/etc/nginx/conf.d/default.conf
     networks:
-      - plantillas_net
-    # Connect container and host ports
+      - core_api_net
     stdin_open: true
     tty: true
 
-  # networking for the Redis container
 networks:
-  plantilla_net:
+  core_api_net:
     driver: bridge

@@ -1,22 +1,19 @@
 version: "2"
 
-services:
+x-base: &base
+  image: "core_api:latest"
+  env_file: .env
+  restart: always
+  volumes:
+    - ../backend:/home/satest/backend
+  logging:
+    driver: "json-file"
+    options:
+      max-file: "5"
+      max-size: "10m"
 
-  plantilla_backend:
-    # If there is no image, build one
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        - DJANGO_ENV=test
-        - http_proxy=http://E10356:Jcbb239003@10.162.64.36:8080
-        - https_proxy=http://E10356:Jcbb239003@10.162.64.36:8080
-    env_file: .env
-    restart: always
-    volumes:
-      - ../backend:/backend
-    logging:
-        driver: "json-file"
-        options:
-            max-file: "5"
-            max-size: "10m"
+services:
+  core_api_test:
+    <<: *base
+    environment:
+      - DJANGO_ENV=test
