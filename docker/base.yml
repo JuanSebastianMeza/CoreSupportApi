@@ -1,19 +1,16 @@
 version: "2"
 
-x-base: &base
-  image: "core_api:latest"
-  env_file: .env
-  restart: always
-  volumes:
-    - ../backend:/home/satest/backend
-  logging:
-    driver: "json-file"
-    options:
-      max-file: "5"
-      max-size: "10m"
-
 services:
   core_api_test:
-    <<: *base
+    image: "core_api:latest"
+    env_file: .env
+    restart: always
+    volumes:
+      - ../backend:/backend
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
     environment:
       - DJANGO_ENV=test

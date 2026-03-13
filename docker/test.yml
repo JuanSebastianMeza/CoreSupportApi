@@ -1,5 +1,4 @@
 version: "2"
-name: core_api
 
 services:
   core_api_backend:
@@ -38,7 +37,7 @@ services:
     ports: 
       - "8103:80"
     depends_on:
-      - plantilla_backend
+      - core_api_backend
     volumes:
       - ../dist/:/usr/share/nginx/html
       - ./nginx-custom.conf:/etc/nginx/conf.d/default.conf
